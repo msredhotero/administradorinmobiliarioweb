@@ -33,8 +33,9 @@ function query($sql,$accion) {
 }
 
 
-$tabla = "dbempresaclientes";
-$nombre = "EmpresaClientes";
+$tabla 		= "inmuebles";
+$nombre 	= "Inmuebles";
+$servicios	= "Referencias";
 
 $sql	=	"show columns from ".$tabla;
 $res 	=	query($sql,0);
@@ -56,13 +57,13 @@ if ($res == false) {
 	$ajaxFunciones = "
 	
 		case 'insertar".$nombre."': <br>
-			insertar".$nombre."("."$"."servicios".$nombre."); <br>
+			insertar".$nombre."("."$"."servicios".$servicios."); <br>
 			break; <br>
 		case 'modificar".$nombre."': <br>
-			modificar".$nombre."("."$"."servicios".$nombre."); <br>
+			modificar".$nombre."("."$"."servicios".$servicios."); <br>
 			break; <br>
 		case 'eliminar".$nombre."': <br>
-			eliminar".$nombre."("."$"."servicios".$nombre."); <br>
+			eliminar".$nombre."("."$"."servicios".$servicios."); <br>
 			break; <br>
 	
 	";
@@ -145,10 +146,10 @@ if ($res == false) {
 	
 	$ajaxFuncionesController = "
 	
-		function insertar".$nombre."("."$"."servicios".$nombre.") { <br>
+		function insertar".$nombre."("."$"."servicios".$servicios.") { <br>
 			".$cuerpoVariablePOST."
 			
-			"."$"."res = "."$"."servicios".$nombre."->insertar".$nombre."(".$cuerpoVariableComunes."); <br>
+			"."$"."res = "."$"."servicios".$servicios."->insertar".$nombre."(".$cuerpoVariableComunes."); <br>
 			
 			if ((integer)"."$"."res > 0) { <br>
 				echo ''; <br>
@@ -158,12 +159,12 @@ if ($res == false) {
 		
 		} <br>
 		
-		function modificar".$nombre."("."$"."servicios".$nombre.") { <br>
+		function modificar".$nombre."("."$"."servicios".$servicios.") { <br>
 			
 			"."$"."id = 	"."$"."_POST['id']; <br>
 			".$cuerpoVariablePOST."
 			
-			"."$"."res = "."$"."servicios".$nombre."->modificar".$nombre."("."$"."id,".$cuerpoVariableComunes."); <br>
+			"."$"."res = "."$"."servicios".$servicios."->modificar".$nombre."("."$"."id,".$cuerpoVariableComunes."); <br>
 			
 			if ("."$"."res == true) { <br>
 				echo ''; <br>
@@ -172,10 +173,10 @@ if ($res == false) {
 			} <br>
 		} <br>
 
-		function eliminar".$nombre."("."$"."servicios".$nombre.") { <br>
+		function eliminar".$nombre."("."$"."servicios".$servicios.") { <br>
 			"."$"."id = 	"."$"."_POST['id']; <br>
 			
-			"."$"."res = "."$"."servicios".$nombre."->eliminar".$nombre."("."$"."id); <br>
+			"."$"."res = "."$"."servicios".$servicios."->eliminar".$nombre."("."$"."id); <br>
 			echo "."$"."res; <br>
 		} <br>
 	
