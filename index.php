@@ -2,13 +2,10 @@
 
 require 'includes/funcionesUsuarios.php';
 include ('includes/funciones.php');
-include ('includes/funcionesEmpresas.php');
 
 $serviciosUsuarios = new ServiciosUsuarios();
 $servicios = new Servicios();
-$serviciosEmpresas  = new ServiciosEmpresas();
 
-$resEmpresa = $serviciosEmpresas->traerEmpresas();
 
 ?>
 <!DOCTYPE HTML>
@@ -23,7 +20,7 @@ $resEmpresa = $serviciosEmpresas->traerEmpresas();
 
 
 
-<title>Acceso Restringido: Facturación - Cuentas Por Cobrar</title>
+<title>Acceso Restringido: Caracol Bienes Raíces</title>
 
 
 
@@ -167,9 +164,8 @@ $resEmpresa = $serviciosEmpresas->traerEmpresas();
 <br>
 <br>
 <br>
-	<section style="width:700px; padding-top:10px; padding-top:60px; background-color:#333; border:1px solid #101010; padding:25px;box-shadow: 4px 4px 5px #464646;-webkit-box-shadow: 4px 4px 5px #464646;
-  -moz-box-shadow: 4px 4px 5px #464646;">
-
+	<section style="width:700px; padding-top:10px; padding-top:60px;padding:25px;
+background-color:#333; border:1px solid #101010; box-shadow: 4px 4px 5px #464646;-webkit-box-shadow: 4px 4px 5px #464646;-moz-box-shadow: 4px 4px 5px #464646;">
 			<div id="error" style="text-align:left;">
             
             </div>
@@ -180,25 +176,7 @@ $resEmpresa = $serviciosEmpresas->traerEmpresas();
             </div>
 			<form role="form" class="form-horizontal">
               
-             <!--
-                <label for="usuario" class="col-md-2 control-label" style="color:#FFF">Usuario</label>
-                <br>
-                  <input type="text" name="usuario" maxlength="50" />
-                <br>
-              
 
-              
-                <label for="ejemplo_password_2" class="col-md-2 control-label" style="color:#FFF">Contraseña</label>
-                <br>
-                  
-                  <input type="password" name="password" maxlength="50" />
-                <br>
-              
-             
-              
-                
-                  <input type="submit" value="enviar">
-                -->
               <div class="form-group">
                 <label for="usuario" class="col-md-2 control-label" style="color:#FFF;text-align:left;">E-Mail</label>
                 <div class="col-lg-7">
@@ -215,20 +193,6 @@ $resEmpresa = $serviciosEmpresas->traerEmpresas();
                 </div>
               </div>
               
-              <div class="form-group">
-                <label for="ejemplo_password_2" class="col-md-2 control-label" style="color:#FFF;text-align:left;">Empresa</label>
-                <div class="col-lg-7">
-                  <select id="idempresa" class="form-control" name="idempresa">
-                        <?php
-                            while ($row = mysql_fetch_array($resEmpresa)) {
-                        ?>
-                                <option value="<?php echo $row[0]; ?>"><?php echo utf8_encode($row[1]); ?></option>
-                        <?php	
-                            }
-                        ?>
-                    </select>
-                </div>
-              </div>
               
               
               <div class="form-group">
@@ -236,7 +200,7 @@ $resEmpresa = $serviciosEmpresas->traerEmpresas();
               </div>
              
               <div class="form-group">
-                <div class="col-lg-offset-2 col-lg-10">
+                <div class="col-md-12">
                   <button type="button" class="btn btn-default" id="login">Login</button>
                 </div>
               </div>
