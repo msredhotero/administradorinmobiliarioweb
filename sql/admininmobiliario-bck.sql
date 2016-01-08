@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 08-01-2016 a las 17:52:02
+-- Tiempo de generación: 27-11-2015 a las 04:45:32
 -- Versión del servidor: 5.5.24-log
 -- Versión de PHP: 5.4.3
 
@@ -43,20 +43,7 @@ CREATE TABLE IF NOT EXISTS `comision` (
   `idcomision` smallint(6) NOT NULL AUTO_INCREMENT,
   `comision` varchar(1) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`idcomision`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=8 ;
-
---
--- Volcado de datos para la tabla `comision`
---
-
-INSERT INTO `comision` (`idcomision`, `comision`) VALUES
-(1, '1'),
-(2, '2'),
-(3, '3'),
-(4, '4'),
-(5, '5'),
-(6, '6'),
-(7, 'm');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -189,19 +176,9 @@ CREATE TABLE IF NOT EXISTS `provincias` (
 
 CREATE TABLE IF NOT EXISTS `situaciones` (
   `idsituacion` smallint(6) NOT NULL AUTO_INCREMENT,
-  `situacion` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
+  `situacion` varchar(7) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`idsituacion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=5 ;
-
---
--- Volcado de datos para la tabla `situaciones`
---
-
-INSERT INTO `situaciones` (`idsituacion`, `situacion`) VALUES
-(1, 'activo'),
-(2, 'inactivo'),
-(3, 'pendiente'),
-(4, 'dar de baja');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -211,18 +188,9 @@ INSERT INTO `situaciones` (`idsituacion`, `situacion`) VALUES
 
 CREATE TABLE IF NOT EXISTS `situacioninmueble` (
   `idsituacioninmueble` smallint(6) NOT NULL AUTO_INCREMENT,
-  `situacioninmueble` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
+  `situacioninmueble` varchar(2) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`idsituacioninmueble`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=4 ;
-
---
--- Volcado de datos para la tabla `situacioninmueble`
---
-
-INSERT INTO `situacioninmueble` (`idsituacioninmueble`, `situacioninmueble`) VALUES
-(1, 'renta'),
-(2, 'venta'),
-(3, 'trueque');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -232,18 +200,9 @@ INSERT INTO `situacioninmueble` (`idsituacioninmueble`, `situacioninmueble`) VAL
 
 CREATE TABLE IF NOT EXISTS `tipodeinformacion` (
   `idtipodeinformacion` smallint(6) NOT NULL AUTO_INCREMENT,
-  `tipodeinformacion` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
+  `tipodeinformacion` varchar(3) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`idtipodeinformacion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=4 ;
-
---
--- Volcado de datos para la tabla `tipodeinformacion`
---
-
-INSERT INTO `tipodeinformacion` (`idtipodeinformacion`, `tipodeinformacion`) VALUES
-(1, 'propiedad'),
-(2, 'proyecto inmoviliario'),
-(3, 'requerimiento');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -255,21 +214,7 @@ CREATE TABLE IF NOT EXISTS `tipousuarios` (
   `idtipousuario` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`idtipousuario`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=9 ;
-
---
--- Volcado de datos para la tabla `tipousuarios`
---
-
-INSERT INTO `tipousuarios` (`idtipousuario`, `descripcion`) VALUES
-(1, 'administrador'),
-(2, 'propietario'),
-(3, 'corredor inmoviliario'),
-(4, 'agencia'),
-(5, 'constructora'),
-(6, 'outsorcing de ventas'),
-(7, 'avaluador'),
-(8, 'referidor');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -279,24 +224,9 @@ INSERT INTO `tipousuarios` (`idtipousuario`, `descripcion`) VALUES
 
 CREATE TABLE IF NOT EXISTS `tipovivienda` (
   `idtipovivienda` smallint(6) NOT NULL AUTO_INCREMENT,
-  `tipovivienda` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
+  `tipovivienda` varchar(5) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`idtipovivienda`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=10 ;
-
---
--- Volcado de datos para la tabla `tipovivienda`
---
-
-INSERT INTO `tipovivienda` (`idtipovivienda`, `tipovivienda`) VALUES
-(1, 'casa'),
-(2, 'departamento'),
-(3, 'suite'),
-(4, 'oficina'),
-(5, 'bodega'),
-(6, 'terreno'),
-(7, 'edificio'),
-(8, 'finca '),
-(9, 'local comercial');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -319,19 +249,9 @@ CREATE TABLE IF NOT EXISTS `urbanizacion` (
 
 CREATE TABLE IF NOT EXISTS `usos` (
   `iduso` smallint(6) NOT NULL AUTO_INCREMENT,
-  `usos` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
+  `usos` varchar(6) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`iduso`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=5 ;
-
---
--- Volcado de datos para la tabla `usos`
---
-
-INSERT INTO `usos` (`iduso`, `usos`) VALUES
-(1, 'residencial'),
-(2, 'comercial'),
-(3, 'agricola'),
-(4, 'industrial');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -369,20 +289,10 @@ CREATE TABLE IF NOT EXISTS `usuariosregistrados` (
 
 CREATE TABLE IF NOT EXISTS `valoracion` (
   `idvaloracion` smallint(6) NOT NULL AUTO_INCREMENT,
-  `valoracion` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
-  `observacion` varchar(30) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `valoracion` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
+  `observacion` varchar(300) COLLATE utf8_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`idvaloracion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=5 ;
-
---
--- Volcado de datos para la tabla `valoracion`
---
-
-INSERT INTO `valoracion` (`idvaloracion`, `valoracion`, `observacion`) VALUES
-(1, '< -20%', 'OPORTUNIDAD'),
-(2, '> -20% Y < 20%', 'NORMAL'),
-(3, '> 21% Y <30%', 'CARO'),
-(4, '>31%', 'FUERA DEL MERCADO');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
