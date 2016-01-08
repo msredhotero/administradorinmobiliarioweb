@@ -49,7 +49,12 @@ return $res;
 
 
 function traerCiudades() {
-$sql = "select idciudad,refprovincia,ciudad from ciudades order by 1";
+$sql = "select 
+			c.idciudad, c.ciudad, p.provincia, pa.nombre, c.refprovincia, pa.idpais
+		from ciudades c
+		inner join provincias p on p.idprovincia = c.refprovincia
+		inner join paises pa on pa.idpais = p.refpais 
+		order by 2";
 $res = $this->query($sql,0);
 return $res;
 }
@@ -91,14 +96,22 @@ return $res;
 
 
 function traerProvincias() {
-$sql = "select idprovincia,refpais,provincia from provincias order by 1";
+$sql = "select 
+			p.idprovincia, p.provincia, pa.nombre, p.refpais
+		from provincias  p
+		inner join paises pa on pa.idpais = p.refpais 
+		order by 2";
 $res = $this->query($sql,0);
 return $res;
 }
 
 
 function traerProvinciasPorId($id) {
-$sql = "select idprovincia,refpais,provincia from provincias where idprovincia =".$id;
+$sql = "select 
+			p.idprovincia, p.provincia, p.refpais
+		from provincias p
+		inner join paises pa on pa.idpais = p.refpais
+			where idprovincia =".$id;
 $res = $this->query($sql,0);
 return $res;
 }
@@ -134,7 +147,7 @@ return $res;
 
 
 function traerPaises() {
-$sql = "select idpais,nombre from paises order by 1";
+$sql = "select idpais,nombre from paises order by 2";
 $res = $this->query($sql,0);
 return $res;
 }
@@ -476,7 +489,13 @@ return $res;
 
 
 function traerUrbanizacion() {
-$sql = "select idurbanizacion,refciudad,urbanizacion from urbanizacion order by 1";
+$sql = "select 
+			u.idurbanizacion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre , u.refciudad, c.idciudad, p.idprovincia, pa.idpais
+		from urbanizacion u
+		inner join ciudades c on c.idciudad = u.refciudad
+		inner join provincias p on p.idprovincia = c.refprovincia
+		inner join paises pa on pa.idpais = p.refpais 
+		order by 2";
 $res = $this->query($sql,0);
 return $res;
 }
