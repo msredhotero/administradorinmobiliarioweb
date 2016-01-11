@@ -786,7 +786,7 @@ function calc_edadconstruccion($anioConstruccion) {
 }
 
 function calc_porcentajedepreciacion($edad) {
-	return $edad * 1,666666667;
+	return $edad * 1.666666667;
 }
 
 function calc_avaluoconstruccion($mtrsConstruccion, $precioNacional) {
