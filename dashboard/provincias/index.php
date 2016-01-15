@@ -22,39 +22,47 @@ $serviciosReferencias 	= new ServiciosReferencias();
 $fecha = date('Y-m-d');
 
 //$resProductos = $serviciosProductos->traerProductosLimite(6);
-$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Paises",$_SESSION['refroll_predio'],'');
+$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Provincias",$_SESSION['refroll_predio'],'');
 
 
 /////////////////////// Opciones pagina ///////////////////////////////////////////////
-$singular = "Pais";
+$singular = "Provincia";
 
-$plural = "Paises";
+$plural = "Provincias";
 
-$eliminar = "eliminarPaises";
+$eliminar = "eliminarProvincias";
 
-$insertar = "insertarPaises";
+$insertar = "insertarProvincias";
 
 $tituloWeb = "Gestión: Caracol Bienes Raíces";
 //////////////////////// Fin opciones ////////////////////////////////////////////////
 
 
 /////////////////////// Opciones para la creacion del formulario  /////////////////////
-$tabla 			= "paises";
+$tabla 			= "provincias";
 
-$lblCambio	 	= array("nombre");
+$lblCambio	 	= array("refpais");
 $lblreemplazo	= array("Pais");
 
-$cadRef = '';
 
-$refdescripcion = array(0 => "");
-$refCampo[] 	= ""; 
+$resPais 	= $serviciosReferencias->traerPaises();
+$cadRef = '';
+while ($rowTT = mysql_fetch_array($resPais)) {
+	$cadRef = $cadRef.'<option value="'.$rowTT[0].'">'.utf8_encode($rowTT[1]).'</option>';
+	
+}
+
+$refdescripcion = array(0 => $cadRef);
+$refCampo 	=  array("refpais");
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
 
 
 
 /////////////////////// Opciones para la creacion del view  /////////////////////
-$cabeceras 		= "	<th>Pais</th>";
+$cabeceras 		= "	<th>Ciudad</th>
+					<th>Provincia</th>
+					<th>Pais</th>";
 
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
@@ -63,7 +71,7 @@ $cabeceras 		= "	<th>Pais</th>";
 
 $formulario 	= $serviciosFunciones->camposTabla($insertar ,$tabla,$lblCambio,$lblreemplazo,$refdescripcion,$refCampo);
 
-$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerPaises(),1);
+$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerProvincias(),3);
 
 
 

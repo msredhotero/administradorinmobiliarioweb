@@ -22,27 +22,27 @@ $serviciosReferencias 	= new ServiciosReferencias();
 $fecha = date('Y-m-d');
 
 //$resProductos = $serviciosProductos->traerProductosLimite(6);
-$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Paises",$_SESSION['refroll_predio'],'');
+$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Comisiones",$_SESSION['refroll_predio'],'');
 
 
 /////////////////////// Opciones pagina ///////////////////////////////////////////////
-$singular = "Pais";
+$singular = "Comisión";
 
-$plural = "Paises";
+$plural = "Comisiones";
 
-$eliminar = "eliminarPaises";
+$eliminar = "eliminarComision";
 
-$insertar = "insertarPaises";
+$insertar = "insertarComision";
 
 $tituloWeb = "Gestión: Caracol Bienes Raíces";
 //////////////////////// Fin opciones ////////////////////////////////////////////////
 
 
 /////////////////////// Opciones para la creacion del formulario  /////////////////////
-$tabla 			= "paises";
+$tabla 			= "comision";
 
-$lblCambio	 	= array("nombre");
-$lblreemplazo	= array("Pais");
+$lblCambio	 	= array("");
+$lblreemplazo	= array("");
 
 $cadRef = '';
 
@@ -54,7 +54,7 @@ $refCampo[] 	= "";
 
 
 /////////////////////// Opciones para la creacion del view  /////////////////////
-$cabeceras 		= "	<th>Pais</th>";
+$cabeceras 		= "	<th>Comision</th>";
 
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
