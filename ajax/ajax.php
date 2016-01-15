@@ -840,72 +840,78 @@ echo $res;
 
 /* PARA Inmuebles */
 function insertarInmuebles($serviciosReferencias) {
-$refurbanizacion = $_POST['refurbanizacion'];
-$reftipovivienda = $_POST['reftipovivienda'];
-$refuso = $_POST['refuso'];
-$refsituacioninmueble = $_POST['refsituacioninmueble'];
-$dormitorios = $_POST['dormitorios'];
-$banios = $_POST['banios'];
-$encontruccion = $_POST['encontruccion'];
-$mts2 = $_POST['mts2'];
-$anioconstruccion = $_POST['anioconstruccion'];
-$precioventapropietario = $_POST['precioventapropietario'];
-$nombrepropietario = $_POST['nombrepropietario'];
-$apellidopropietario = $_POST['apellidopropietario'];
-$fechacarga = $_POST['fechacarga'];
-$refusuario = $_POST['refusuario'];
-$refcomision = $_POST['refcomision'];
-$calc_edadconstruccion = $_POST['calc_edadconstruccion'];
-$calc_porcentajedepreciacion = $_POST['calc_porcentajedepreciacion'];
-$calc_avaluoconstruccion = $_POST['calc_avaluoconstruccion'];
-$calc_depreciacion = $_POST['calc_depreciacion'];
-$calc_avaluoterreno = $_POST['calc_avaluoterreno'];
-$calc_preciorealmercado = $_POST['calc_preciorealmercado'];
-$calc_restacliente = $_POST['calc_restacliente'];
-$calc_porcentaje = $_POST['calc_porcentaje'];
-$refvaloracion = $_POST['refvaloracion'];
-$refsituacion = $_POST['refsituacion'];
-$res = $serviciosReferencias->insertarInmuebles($refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion,$refsituacion);
-if ((integer)$res > 0) {
-echo '';
-} else {
-echo 'Huvo un error al insertar datos';
+	$refurbanizacion = $_POST['refurbanizacion'];
+	$reftipovivienda = $_POST['reftipovivienda'];
+	$refuso = $_POST['refuso'];
+	$refsituacioninmueble = $_POST['refsituacioninmueble'];
+	$dormitorios = $_POST['dormitorios'];
+	$banios = $_POST['banios'];
+	$encontruccion = $_POST['encontruccion'];
+	$mts2 = $_POST['mts2'];
+	$anioconstruccion = $_POST['anioconstruccion'];
+	$precioventapropietario = $_POST['precioventapropietario'];
+	$nombrepropietario = $_POST['nombrepropietario'];
+	$apellidopropietario = $_POST['apellidopropietario'];
+	$fechacarga = $_POST['fechacarga'];
+	$refusuario = $_POST['refusuario'];
+	$refcomision = $_POST['refcomision'];
+	$calc_edadconstruccion = $_POST['calc_edadconstruccion'];
+	$calc_porcentajedepreciacion = $_POST['calc_porcentajedepreciacion'];
+	$calc_avaluoconstruccion = $_POST['calc_avaluoconstruccion'];
+	$calc_depreciacion = $_POST['calc_depreciacion'];
+	$calc_avaluoterreno = $_POST['calc_avaluoterreno'];
+	$calc_preciorealmercado = $_POST['calc_preciorealmercado'];
+	$calc_restacliente = $_POST['calc_restacliente'];
+	$calc_porcentaje = $_POST['calc_porcentaje'];
+	$refvaloracion = $_POST['refvaloracion'];
+	
+	$res = $serviciosReferencias->insertarInmuebles($refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion);
+	
+	if ((integer)$res > 0) {
+		echo '';
+	} else {
+		echo 'Huvo un error al insertar datos';
+	}
 }
-}
+
+
 function modificarInmuebles($serviciosReferencias) {
-$id = $_POST['id'];
-$refurbanizacion = $_POST['refurbanizacion'];
-$reftipovivienda = $_POST['reftipovivienda'];
-$refuso = $_POST['refuso'];
-$refsituacioninmueble = $_POST['refsituacioninmueble'];
-$dormitorios = $_POST['dormitorios'];
-$banios = $_POST['banios'];
-$encontruccion = $_POST['encontruccion'];
-$mts2 = $_POST['mts2'];
-$anioconstruccion = $_POST['anioconstruccion'];
-$precioventapropietario = $_POST['precioventapropietario'];
-$nombrepropietario = $_POST['nombrepropietario'];
-$apellidopropietario = $_POST['apellidopropietario'];
-$fechacarga = $_POST['fechacarga'];
-$refusuario = $_POST['refusuario'];
-$refcomision = $_POST['refcomision'];
-$calc_edadconstruccion = $_POST['calc_edadconstruccion'];
-$calc_porcentajedepreciacion = $_POST['calc_porcentajedepreciacion'];
-$calc_avaluoconstruccion = $_POST['calc_avaluoconstruccion'];
-$calc_depreciacion = $_POST['calc_depreciacion'];
-$calc_avaluoterreno = $_POST['calc_avaluoterreno'];
-$calc_preciorealmercado = $_POST['calc_preciorealmercado'];
-$calc_restacliente = $_POST['calc_restacliente'];
-$calc_porcentaje = $_POST['calc_porcentaje'];
-$refvaloracion = $_POST['refvaloracion'];
-$refsituacion = $_POST['refsituacion'];
-$res = $serviciosReferencias->modificarInmuebles($id,$refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion,$refsituacion);
-if ($res == true) {
-echo '';
-} else {
-echo 'Huvo un error al modificar datos';
-}
-}
+	$id = $_POST['id'];
+	$refurbanizacion = $_POST['refurbanizacion'];
+	$reftipovivienda = $_POST['reftipovivienda'];
+	$refuso = $_POST['refuso'];
+	$refsituacioninmueble = $_POST['refsituacioninmueble'];
+	$dormitorios = $_POST['dormitorios'];
+	$banios = $_POST['banios'];
+	$encontruccion = $_POST['encontruccion'];
+	$mts2 = $_POST['mts2'];
+	$anioconstruccion = $_POST['anioconstruccion'];
+	$precioventapropietario = $_POST['precioventapropietario'];
+	$nombrepropietario = $_POST['nombrepropietario'];
+	$apellidopropietario = $_POST['apellidopropietario'];
+	$fechacarga = $_POST['fechacarga'];
+	$refusuario = $_POST['refusuario'];
+	$refcomision = $_POST['refcomision'];
+	$calc_edadconstruccion = $_POST['calc_edadconstruccion'];
+	$calc_porcentajedepreciacion = $_POST['calc_porcentajedepreciacion'];
+	$calc_avaluoconstruccion = $_POST['calc_avaluoconstruccion'];
+	$calc_depreciacion = $_POST['calc_depreciacion'];
+	$calc_avaluoterreno = $_POST['calc_avaluoterreno'];
+	$calc_preciorealmercado = $_POST['calc_preciorealmercado'];
+	$calc_restacliente = $_POST['calc_restacliente'];
+	$calc_porcentaje = $_POST['calc_porcentaje'];
+	$refvaloracion = $_POST['refvaloracion'];
+	
+	$res = $serviciosReferencias->modificarInmuebles($id,$refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion);
+	
+	if ($res == true) {
+		echo '';
+	} else {
+		echo 'Huvo un error al modificar datos';
+	}
+} 
+
+
 function eliminarInmuebles($serviciosReferencias) {
 $id = $_POST['id'];
 $res = $serviciosReferencias->eliminarInmuebles($id);

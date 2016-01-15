@@ -22,27 +22,27 @@ $serviciosReferencias 	= new ServiciosReferencias();
 $fecha = date('Y-m-d');
 
 //$resProductos = $serviciosProductos->traerProductosLimite(6);
-$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Paises",$_SESSION['refroll_predio'],'');
+$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Tipo Vivienda",$_SESSION['refroll_predio'],'');
 
 
 /////////////////////// Opciones pagina ///////////////////////////////////////////////
-$singular = "Pais";
+$singular = "Tipo Vivienda";
 
-$plural = "Paises";
+$plural = "Tipo Vivienda";
 
-$eliminar = "eliminarPaises";
+$eliminar = "eliminarTipoVivienda";
 
-$insertar = "insertarPaises";
+$insertar = "insertarTipoVivienda";
 
 $tituloWeb = "Gestión: Caracol Bienes Raíces";
 //////////////////////// Fin opciones ////////////////////////////////////////////////
 
 
 /////////////////////// Opciones para la creacion del formulario  /////////////////////
-$tabla 			= "paises";
+$tabla 			= "tipovivienda";
 
-$lblCambio	 	= array("nombre");
-$lblreemplazo	= array("Pais");
+$lblCambio	 	= array("tipovivienda");
+$lblreemplazo	= array("Tipo Vivienda");
 
 $cadRef = '';
 
@@ -54,7 +54,7 @@ $refCampo[] 	= "";
 
 
 /////////////////////// Opciones para la creacion del view  /////////////////////
-$cabeceras 		= "	<th>Pais</th>";
+$cabeceras 		= "	<th>Tipo Vivienda</th>";
 
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
@@ -63,7 +63,7 @@ $cabeceras 		= "	<th>Pais</th>";
 
 $formulario 	= $serviciosFunciones->camposTabla($insertar ,$tabla,$lblCambio,$lblreemplazo,$refdescripcion,$refCampo);
 
-$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerPaises(),1);
+$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerTipoVivienda(),1);
 
 
 

@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 15-01-2016 a las 20:33:30
--- Versión del servidor: 5.1.36-community-log
+-- Tiempo de generación: 08-01-2016 a las 17:52:02
+-- Versión del servidor: 5.5.24-log
 -- Versión de PHP: 5.4.3
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
@@ -97,6 +97,9 @@ CREATE TABLE IF NOT EXISTS `costonacional` (
 
 CREATE TABLE IF NOT EXISTS `inmuebles` (
   `idinmueble` bigint(20) NOT NULL AUTO_INCREMENT,
+  `refpais` smallint(6) NOT NULL,
+  `refprovincia` smallint(6) NOT NULL,
+  `refciudad` int(11) NOT NULL,
   `refurbanizacion` int(11) NOT NULL,
   `reftipovivienda` smallint(6) NOT NULL,
   `refuso` smallint(6) NOT NULL,
@@ -127,55 +130,10 @@ CREATE TABLE IF NOT EXISTS `inmuebles` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `menu`
+-- Estructura de tabla para la tabla `paices`
 --
 
-CREATE TABLE IF NOT EXISTS `menu` (
-  `idmenu` int(11) NOT NULL AUTO_INCREMENT,
-  `url` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
-  `icono` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `nombre` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
-  `Orden` smallint(6) DEFAULT NULL,
-  `hover` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `permiso` varchar(50) COLLATE utf8_spanish_ci DEFAULT NULL,
-  PRIMARY KEY (`idmenu`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=36 ;
-
---
--- Volcado de datos para la tabla `menu`
---
-
-INSERT INTO `menu` (`idmenu`, `url`, `icono`, `nombre`, `Orden`, `hover`, `permiso`) VALUES
-(12, '../logout.php', 'icosalir', 'Salir', 30, NULL, 'Administrador'),
-(13, '../index.php', 'icodashboard', 'Dashboard', 0, NULL, 'Administrador'),
-(16, '../clientes/', 'icoclientes', 'Paises', 15, NULL, 'Administrador'),
-(17, '../empresas/', 'icoinmubles', 'Provincias', 16, NULL, 'Administrador'),
-(18, '../facturas/', 'icoalquileres', 'Ciudades', 17, NULL, 'Administrador'),
-(19, '../pagos/', 'icopagos', 'Urbanización', 18, NULL, 'Administrador'),
-(20, '../usuarios/', 'icousuarios', 'Usuarios', 28, NULL, 'Administrador'),
-(21, '../reportes/', 'icoreportes', 'Reportes', 29, NULL, 'Administrador'),
-(22, '../comision/', 'icosalir', 'Comisión', 14, NULL, 'Administrador'),
-(23, '../costomts/', 'icodashboard', 'Costo Mtrs', 1, NULL, 'Administrador'),
-(24, '../costonacional/', 'icoclientes', 'Costo Nacional', 2, NULL, 'Administrador'),
-(25, '../imnuebles/', 'icoinmubles', 'Imnuebles', 9, NULL, 'Administrador'),
-(26, '../pedidos/', 'icoalquileres', 'Pedidos', 10, NULL, 'Administrador'),
-(27, '../perfiles/', 'icopagos', 'Perfiles', 11, NULL, 'Administrador'),
-(28, '../situaciones/', 'icousuarios', 'Situaciones', 7, NULL, 'Administrador'),
-(29, '../situacioninmueble/', 'icoreportes', 'Situación Inmueble', 8, NULL, 'Administrador'),
-(30, '../tipoinformacion/', 'icopagos', 'Tipo Información', 3, NULL, 'Administrador'),
-(31, '../tipousuarios/', 'icopagos', 'Tipo Usuarios', 12, NULL, 'Administrador'),
-(32, '../tipovivienda/', 'icopagos', 'Tipo Vivienda', 4, NULL, 'Administrador'),
-(33, '../usos/', 'icopagos', 'Usos', 5, NULL, 'Administrador'),
-(34, '../usuariosregistrados/', 'icousuarios', 'Usuarios Registrados', 13, NULL, 'Administrador'),
-(35, '../valoracion/', 'icopagos', 'Valoración', 6, NULL, 'Administrador');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `paises`
---
-
-CREATE TABLE IF NOT EXISTS `paises` (
+CREATE TABLE IF NOT EXISTS `paices` (
   `idpais` smallint(6) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`idpais`)
@@ -393,6 +351,9 @@ CREATE TABLE IF NOT EXISTS `usuariosregistrados` (
   `email1` varchar(100) COLLATE utf8_spanish_ci DEFAULT NULL,
   `email2` varchar(100) COLLATE utf8_spanish_ci DEFAULT NULL,
   `refsituacion` smallint(6) DEFAULT NULL,
+  `refperfil` smallint(6) DEFAULT NULL,
+  `refprovincia` smallint(6) DEFAULT NULL,
+  `refciudad` int(11) DEFAULT NULL,
   `refurbanizacion` int(11) DEFAULT NULL,
   `calle` varchar(120) COLLATE utf8_spanish_ci DEFAULT NULL,
   `nro` varchar(10) COLLATE utf8_spanish_ci DEFAULT NULL,

@@ -130,10 +130,11 @@ padding-bottom: 10px;
 }
 
 
-
+/*004b99 nuevo */ 
+/*248dc1 viejo:  */ 
 #navigation {
 			height:100%;
-			background-color: #248dc1;
+			background-color: #004b99;
 			padding-top:15px;
 			overflow-y: auto;
 			position: fixed;

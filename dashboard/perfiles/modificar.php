@@ -22,39 +22,48 @@ $serviciosReferencias 	= new ServiciosReferencias();
 $fecha = date('Y-m-d');
 
 //$resProductos = $serviciosProductos->traerProductosLimite(6);
-$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Paises",$_SESSION['refroll_predio'],utf8_encode($_SESSION['usua_empresa']));
+$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Perfiles",$_SESSION['refroll_predio'],'');
 
 
 $id = $_GET['id'];
 
-$resResultado = $serviciosReferencias->traerPaisesPorId($id);
+$resResultado = $serviciosReferencias->traerPerfilesPorId($id);
 
 
 /////////////////////// Opciones pagina ///////////////////////////////////////////////
-$singular = "Pais";
+$singular = "Perfiles";
 
-$plural = "Paises";
+$plural = "Perfil";
 
-$eliminar = "eliminarPaises";
+$eliminar = "eliminarPerfiles";
 
-$modificar = "modificarPaises";
+$modificar = "modificarPerfiles";
 
-$idTabla = "idpais";
+$idTabla = "idperfil";
 
 $tituloWeb = "Gestión: Caracol Bienes Raíces";
 //////////////////////// Fin opciones ////////////////////////////////////////////////
 
 
 /////////////////////// Opciones para la creacion del formulario  /////////////////////
-$tabla 			= "paises";
+$tabla 			= "perfiles";
 
-$lblCambio	 	= array("nombre");
-$lblreemplazo	= array("Pais");
+$lblCambio	 	= array("reftipousuario");
+$lblreemplazo	= array("Tipo Usuario");
 
+$resTipoUsuario 	= $serviciosReferencias->traerTipoUsuarios();
 $cadRef = '';
+while ($rowTT = mysql_fetch_array($resTipoUsuario)) {
+	if ($rowTT[0] == mysql_result($resResultado,0,0)) {
+		$cadRef = $cadRef.'<option value="'.$rowTT[0].'" selected>'.utf8_encode($rowTT[1]).'</option>';
+	} else {
+		$cadRef = $cadRef.'<option value="'.$rowTT[0].'">'.utf8_encode($rowTT[1]).'</option>';
+	}
+	
+}
 
-$refdescripcion = array(0 => "");
-$refCampo[] 	= ""; 
+$refdescripcion = array(0 => $cadRef);
+$refCampo 	=  array("reftipousuario");
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
 

@@ -819,43 +819,63 @@ function calc_porcentaje() {
 }
 
 
-function insertarInmuebles($refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion,$refsituacion) {
-$sql = "insert into inmuebles(idinmueble,refurbanizacion,reftipovivienda,refuso,refsituacioninmueble,dormitorios,banios,encontruccion,mts2,anioconstruccion,precioventapropietario,nombrepropietario,apellidopropietario,fechacarga,refusuario,refcomision,calc_edadconstruccion,calc_porcentajedepreciacion,calc_avaluoconstruccion,calc_depreciacion,calc_avaluoterreno,calc_preciorealmercado,calc_restacliente,calc_porcentaje,refvaloracion,refsituacion)
-values ('',".$refurbanizacion.",".$reftipovivienda.",".$refuso.",".$refsituacioninmueble.",".$dormitorios.",".$banios.",".$encontruccion.",".$mts2.",".$anioconstruccion.",".$precioventapropietario.",'".utf8_decode($nombrepropietario)."','".utf8_decode($apellidopropietario)."','".$fechacarga."',".$refusuario.",".$refcomision.",".$calc_edadconstruccion.",".$calc_porcentajedepreciacion.",".$calc_avaluoconstruccion.",".$calc_depreciacion.",".$calc_avaluoterreno.",".$calc_preciorealmercado.",".$calc_restacliente.",".$calc_porcentaje.",".$refvaloracion.",".$refsituacion.")";
+function insertarInmuebles($refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion) {
+$sql = "insert into inmuebles(idinmueble,refurbanizacion,reftipovivienda,refuso,refsituacioninmueble,dormitorios,banios,encontruccion,mts2,anioconstruccion,precioventapropietario,nombrepropietario,apellidopropietario,fechacarga,refusuario,refcomision,calc_edadconstruccion,calc_porcentajedepreciacion,calc_avaluoconstruccion,calc_depreciacion,calc_avaluoterreno,calc_preciorealmercado,calc_restacliente,calc_porcentaje,refvaloracion)
+values ('',".$refurbanizacion.",".$reftipovivienda.",".$refuso.",".$refsituacioninmueble.",".$dormitorios.",".$banios.",".$encontruccion.",".$mts2.",".$anioconstruccion.",".$precioventapropietario.",'".utf8_decode($nombrepropietario)."','".utf8_decode($apellidopropietario)."','".utf8_decode($fechacarga)."',".$refusuario.",".$refcomision.",".$calc_edadconstruccion.",".$calc_porcentajedepreciacion.",".$calc_avaluoconstruccion.",".$calc_depreciacion.",".$calc_avaluoterreno.",".$calc_preciorealmercado.",".$calc_restacliente.",".$calc_porcentaje.",".$refvaloracion.")";
 $res = $this->query($sql,1);
 return $res;
 }
 
 
-function modificarInmuebles($id,$refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion,$refsituacion) {
+function modificarInmuebles($id,$refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion) {
 $sql = "update inmuebles
 set
-refurbanizacion = ".$refurbanizacion.",reftipovivienda = ".$reftipovivienda.",refuso = ".$refuso.",refsituacioninmueble = ".$refsituacioninmueble.",dormitorios = ".$dormitorios.",banios = ".$banios.",encontruccion = ".$encontruccion.",mts2 = ".$mts2.",anioconstruccion = ".$anioconstruccion.",precioventapropietario = ".$precioventapropietario.",nombrepropietario = '".utf8_decode($nombrepropietario)."',apellidopropietario = '".utf8_decode($apellidopropietario)."',fechacarga = '".utf8_decode($fechacarga)."',refusuario = ".$refusuario.",refcomision = ".$refcomision.",calc_edadconstruccion = ".$calc_edadconstruccion.",calc_porcentajedepreciacion = ".$calc_porcentajedepreciacion.",calc_avaluoconstruccion = ".$calc_avaluoconstruccion.",calc_depreciacion = ".$calc_depreciacion.",calc_avaluoterreno = ".$calc_avaluoterreno.",calc_preciorealmercado = ".$calc_preciorealmercado.",calc_restacliente = ".$calc_restacliente.",calc_porcentaje = ".$calc_porcentaje.",refvaloracion = ".$refvaloracion.",refsituacion = ".$refsituacion."
+refurbanizacion = ".$refurbanizacion.",reftipovivienda = ".$reftipovivienda.",refuso = ".$refuso.",refsituacioninmueble = ".$refsituacioninmueble.",dormitorios = ".$dormitorios.",banios = ".$banios.",encontruccion = ".$encontruccion.",mts2 = ".$mts2.",anioconstruccion = ".$anioconstruccion.",precioventapropietario = ".$precioventapropietario.",nombrepropietario = '".utf8_decode($nombrepropietario)."',apellidopropietario = '".utf8_decode($apellidopropietario)."',fechacarga = '".utf8_decode($fechacarga)."',refusuario = ".$refusuario.",refcomision = ".$refcomision.",calc_edadconstruccion = ".$calc_edadconstruccion.",calc_porcentajedepreciacion = ".$calc_porcentajedepreciacion.",calc_avaluoconstruccion = ".$calc_avaluoconstruccion.",calc_depreciacion = ".$calc_depreciacion.",calc_avaluoterreno = ".$calc_avaluoterreno.",calc_preciorealmercado = ".$calc_preciorealmercado.",calc_restacliente = ".$calc_restacliente.",calc_porcentaje = ".$calc_porcentaje.",refvaloracion = ".$refvaloracion."
 where idinmueble =".$id;
 $res = $this->query($sql,0);
 return $res;
-}
+} 
 
 
 function eliminarInmuebles($id) {
 $sql = "delete from inmuebles where idinmueble =".$id;
 $res = $this->query($sql,0);
 return $res;
-}
+} 
 
 
 function traerInmuebles() {
-$sql = "select idinmueble,refurbanizacion,reftipovivienda,refuso,refsituacioninmueble,dormitorios,banios,encontruccion,mts2,anioconstruccion,precioventapropietario,nombrepropietario,apellidopropietario,fechacarga,refusuario,refcomision,calc_edadconstruccion,calc_porcentajedepreciacion,calc_avaluoconstruccion,calc_depreciacion,calc_avaluoterreno,calc_preciorealmercado,calc_restacliente,calc_porcentaje,refvaloracion,refsituacion from inmuebles order by 1";
+$sql = "
+	select
+i.idinmueble, i.dormitorios, i.banios, i.encontruccion, i.mts2,
+i.anioconstruccion, i.precioventapropietario, i.nombrepropietario, i.apellidopropietario, i.fechacarga,
+i.calc_edadconstruccion, i.calc_porcentajedepreciacion, i.calc_avaluoconstruccion, i.calc_depreciacion, i.calc_avaluoterreno,
+i.calc_preciorealmercado, i.calc_restacliente, i.calc_porcentaje,
+v.valoracion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
+i.refvaloracion, i.refurbanizacion, i.reftipovivienda, i.refuso, i.refsituacioninmueble, i.refusuario, i.refcomision
+
+from inmuebles i 
+inner join valoracion v on v.idvaloracion = i.refvaloracion
+inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+inner join ciudades c on c.idciudad = u.refciudad
+inner join provincias p on p.idprovincia = c.refprovincia
+inner join paises pa on pa.idpais = p.refpais
+inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+inner join usos us on us.iduso = i.refuso
+inner join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+inner join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+inner join comision co on co.idcomision = i.refcomision
+order by 1";
 $res = $this->query($sql,0);
 return $res;
 }
 
 
 function traerInmueblesPorId($id) {
-$sql = "select idinmueble,refurbanizacion,reftipovivienda,refuso,refsituacioninmueble,dormitorios,banios,encontruccion,mts2,anioconstruccion,precioventapropietario,nombrepropietario,apellidopropietario,fechacarga,refusuario,refcomision,calc_edadconstruccion,calc_porcentajedepreciacion,calc_avaluoconstruccion,calc_depreciacion,calc_avaluoterreno,calc_preciorealmercado,calc_restacliente,calc_porcentaje,refvaloracion,refsituacion from inmuebles where idinmueble =".$id;
+$sql = "select idinmueble,refurbanizacion,reftipovivienda,refuso,refsituacioninmueble,dormitorios,banios,encontruccion,mts2,anioconstruccion,precioventapropietario,nombrepropietario,apellidopropietario,fechacarga,refusuario,refcomision,calc_edadconstruccion,calc_porcentajedepreciacion,calc_avaluoconstruccion,calc_depreciacion,calc_avaluoterreno,calc_preciorealmercado,calc_restacliente,calc_porcentaje,refvaloracion from inmuebles where idinmueble =".$id;
 $res = $this->query($sql,0);
 return $res;
-}
+} 
 
 /* Fin */
 

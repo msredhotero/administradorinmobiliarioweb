@@ -165,20 +165,21 @@ $servicios = new Servicios();
 <br>
 <br>
 	<section style="width:700px; padding-top:10px; padding-top:60px;padding:25px;
-background-color:#333; border:1px solid #101010; box-shadow: 4px 4px 5px #464646;-webkit-box-shadow: 4px 4px 5px #464646;-moz-box-shadow: 4px 4px 5px #464646;">
-			<div id="error" style="text-align:left;">
+background-color: #ffffff; border:1px solid #101010; box-shadow: 4px 4px 5px #464646;-webkit-box-shadow: 4px 4px 5px #464646;-moz-box-shadow: 4px 4px 5px #464646;">
+			<div id="error" style="text-align:left; color:#666;">
             
             </div>
 
             <div align="center">
-				<div align="center"><p style="color:#E9E9E9; font-size:28px;">Acceso al panel de control</p></div>
+            	<img src="imagenes/logodebase2.png">
+				<div align="center"><p style="color:#363636; font-size:28px;">Acceso al panel de control</p></div>
                 <br>
             </div>
 			<form role="form" class="form-horizontal">
               
 
               <div class="form-group">
-                <label for="usuario" class="col-md-2 control-label" style="color:#FFF;text-align:left;">E-Mail</label>
+                <label for="usuario" class="col-md-2 control-label" style="color:#363636;text-align:left;">E-Mail</label>
                 <div class="col-lg-7">
                   <input type="email" class="form-control" id="email" name="email" 
                          placeholder="E-Mail">
@@ -186,7 +187,7 @@ background-color:#333; border:1px solid #101010; box-shadow: 4px 4px 5px #464646
               </div>
 
               <div class="form-group">
-                <label for="ejemplo_password_2" class="col-md-2 control-label" style="color:#FFF;text-align:left;">Contraseña</label>
+                <label for="ejemplo_password_2" class="col-md-2 control-label" style="color:#363636;text-align:left;">Contraseña</label>
                 <div class="col-lg-7">
                   <input type="password" class="form-control" id="pass" name="pass" 
                          placeholder="password">
@@ -196,7 +197,7 @@ background-color:#333; border:1px solid #101010; box-shadow: 4px 4px 5px #464646
               
               
               <div class="form-group">
-              	<label for="olvido" class="control-label" style="color:#FFF">¿Has olvidado tu contraseña?. <a href="recuperarpassword.php">Recuperar.</a></label>
+              	<label for="olvido" class="control-label" style="color:#363636">¿Has olvidado tu contraseña?. <a href="recuperarpassword.php">Recuperar.</a></label>
               </div>
              
               <div class="form-group">
