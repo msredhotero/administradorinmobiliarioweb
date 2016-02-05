@@ -34,7 +34,7 @@ if (mysql_num_rows($respusu) > 0) {
 	$error = '';
 	
 	$idUsua = mysql_result($respusu,0,0);
-	$sqlpass = "select u.apellidoynombre,u.email1,u.nombreentidad,tu.descripcion, p.idperfil 
+	$sqlpass = "select u.apellidoynombre,u.email1,u.nombreentidad,tu.descripcion, p.idperfil, u.idusuarioregistrado
 					FROM admininmobiliario.usuariosregistrados u 
 					inner
 					join	tipousuarios tu on tu.idtipousuario = u.reftipousuario
@@ -64,6 +64,7 @@ if (mysql_num_rows($respusu) > 0) {
 		$_SESSION['email_predio'] = mysql_result($resppass,0,1);
 		$_SESSION['refroll_predio'] = mysql_result($resppass,0,3);
 		$_SESSION['idroll_predio'] = mysql_result($resppass,0,4);
+		$_SESSION['idusuario'] = mysql_result($resppass,0,5);
 		
 		
 		//////////////// EN CASO DE NECESITAR ENTRAR POR EMPRESA ///////////////////////////////////////

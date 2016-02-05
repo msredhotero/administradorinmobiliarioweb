@@ -22,39 +22,86 @@ $serviciosReferencias 	= new ServiciosReferencias();
 $fecha = date('Y-m-d');
 
 //$resProductos = $serviciosProductos->traerProductosLimite(6);
-$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Paises",$_SESSION['refroll_predio'],utf8_encode($_SESSION['usua_empresa']));
+$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Costo Mtrs",$_SESSION['refroll_predio'],'');
 
 
 $id = $_GET['id'];
 
-$resResultado = $serviciosReferencias->traerPaisesPorId($id);
+$resResultado = $serviciosReferencias->traerCostomtsPorId($id);
 
 
 /////////////////////// Opciones pagina ///////////////////////////////////////////////
-$singular = "Pais";
+$singular = "Costo Mtrs";
 
-$plural = "Paises";
+$plural = "Costo Mtrs";
 
-$eliminar = "eliminarPaises";
+$eliminar = "eliminarCostomts";
 
-$modificar = "modificarPaises";
+$modificar = "modificarCostomts";
 
-$idTabla = "idpais";
+$idTabla = "idcostomts";
 
 $tituloWeb = "Gestión: Caracol Bienes Raíces";
 //////////////////////// Fin opciones ////////////////////////////////////////////////
 
 
 /////////////////////// Opciones para la creacion del formulario  /////////////////////
-$tabla 			= "paises";
+$tabla 			= "costomts";
 
-$lblCambio	 	= array("nombre");
-$lblreemplazo	= array("Pais");
+$lblCambio	 	= array("refciudad","refuso","fechamodi","refusuario");
+$lblreemplazo	= array("Ciudad","Uso","Fecha Modificación","Usuario");
 
+$resCiudad 	= $serviciosReferencias->traerCiudades();
 $cadRef = '';
+while ($rowTT = mysql_fetch_array($resCiudad)) {
+	if ($rowTT[0] == mysql_result($resResultado,0,0)) {
+		$cadRef = $cadRef.'<option value="'.$rowTT[0].'" selected>'.utf8_encode($rowTT[1]).'</option>';
+	} else {
+		$cadRef = $cadRef.'<option value="'.$rowTT[0].'">'.utf8_encode($rowTT[1]).'</option>';
+	}
+}
 
-$refdescripcion = array(0 => "");
-$refCampo[] 	= ""; 
+
+
+$resUsos 	= $serviciosReferencias->traerUsos();
+$cadRefU = '';
+while ($rowU = mysql_fetch_array($resUsos)) {
+	if ($rowU[0] == mysql_result($resResultado,0,0)) {
+		$cadRefU = $cadRefU.'<option value="'.$rowU[0].'" selected>'.utf8_encode($rowU[1]).'</option>';
+	} else {
+		$cadRefU = $cadRefU.'<option value="'.$rowU[0].'">'.utf8_encode($rowU[1]).'</option>';
+	}
+}
+
+
+if ($_SESSION['idroll_predio'] == 1) {
+	
+	$resUsuarios 	= $serviciosReferencias->traerUsuariosRegistrados();
+	$cadRefUsu = '';
+	while ($rowUsu = mysql_fetch_array($resUsuarios)) {
+		if ($rowU[0] == mysql_result($resResultado,0,0)) {
+			$cadRefUsu = $cadRefUsu.'<option value="'.$rowUsu[0].'" selected>'.utf8_encode($rowUsu[3]).'</option>';
+		} else {
+			$cadRefUsu = $cadRefUsu.'<option value="'.$rowUsu[0].'">'.utf8_encode($rowUsu[3]).'</option>';
+		}
+	}
+	
+} else {
+	
+	$resUsuarios 	= $serviciosReferencias->traerUsuariosRegistradosPorId($_SESSION['idusuario']);
+	$cadRefUsu = '';
+	while ($rowUsu = mysql_fetch_array($resUsuarios)) {
+		if ($rowU[0] == mysql_result($resResultado,0,0)) {
+			$cadRefUsu = $cadRefUsu.'<option value="'.$rowUsu[0].'" selected>'.utf8_encode($rowUsu[3]).'</option>';
+		} else {
+			$cadRefUsu = $cadRefUsu.'<option value="'.$rowUsu[0].'">'.utf8_encode($rowUsu[3]).'</option>';
+		}
+	}
+	
+}
+
+$refdescripcion = array(0 => $cadRef);
+$refCampo 	=  array("refprovincia");
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
 
