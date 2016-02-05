@@ -20,9 +20,9 @@ function GUID()
 }
 
 
-function login($usuario,$pass,$idempresa) {
+function login($usuario,$pass) {
 	
-	$sqlusu = "select * from dbusuarios where email = '".$usuario."'";
+	$sqlusu = "select * from usuariosregistrados where email1 = '".$usuario."'";
 
 
 
@@ -34,10 +34,13 @@ if (mysql_num_rows($respusu) > 0) {
 	$error = '';
 	
 	$idUsua = mysql_result($respusu,0,0);
-	$sqlpass = "select u.nombrecompleto,u.email,u.usuario,r.descripcion, r.idrol 
-					from dbusuarios u
-					inner join tbroles r on r.idrol = u.refroll
-					 where u.password = '".$pass."' and u.IdUsuario = ".$idUsua;
+	$sqlpass = "select u.apellidoynombre,u.email1,u.nombreentidad,tu.descripcion, p.idperfil 
+					FROM admininmobiliario.usuariosregistrados u 
+					inner
+					join	tipousuarios tu on tu.idtipousuario = u.reftipousuario
+					inner
+					join	perfiles p on p.reftipousuario = tu.idtipousuario
+					where   u.password = '".$pass."' and u.idusuarioregistrado = ".$idUsua;
 
 	$resppass = $this->query($sqlpass,0);
 	
@@ -64,6 +67,7 @@ if (mysql_num_rows($respusu) > 0) {
 		
 		
 		//////////////// EN CASO DE NECESITAR ENTRAR POR EMPRESA ///////////////////////////////////////
+		/*
 		if ($idempresa != '') {
 		$sqlEmpresa = "select razonsocial from dbempresas where idempresa =".$idempresa;
 		$resEmpresa = $this->query($sqlEmpresa,0);
@@ -74,6 +78,7 @@ if (mysql_num_rows($respusu) > 0) {
 			$_SESSION['usua_idempresa'] = 0;
 			$_SESSION['usua_empresa'] = 'Debe Cargar una Empresa!';
 		}
+		*/
 	}
 	
 }	else {

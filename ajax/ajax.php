@@ -9,7 +9,7 @@ include ('../includes/funcionesReferencias.php');
 $serviciosUsuarios  		= new ServiciosUsuarios();
 $serviciosFunciones 		= new Servicios();
 $serviciosHTML				= new ServiciosHTML();
-$serviciosClientes 			= new ServiciosReferencias();
+$serviciosReferencias		= new ServiciosReferencias();
 
 
 $accion = $_POST['accion'];
@@ -989,9 +989,9 @@ function modificarUsuario($serviciosUsuarios) {
 function enviarMail($serviciosUsuarios) {
 	$email		=	$_POST['email'];
 	$pass		=	$_POST['pass'];
-	$idempresa  =	$_POST['idempresa'];
+	//$idempresa  =	$_POST['idempresa'];
 	
-	echo $serviciosUsuarios->login($email,$pass,$idempresa);
+	echo $serviciosUsuarios->login($email,$pass);
 }
 
 
