@@ -54,7 +54,7 @@ $refCampo[] 	= "";
 
 
 /////////////////////// Opciones para la creacion del view  /////////////////////
-$cabeceras 		= "	<th>Pais</th>";
+$cabeceras 		= "	<th>Valoración</th>";
 
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 

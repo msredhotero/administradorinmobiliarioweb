@@ -39,7 +39,7 @@ $tituloWeb = "Gestión: Caracol Bienes Raíces";
 
 
 /////////////////////// Opciones para la creacion del formulario  /////////////////////
-$tabla 			= "tipoinformacion";
+$tabla 			= "tipodeinformacion";
 
 $lblCambio	 	= array("tipodeinformacion");
 $lblreemplazo	= array("Tipo Información");

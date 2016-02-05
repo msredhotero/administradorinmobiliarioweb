@@ -8,25 +8,27 @@ if (!isset($_SESSION['usua_predio']))
 } else {
 
 
+include ('../includes/funciones.php');
 include ('../includes/funcionesUsuarios.php');
 include ('../includes/funcionesHTML.php');
-include ('../includes/funciones.php');
-include ('../includes/funcionesClientes.php');
-include ('../includes/funcionesEmpresas.php');
+include ('../includes/funcionesReferencias.php');
 
-$serviciosUsuario	= new ServiciosUsuarios();
-$serviciosHTML 		= new ServiciosHTML();
-$serviciosFunciones = new Servicios();
-$serviciosClientes 	= new ServiciosClientes();
-$serviciosEmpresas	= new ServiciosEmpresas();
+$serviciosFunciones 	= new Servicios();
+$serviciosUsuario 		= new ServiciosUsuarios();
+$serviciosHTML 			= new ServiciosHTML();
+$serviciosReferencias 	= new ServiciosReferencias();
+
 
 $fecha = date('Y-m-d');
 
 //$resProductos = $serviciosProductos->traerProductosLimite(6);
-$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Dashboard",$_SESSION['refroll_predio'],utf8_encode($_SESSION['usua_empresa']));
+$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Dashboard",$_SESSION['refroll_predio'],'');
 
 
+/////////////////////// Opciones pagina ///////////////////////////////////////////////
 
+$tituloWeb = "Gestión: Caracol Bienes Raíces";
+//////////////////////// Fin opciones ////////////////////////////////////////////////
 
 
 ?>
@@ -42,7 +44,7 @@ $resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Dashboa
 
 
 
-<title>Gestión: Facturación - Cuentas Por Cobrar</title>
+<title><?php echo $tituloWeb; ?></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
@@ -95,7 +97,7 @@ $resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Dashboa
         	
         </div>
     	<div class="cuerpoBox">
-    		<h3>Bienvenidos al sistema Facturación - Cuentas Por Cobrar</h3>
+    		<h3>Bienvenidos al sistema <?php echo $tituloWeb; ?></h3>
     	</div>
     </div>
     

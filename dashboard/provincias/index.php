@@ -60,8 +60,7 @@ $refCampo 	=  array("refpais");
 
 
 /////////////////////// Opciones para la creacion del view  /////////////////////
-$cabeceras 		= "	<th>Ciudad</th>
-					<th>Provincia</th>
+$cabeceras 		= "	<th>Provincia</th>
 					<th>Pais</th>";
 
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
@@ -71,7 +70,7 @@ $cabeceras 		= "	<th>Ciudad</th>
 
 $formulario 	= $serviciosFunciones->camposTabla($insertar ,$tabla,$lblCambio,$lblreemplazo,$refdescripcion,$refCampo);
 
-$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerProvincias(),3);
+$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerProvincias(),2);
 
 
 
