@@ -22,39 +22,50 @@ $serviciosReferencias 	= new ServiciosReferencias();
 $fecha = date('Y-m-d');
 
 //$resProductos = $serviciosProductos->traerProductosLimite(6);
-$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Paises",$_SESSION['refroll_predio'],utf8_encode($_SESSION['usua_empresa']));
+$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Urbanización",$_SESSION['refroll_predio'],'');
 
 
 $id = $_GET['id'];
 
-$resResultado = $serviciosReferencias->traerPaisesPorId($id);
+$resResultado = $serviciosReferencias->traerUrbanizacionPorId($id);
 
 
 /////////////////////// Opciones pagina ///////////////////////////////////////////////
-$singular = "Pais";
+$singular = "Urbanización";
 
-$plural = "Paises";
+$plural = "Urbanizaciones";
 
-$eliminar = "eliminarPaises";
+$eliminar = "eliminarUrbanizacion";
 
-$modificar = "modificarPaises";
+$modificar = "modificarUrbanizacion";
 
-$idTabla = "idpais";
+$idTabla = "idurbanizacion";
 
 $tituloWeb = "Gestión: Caracol Bienes Raíces";
 //////////////////////// Fin opciones ////////////////////////////////////////////////
 
 
 /////////////////////// Opciones para la creacion del formulario  /////////////////////
-$tabla 			= "paises";
+$tabla 			= "urbanizacion";
 
-$lblCambio	 	= array("nombre");
-$lblreemplazo	= array("Pais");
+$lblCambio	 	= array("refciudad");
+$lblreemplazo	= array("Ciudad");
 
 $cadRef = '';
 
-$refdescripcion = array(0 => "");
-$refCampo[] 	= ""; 
+$resCiudades 	= $serviciosReferencias->traerCiudades();
+$cadRef = '';
+while ($rowTT = mysql_fetch_array($resCiudades)) {
+	if ($rowTT[0] == mysql_result($resResultado,0,0)) {
+		$cadRef = $cadRef.'<option value="'.$rowTT[0].'" selected>'.utf8_encode($rowTT[1]).'</option>';
+	} else {
+		$cadRef = $cadRef.'<option value="'.$rowTT[0].'">'.utf8_encode($rowTT[1]).'</option>';
+	}
+	
+}
+
+$refdescripcion = array(0 => $cadRef);
+$refCampo 	=  array("refciudad");
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
 
