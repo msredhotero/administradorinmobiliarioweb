@@ -201,6 +201,12 @@ $res = $this->query($sql,0);
 return $res;
 }
 
+function traerValoracionPorPorcentaje($porcentaje) {
+	$sql = "SELECT idvaloracion FROM valoracion v where	".$porcentaje." between desde and hasta";
+	$res = $this->query($sql,0);
+	return $res;
+}
+
 /* Fin */
 
 
@@ -672,7 +678,7 @@ return $res;
 }
 
 
-function traerCostomtsPorCiudad($idCiudad) {
+function traerCostomtsPorCiudad($idCiudad, $iduso) {
 $sql = "select co.idcostomts,co.refciudad,co.refuso,co.valormts,co.fechamodi,co.refusuario , ur.apellidoynombre
 from costomts co 
 		inner join usuariosregistrados ur on ur.idusuarioregistrado = co.refusuario 
@@ -683,7 +689,7 @@ from costomts co
                 inner join
             urbanizacion u ON cc.idciudad = u.refciudad
         where
-            u.idurbanizacion =".$id.")";
+            u.idurbanizacion =".$idCiudad.") and co.refuso = ".$iduso;
 $res = $this->query($sql,0);
 return $res;
 }
@@ -902,7 +908,19 @@ function calc_porcentaje() {
 }
 
 
-function insertarInmuebles($refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion) {
+function insertarInmuebles($refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion,$idCostoMts,$idCostoNacional) {
+	
+	//calculos fijos
+	$calc_edadconstruccion 			= $this->calc_edadconstruccion($anioconstruccion);
+	$calc_porcentajedepreciacion 	= $this->calc_porcentajedepreciacion(getdate('Y') - $anioconstruccion);
+	$calc_avaluoconstruccion 		= $this->calc_avaluoconstruccion( $encontruccion,$idCostoNacional);
+	$calc_depreciacion 				= $this->calc_depreciacion(getdate('Y') - $anioconstruccion);
+	$calc_avaluoterreno 			= $this->calc_avaluoterreno($mts2,$idCostoMts);
+	$calc_preciorealmercado 		= $calc_depreciacion + $calc_avaluoterreno;
+	$calc_restacliente 				= $calc_preciorealmercado - $precioventapropietario;
+	$calc_porcentaje 				= $calc_restacliente * 100 / $calc_preciorealmercado;
+	$refvaloracion 					= mysql_result($this->traerValoracionPorPorcentaje($calc_porcentaje),0,0);	
+	
 $sql = "insert into inmuebles(idinmueble,refurbanizacion,reftipovivienda,refuso,refsituacioninmueble,dormitorios,banios,encontruccion,mts2,anioconstruccion,precioventapropietario,nombrepropietario,apellidopropietario,fechacarga,refusuario,refcomision,calc_edadconstruccion,calc_porcentajedepreciacion,calc_avaluoconstruccion,calc_depreciacion,calc_avaluoterreno,calc_preciorealmercado,calc_restacliente,calc_porcentaje,refvaloracion)
 values ('',".$refurbanizacion.",".$reftipovivienda.",".$refuso.",".$refsituacioninmueble.",".$dormitorios.",".$banios.",".$encontruccion.",".$mts2.",".$anioconstruccion.",".$precioventapropietario.",'".utf8_decode($nombrepropietario)."','".utf8_decode($apellidopropietario)."','".utf8_decode($fechacarga)."',".$refusuario.",".$refcomision.",".$calc_edadconstruccion.",".$calc_porcentajedepreciacion.",".$calc_avaluoconstruccion.",".$calc_depreciacion.",".$calc_avaluoterreno.",".$calc_preciorealmercado.",".$calc_restacliente.",".$calc_porcentaje.",".$refvaloracion.")";
 $res = $this->query($sql,1);

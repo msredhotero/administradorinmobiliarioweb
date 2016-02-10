@@ -304,7 +304,7 @@ if ($_SESSION['idroll_predio'] == 1) {
                         </select>
                     </div>
                 </div>
-
+				<input type="hidden" id="accion" name="accion" value="<?php echo $insertar; ?>"/>
                 
             </div>
             
@@ -478,6 +478,7 @@ $(document).ready(function(){
 	function traerCostoMts() {
         $.ajax({
 				data:  {refurbanizacion: $('#refurbanizacion').val(),
+						refuso:	$('#refuso').val(),
 						accion: 'traerCostomtsPorCiudad'},
 				url:   '../../ajax/ajax.php',
 				type:  'post',
@@ -495,6 +496,10 @@ $(document).ready(function(){
 	
 	$('#refurbanizacion').change(function(e) {
 		traerCostoNacional();
+		traerCostoMts();
+	});
+	
+	$('#refuso').change(function(e) {
 		traerCostoMts();
 	});
 	
@@ -642,6 +647,33 @@ $(document).ready(function(){
     for (var selector in config) {
       $(selector).chosen(config[selector]);
     }
+  </script>
+  
+  <script>
+  $(function() {
+	  $.datepicker.regional['es'] = {
+ closeText: 'Cerrar',
+ prevText: '<Ant',
+ nextText: 'Sig>',
+ currentText: 'Hoy',
+ monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+ monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+ dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+ dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+ dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+ weekHeader: 'Sm',
+ dateFormat: 'dd/mm/yy',
+ firstDay: 1,
+ isRTL: false,
+ showMonthAfterYear: false,
+ yearSuffix: ''
+ };
+ $.datepicker.setDefaults($.datepicker.regional['es']);
+ 
+    $( "#fechacarga" ).datepicker();
+
+    $( "#fechacarga" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+  });
   </script>
 <?php } ?>
 </body>

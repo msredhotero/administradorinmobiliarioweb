@@ -686,7 +686,7 @@ function traerCostoNacionalPorPais($serviciosReferencias) {
 	
 	$cad = '';
 	while ($rowCN = mysql_fetch_array($res)) {
-		$cad .= $cad.'<option value='.$rowCN[0].'>'.$rowCN['apellidoynombre'].' - $'.$rowCN['valormts'].'</option>';	
+		$cad .= '<option value='.$rowCN[0].'>'.$rowCN['apellidoynombre'].' - $'.$rowCN['valormts'].'</option>';	
 	}
 	
 	echo $cad;
@@ -734,12 +734,13 @@ function eliminarCostomts($serviciosReferencias) {
 
 function traerCostomtsPorCiudad($serviciosReferencias) {
 	$ciudad	=	$_POST['refurbanizacion'];
+	$uso	=	$_POST['refuso'];
 	
-	$res	= $serviciosReferencias->traerCostomtsPorCiudad($ciudad);
+	$res	= $serviciosReferencias->traerCostomtsPorCiudad($ciudad,$uso);
 	
 	$cad = '';
 	while ($rowCN = mysql_fetch_array($res)) {
-		$cad .= $cad.'<option value='.$rowCN[0].'>'.$rowCN['apellidoynombre'].' - $'.$rowCN['valormts'].'</option>';	
+		$cad .= '<option value='.$rowCN[0].'>'.$rowCN['apellidoynombre'].' - $'.$rowCN['valormts'].'</option>';	
 	}
 	
 	echo $cad;
@@ -895,17 +896,20 @@ function insertarInmuebles($serviciosReferencias) {
 	$fechacarga = $_POST['fechacarga'];
 	$refusuario = $_POST['refusuario'];
 	$refcomision = $_POST['refcomision'];
-	$calc_edadconstruccion = $_POST['calc_edadconstruccion'];
-	$calc_porcentajedepreciacion = $_POST['calc_porcentajedepreciacion'];
-	$calc_avaluoconstruccion = $_POST['calc_avaluoconstruccion'];
-	$calc_depreciacion = $_POST['calc_depreciacion'];
-	$calc_avaluoterreno = $_POST['calc_avaluoterreno'];
-	$calc_preciorealmercado = $_POST['calc_preciorealmercado'];
-	$calc_restacliente = $_POST['calc_restacliente'];
-	$calc_porcentaje = $_POST['calc_porcentaje'];
-	$refvaloracion = $_POST['refvaloracion'];
+	$calc_edadconstruccion 			= '';
+	$calc_porcentajedepreciacion 	= '';
+	$calc_avaluoconstruccion 		= '';
+	$calc_depreciacion 				= '';
+	$calc_avaluoterreno 			= '';
+	$calc_preciorealmercado 		= '';
+	$calc_restacliente 				= '';
+	$calc_porcentaje 				= '';
+	$refvaloracion 					= '';
 	
-	$res = $serviciosReferencias->insertarInmuebles($refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion);
+	$idCostoMts			=	$_POST['refcomision'];
+	$idCostoNacional	=	$_POST['refcomision'];
+	
+	$res = $serviciosReferencias->insertarInmuebles($refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion,$idCostoMts,$idCostoNacional);
 	
 	if ((integer)$res > 0) {
 		echo '';
