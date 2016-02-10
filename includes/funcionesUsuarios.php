@@ -35,7 +35,7 @@ if (mysql_num_rows($respusu) > 0) {
 	
 	$idUsua = mysql_result($respusu,0,0);
 	$sqlpass = "select u.apellidoynombre,u.email1,u.nombreentidad,tu.descripcion, p.idperfil, u.idusuarioregistrado
-					FROM admininmobiliario.usuariosregistrados u 
+					FROM usuariosregistrados u 
 					inner
 					join	tipousuarios tu on tu.idtipousuario = u.reftipousuario
 					inner

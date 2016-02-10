@@ -584,7 +584,11 @@ return $res;
 
 
 function traerCostoNacional() {
-$sql = "select idcostonacional,refpais,valormts,fechamodi,refusuario from costonacional order by 1";
+$sql = "select c.idcostonacional ,pa.nombre ,c.valormts ,c.fechamodi ,ur.apellidoynombre ,c.refusuario ,c.refpais
+from costonacional c 
+inner join paises pa on pa.idpais = c.refpais
+inner join usuariosregistrados ur on ur.idusuarioregistrado = c.refusuario 
+order by pa.nombre";
 $res = $this->query($sql,0);
 return $res;
 }
@@ -592,6 +596,26 @@ return $res;
 
 function traerCostoNacionalPorId($id) {
 $sql = "select idcostonacional,refpais,valormts,fechamodi,refusuario from costonacional where idcostonacional =".$id;
+$res = $this->query($sql,0);
+return $res;
+}
+
+function traerCostoNacionalPorPais($idPais) {
+$sql = "select co.idcostonacional,co.refpais,co.valormts,co.fechamodi,co.refusuario, ur.apellidoynombre
+		from costonacional co 
+		inner join usuariosregistrados ur on ur.idusuarioregistrado = co.refusuario 
+		where refpais in (select 
+            pa.idpais
+        from
+            ciudades cc
+                inner join
+            urbanizacion u ON cc.idciudad = u.refciudad
+				inner join
+			provincias p ON cc.refprovincia = p.idprovincia
+				inner join
+			paises pa ON pa.idpais = p.refpais
+        where
+            u.idurbanizacion =".$idPais.")";
 $res = $this->query($sql,0);
 return $res;
 }
@@ -627,14 +651,39 @@ return $res;
 
 
 function traerCostomts() {
-$sql = "select idcostomts,refciudad,refuso,valormts,fechamodi,refusuario from costomts order by 1";
+$sql = "select idcostomts,CONCAT(cc.ciudad,' - ',p.provincia,' - ',pa.nombre) as ciudad,u.usos,valormts,fechamodi,ur.apellidoynombre,refusuario ,refciudad,refuso
+from costomts c 
+inner join ciudades cc on cc.idciudad = c.refciudad
+inner join provincias p on p.idprovincia = cc.refprovincia
+inner join paises pa on pa.idpais = p.refpais
+inner join usos u on u.iduso = c.refuso
+inner join usuariosregistrados ur on ur.idusuarioregistrado = c.refusuario 
+order by pa.nombre,p.provincia,cc.ciudad";
 $res = $this->query($sql,0);
 return $res;
 }
 
 
 function traerCostomtsPorId($id) {
-$sql = "select idcostomts,refciudad,refuso,valormts,fechamodi,refusuario from costomts where idcostomts =".$id;
+$sql = "select idcostomts,refciudad,refuso,valormts,fechamodi,refusuario 
+from costomts where idcostomts =".$id;
+$res = $this->query($sql,0);
+return $res;
+}
+
+
+function traerCostomtsPorCiudad($idCiudad) {
+$sql = "select co.idcostomts,co.refciudad,co.refuso,co.valormts,co.fechamodi,co.refusuario , ur.apellidoynombre
+from costomts co 
+		inner join usuariosregistrados ur on ur.idusuarioregistrado = co.refusuario 
+	where refciudad in (select 
+            idciudad
+        from
+            ciudades cc
+                inner join
+            urbanizacion u ON cc.idciudad = u.refciudad
+        where
+            u.idurbanizacion =".$id.")";
 $res = $this->query($sql,0);
 return $res;
 }
@@ -734,18 +783,19 @@ return $res;
 
 /* PARA UsuariosRegistrados */
 
-function insertarUsuariosRegistrados($fechadeingreso,$reftipousuario,$apellidoynombre,$nombreentidad,$celular1,$celular2,$celular3,$email1,$email2,$refperfil,$refurbanizacion,$calle,$nro,$codpostal) {
-$sql = "insert into usuariosregistrados(idusuarioregistrado,fechadeingreso,reftipousuario,apellidoynombre,nombreentidad,celular1,celular2,celular3,email1,email2,refperfil,refurbanizacion,calle,nro,codpostal)
-values ('','".utf8_decode($fechadeingreso)."',".$reftipousuario.",'".utf8_decode($apellidoynombre)."','".utf8_decode($nombreentidad)."','".utf8_decode($celular1)."','".utf8_decode($celular2)."','".utf8_decode($celular3)."','".utf8_decode($email1)."','".utf8_decode($email2)."',".$refperfil.",".$refurbanizacion.",'".utf8_decode($calle)."','".utf8_decode($nro)."','".utf8_decode($codpostal)."')";
+
+function insertarUsuariosRegistrados($fechadeingreso,$reftipousuario,$apellidoynombre,$nombreentidad,$celular1,$celular2,$celular3,$email1,$email2,$refsituacion,$refurbanizacion,$calle,$nro,$codpostal,$documento,$password) {
+$sql = "insert into usuariosregistrados(idusuarioregistrado,fechadeingreso,reftipousuario,apellidoynombre,nombreentidad,celular1,celular2,celular3,email1,email2,refsituacion,refurbanizacion,calle,nro,codpostal,documento,password)
+values ('','".utf8_decode($fechadeingreso)."',".$reftipousuario.",'".utf8_decode($apellidoynombre)."','".utf8_decode($nombreentidad)."','".utf8_decode($celular1)."','".utf8_decode($celular2)."','".utf8_decode($celular3)."','".utf8_decode($email1)."','".utf8_decode($email2)."',".$refsituacion.",".$refurbanizacion.",'".utf8_decode($calle)."','".utf8_decode($nro)."','".utf8_decode($codpostal)."','".utf8_decode($documento)."','".utf8_decode($password)."')";
 $res = $this->query($sql,1);
 return $res;
 }
 
 
-function modificarUsuariosRegistrados($id,$fechadeingreso,$reftipousuario,$apellidoynombre,$nombreentidad,$celular1,$celular2,$celular3,$email1,$email2,$refperfil,$refurbanizacion,$calle,$nro,$codpostal) {
+function modificarUsuariosRegistrados($id,$fechadeingreso,$reftipousuario,$apellidoynombre,$nombreentidad,$celular1,$celular2,$celular3,$email1,$email2,$refsituacion,$refurbanizacion,$calle,$nro,$codpostal,$documento,$password) {
 $sql = "update usuariosregistrados
 set
-fechadeingreso = '".utf8_decode($fechadeingreso)."',reftipousuario = ".$reftipousuario.",apellidoynombre = '".utf8_decode($apellidoynombre)."',nombreentidad = '".utf8_decode($nombreentidad)."',celular1 = '".utf8_decode($celular1)."',celular2 = '".utf8_decode($celular2)."',celular3 = '".utf8_decode($celular3)."',email1 = '".utf8_decode($email1)."',email2 = '".utf8_decode($email2)."',refperfil = ".$refperfil.",refurbanizacion = ".$refurbanizacion.",calle = '".utf8_decode($calle)."',nro = '".utf8_decode($nro)."',codpostal = '".utf8_decode($codpostal)."'
+fechadeingreso = '".utf8_decode($fechadeingreso)."',reftipousuario = ".$reftipousuario.",apellidoynombre = '".utf8_decode($apellidoynombre)."',nombreentidad = '".utf8_decode($nombreentidad)."',celular1 = '".utf8_decode($celular1)."',celular2 = '".utf8_decode($celular2)."',celular3 = '".utf8_decode($celular3)."',email1 = '".utf8_decode($email1)."',email2 = '".utf8_decode($email2)."',refsituacion = ".$refsituacion.",refurbanizacion = ".$refurbanizacion.",calle = '".utf8_decode($calle)."',nro = '".utf8_decode($nro)."',codpostal = '".utf8_decode($codpostal)."',documento = '".utf8_decode($documento)."',password = '".utf8_decode($password)."'
 where idusuarioregistrado =".$id;
 $res = $this->query($sql,0);
 return $res;
@@ -760,17 +810,47 @@ return $res;
 
 
 function traerUsuariosRegistrados() {
-$sql = "select idusuarioregistrado,fechadeingreso,reftipousuario,apellidoynombre,nombreentidad,celular1,celular2,celular3,email1,email2,refperfil,refurbanizacion,calle,nro,codpostal from usuariosregistrados order by 1";
+$sql = "select 
+			idusuarioregistrado,
+			fechadeingreso,
+			descripcion,
+			apellidoynombre,
+			nombreentidad,
+			celular1,
+			celular2,
+			celular3,
+			email1,
+			email2,
+			s.situacion,
+			u.urbanizacion,
+			calle,
+			nro,
+			codpostal,
+			documento,
+			password,
+			reftipousuario,
+			refsituacion,
+			refurbanizacion
+		from
+			usuariosregistrados ur
+				inner join
+			tipousuarios tu ON tu.idtipousuario = ur.reftipousuario
+				inner join
+			situaciones s ON s.idsituacion = ur.refsituacion
+				inner join
+			urbanizacion u ON u.idurbanizacion = ur.refurbanizacion
+		order by 1";
 $res = $this->query($sql,0);
 return $res;
 }
 
 
 function traerUsuariosRegistradosPorId($id) {
-$sql = "select idusuarioregistrado,fechadeingreso,reftipousuario,apellidoynombre,nombreentidad,celular1,celular2,celular3,email1,email2,refperfil,refurbanizacion,calle,nro,codpostal from usuariosregistrados where idusuarioregistrado =".$id;
+$sql = "select idusuarioregistrado,fechadeingreso,reftipousuario,apellidoynombre,nombreentidad,celular1,celular2,celular3,email1,email2,refsituacion,refurbanizacion,calle,nro,codpostal,documento,password from usuariosregistrados
+where idusuarioregistrado =".$id;
 $res = $this->query($sql,0);
 return $res;
-}
+} 
 
 /* Fin */
 
@@ -789,9 +869,10 @@ function calc_porcentajedepreciacion($edad) {
 	return $edad * 1.666666667;
 }
 
-function calc_avaluoconstruccion($mtrsConstruccion, $precioNacional) {
+function calc_avaluoconstruccion($mtrsConstruccion, $idprecioNacional) {
 	//tabla costonacional
-	return $mtrsConstruccion * $precioNacional;
+	$resPrecioNacional	=	$this->traerCostoNacionalPorId($idprecioNacional);
+	return $mtrsConstruccion * mysql_result($resPrecioNacional,0,'valormts');
 }
 
 function calc_depreciacion($edad) {
@@ -801,21 +882,23 @@ function calc_depreciacion($edad) {
 	return 0;
 }
 
-function calc_avaluoterreno($mtrsTerreno, $precio) {
+function calc_avaluoterreno($mtrsTerreno, $idprecio) {
 	//tabla costomts
-	return $mtrsTerreno * $precio;
+	$resPrecio	=	$this->traerCostomtsPorId($idprecio);
+	return $mtrsTerreno * mysql_result($resPrecio,0,'valormts');
 }
 
 function calc_preciorealmercado() {
-	
+	//este es calc_depreciacion + calc_avaluoterreno
 }
 
 function calc_restacliente() {
-	
+	// (Precio Real del mercado) – (Precio del Cliente)  = ganancia
 }
 
 function calc_porcentaje() {
-	
+	//ganancia x100/PrecioRealdelMercado
+	//calc_restacliente * 100 / calc_preciorealmercado
 }
 
 
@@ -876,6 +959,129 @@ $sql = "select idinmueble,refurbanizacion,reftipovivienda,refuso,refsituacioninm
 $res = $this->query($sql,0);
 return $res;
 } 
+
+
+function buscarJugadores($tipobusqueda,$busqueda) {
+		switch ($tipobusqueda) {
+			case '1':
+				$sql = "select
+						i.idinmueble, i.dormitorios, i.banios, i.encontruccion, i.mts2,
+						i.anioconstruccion, i.precioventapropietario, i.nombrepropietario, i.apellidopropietario, i.fechacarga,
+						i.calc_edadconstruccion, i.calc_porcentajedepreciacion, i.calc_avaluoconstruccion, i.calc_depreciacion, i.calc_avaluoterreno,
+						i.calc_preciorealmercado, i.calc_restacliente, i.calc_porcentaje,
+						v.valoracion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
+						i.refvaloracion, i.refurbanizacion, i.reftipovivienda, i.refuso, i.refsituacioninmueble, i.refusuario, i.refcomision
+						
+						from inmuebles i 
+						inner join valoracion v on v.idvaloracion = i.refvaloracion
+						inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+						inner join ciudades c on c.idciudad = u.refciudad
+						inner join provincias p on p.idprovincia = c.refprovincia
+						inner join paises pa on pa.idpais = p.refpais
+						inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+						inner join usos us on us.iduso = i.refuso
+						inner join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+						inner join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+						inner join comision co on co.idcomision = i.refcomision
+				where pa.nombre like '%".$busqueda."%'
+				order by pa.nombre,p.provincia,c.ciudad,u.urbanizacion";
+				break;
+			case '2':
+				$sql = "select
+						i.idinmueble, i.dormitorios, i.banios, i.encontruccion, i.mts2,
+						i.anioconstruccion, i.precioventapropietario, i.nombrepropietario, i.apellidopropietario, i.fechacarga,
+						i.calc_edadconstruccion, i.calc_porcentajedepreciacion, i.calc_avaluoconstruccion, i.calc_depreciacion, i.calc_avaluoterreno,
+						i.calc_preciorealmercado, i.calc_restacliente, i.calc_porcentaje,
+						v.valoracion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
+						i.refvaloracion, i.refurbanizacion, i.reftipovivienda, i.refuso, i.refsituacioninmueble, i.refusuario, i.refcomision
+						
+						from inmuebles i 
+						inner join valoracion v on v.idvaloracion = i.refvaloracion
+						inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+						inner join ciudades c on c.idciudad = u.refciudad
+						inner join provincias p on p.idprovincia = c.refprovincia
+						inner join paises pa on pa.idpais = p.refpais
+						inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+						inner join usos us on us.iduso = i.refuso
+						inner join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+						inner join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+						inner join comision co on co.idcomision = i.refcomision
+				where p.provincia like '%".$busqueda."%'
+				order by pa.nombre,p.provincia,c.ciudad,u.urbanizacion";
+				break;
+			case '3':
+				$sql = "select
+						i.idinmueble, i.dormitorios, i.banios, i.encontruccion, i.mts2,
+						i.anioconstruccion, i.precioventapropietario, i.nombrepropietario, i.apellidopropietario, i.fechacarga,
+						i.calc_edadconstruccion, i.calc_porcentajedepreciacion, i.calc_avaluoconstruccion, i.calc_depreciacion, i.calc_avaluoterreno,
+						i.calc_preciorealmercado, i.calc_restacliente, i.calc_porcentaje,
+						v.valoracion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
+						i.refvaloracion, i.refurbanizacion, i.reftipovivienda, i.refuso, i.refsituacioninmueble, i.refusuario, i.refcomision
+						
+						from inmuebles i 
+						inner join valoracion v on v.idvaloracion = i.refvaloracion
+						inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+						inner join ciudades c on c.idciudad = u.refciudad
+						inner join provincias p on p.idprovincia = c.refprovincia
+						inner join paises pa on pa.idpais = p.refpais
+						inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+						inner join usos us on us.iduso = i.refuso
+						inner join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+						inner join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+						inner join comision co on co.idcomision = i.refcomision
+				where i.nombrepropietario like '%".$busqueda."%'
+				order by pa.nombre,p.provincia,c.ciudad,u.urbanizacion, i.nombrepropietario";
+				break;
+			case '4':
+				$sql = "select
+						i.idinmueble, i.dormitorios, i.banios, i.encontruccion, i.mts2,
+						i.anioconstruccion, i.precioventapropietario, i.nombrepropietario, i.apellidopropietario, i.fechacarga,
+						i.calc_edadconstruccion, i.calc_porcentajedepreciacion, i.calc_avaluoconstruccion, i.calc_depreciacion, i.calc_avaluoterreno,
+						i.calc_preciorealmercado, i.calc_restacliente, i.calc_porcentaje,
+						v.valoracion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
+						i.refvaloracion, i.refurbanizacion, i.reftipovivienda, i.refuso, i.refsituacioninmueble, i.refusuario, i.refcomision
+						
+						from inmuebles i 
+						inner join valoracion v on v.idvaloracion = i.refvaloracion
+						inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+						inner join ciudades c on c.idciudad = u.refciudad
+						inner join provincias p on p.idprovincia = c.refprovincia
+						inner join paises pa on pa.idpais = p.refpais
+						inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+						inner join usos us on us.iduso = i.refuso
+						inner join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+						inner join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+						inner join comision co on co.idcomision = i.refcomision
+				where i.apellidopropietario like '%".$busqueda."%'
+				order by pa.nombre,p.provincia,c.ciudad,u.urbanizacion, i.apellidopropietario";
+				break;
+			case '5':
+				$sql = "select
+						i.idinmueble, i.dormitorios, i.banios, i.encontruccion, i.mts2,
+						i.anioconstruccion, i.precioventapropietario, i.nombrepropietario, i.apellidopropietario, i.fechacarga,
+						i.calc_edadconstruccion, i.calc_porcentajedepreciacion, i.calc_avaluoconstruccion, i.calc_depreciacion, i.calc_avaluoterreno,
+						i.calc_preciorealmercado, i.calc_restacliente, i.calc_porcentaje,
+						v.valoracion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
+						i.refvaloracion, i.refurbanizacion, i.reftipovivienda, i.refuso, i.refsituacioninmueble, i.refusuario, i.refcomision
+						
+						from inmuebles i 
+						inner join valoracion v on v.idvaloracion = i.refvaloracion
+						inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+						inner join ciudades c on c.idciudad = u.refciudad
+						inner join provincias p on p.idprovincia = c.refprovincia
+						inner join paises pa on pa.idpais = p.refpais
+						inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+						inner join usos us on us.iduso = i.refuso
+						inner join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+						inner join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+						inner join comision co on co.idcomision = i.refcomision
+				where v.valoracion = ".$busqueda."
+				order by pa.nombre,p.provincia,c.ciudad,u.urbanizacion";
+				break;
+		
+		}
+		return $this->query($sql,0);
+	}
 
 /* Fin */
 

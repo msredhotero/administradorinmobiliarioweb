@@ -41,15 +41,8 @@ $tituloWeb = "Gestión: Caracol Bienes Raíces";
 /////////////////////// Opciones para la creacion del formulario  /////////////////////
 $tabla 			= "inmuebles";
 
-/*
-i.idinmueble, i.dormitorios, i.banios, i.encontruccion, i.mts2,
-i.anioconstruccion, i.precioventapropietario, i.nombrepropietario, i.apellidopropietario, i.fechacarga,
-i.calc_edadconstruccion, i.calc_porcentajedepreciacion, i.calc_avaluoconstruccion, i.calc_depreciacion, i.calc_avaluoterreno,
-i.calc_preciorealmercado, i.calc_restacliente, i.calc_porcentaje,
-v.valoracion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
-i.refvaloracion, i.refurbanizacion, i.reftipovivienda, i.refuso, i.refsituacioninmueble, i.refusuario, i.refcomision
+$resUrbanizacion = $serviciosReferencias->traerUrbanizacion();
 
-*/
 $lblCambio	 	= array("banios",'encontruccion','anioconstruccion','precioventapropietario','nombrepropietario','apellidopropietario','fechacarga','calc_edadconstruccion','calc_porcentajedepreciacion','calc_avaluoconstruccion','calc_depreciacion','calc_avaluoterreno','calc_preciorealmercado','calc_restacliente','calc_porcentaje','refvaloracion','refurbanizacion','reftipovivienda','refuso','refsituacioninmueble','refusuario','refcomision');
 $lblreemplazo	= array("Baños",'En Contrucción','Año Construcción','Precio Venta Propietario','Nombre Propietario','Apellido Propietario','Fecha Carga','Calc. Edad Construcción','Calc. % Depreciación','Calc. Avaluo Construcción','Calc. Depreciación','Calc. Avaluo Terreno','Calc. Precio Real Mercado','Calc. Resta Cliente','Calc. Porcentaje','Valoración','Urbanización','Tipo Vivienda','Uso','Situac. Inmueble','Usuario','Comisión');
 
@@ -63,24 +56,22 @@ $refCampo[] 	= "";
 
 
 /////////////////////// Opciones para la creacion del view  /////////////////////
-$cabeceras 		= "	<th>Pais</th>";
+
 
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
 
 
+$resUrbanizacion	=	$serviciosReferencias->traerUrbanizacion();
+$resTipoVivienda	=	$serviciosReferencias->traerTipoVivienda();
+$resUsos			=	$serviciosReferencias->traerUsos();
+$resComision		=	$serviciosReferencias->traerComision();
 
-$formulario 	= $serviciosFunciones->camposTabla($insertar ,$tabla,$lblCambio,$lblreemplazo,$refdescripcion,$refCampo);
 
-$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerPaises(),1);
-
-
-
-if ($_SESSION['refroll_predio'] != 1) {
-
+if ($_SESSION['idroll_predio'] == 1) {
+	$resUsuario = $serviciosReferencias->traerUsuariosRegistrados();
 } else {
-
-	
+	$resUsuario = $serviciosReferencias->traerUsuariosRegistradosPorId($_SESSION['idusuario']);
 }
 
 
@@ -133,6 +124,8 @@ if ($_SESSION['refroll_predio'] != 1) {
         $('#navigation').perfectScrollbar();
       });
     </script>
+    
+    <link rel="stylesheet" href="../../css/chosen.css">
 </head>
 
 <body>
@@ -151,7 +144,168 @@ if ($_SESSION['refroll_predio'] != 1) {
     	<div class="cuerpoBox">
         	<form class="form-inline formulario" role="form">
         	<div class="row">
-			<?php echo $formulario; ?>
+
+            	<div class="form-group col-md-6">
+                	<label class="control-label" style="text-align:left" for="celular1">Urbanización</label>
+                    <div class="input-group col-md-12">
+                    	<select data-placeholder="selecione el cliente..." id="refurbanizacion" name="refurbanizacion" class="chosen-select" style="width:450px;" tabindex="2">
+                            <option value=""></option>
+                            <?php while ($rowC = mysql_fetch_array($resUrbanizacion)) { ?>
+                                <option value="<?php echo $rowC[0]; ?>"><?php echo $rowC[4].' - '.$rowC[3].' - '.$rowC[2].' - '.$rowC[1]; ?></option>
+                            <?php } ?>
+                            
+                        </select>
+                    </div>
+                </div>
+                
+                
+                <div class="form-group col-md-6">
+                	<label class="control-label" style="text-align:left" for="celular1">Tipo Vivienda</label>
+                    <div class="input-group col-md-12">
+                    	<select id="reftipovivienda" name="reftipovivienda" class="form-control">
+                            <?php while ($rowTV = mysql_fetch_array($resTipoVivienda)) { ?>
+                                <option value="<?php echo $rowTV[0]; ?>"><?php echo $rowTV[1]; ?></option>
+                            <?php } ?>
+                            
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group col-md-6">
+                	<label class="control-label" style="text-align:left" for="celular1">Uso</label>
+                    <div class="input-group col-md-12">
+                    	<select id="refuso" name="refuso" class="form-control">
+                            <?php while ($rowU = mysql_fetch_array($resUsos)) { ?>
+                                <option value="<?php echo $rowU[0]; ?>"><?php echo $rowU[1]; ?></option>
+                            <?php } ?>
+                            
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group col-md-6">
+                    <label class="control-label" style="text-align:left" for="celular1">Dormitorios</label>
+                    <div class="input-group col-md-12">
+                    	<input id="dormitorios" class="form-control" type="number" required="" placeholder="Ingrese los Dormitorios..." name="dormitorios">
+                    </div>
+                </div>
+                
+                
+                <div class="form-group col-md-6">
+                    <label class="control-label" style="text-align:left" for="celular1">Baños</label>
+                    <div class="input-group col-md-12">
+                    	<input id="banios" class="form-control" type="number" required="" placeholder="Ingrese los Baños..." name="banios">
+                    </div>
+                </div>
+                
+                
+                <div class="form-group col-md-6">
+                    <label class="control-label" style="text-align:left" for="celular1">Mtrs En Construcción</label>
+                    <div class="input-group col-md-12">
+                    	<input id="encontruccion" class="form-control" type="number" required="" placeholder="Ingrese los Mtrs en Construcción..." name="encontruccion">
+                    </div>
+                </div>
+                
+                
+                <div class="form-group col-md-6">
+                    <label class="control-label" style="text-align:left" for="celular1">Mtrs Cuadrados</label>
+                    <div class="input-group col-md-12">
+                    	<input id="mts2" class="form-control" type="number" required="" placeholder="Ingrese los Mtrs Cuadrados..." name="mts2">
+                    </div>
+                </div>
+                
+                
+                <div class="form-group col-md-6">
+                    <label class="control-label" style="text-align:left" for="celular1">Año en Construcción</label>
+                    <div class="input-group col-md-12">
+                    	<input id="anioconstruccion" class="form-control" type="number" required="" placeholder="Ingrese los Años en Construcción..." name="anioconstruccion">
+                    </div>
+                </div>
+                
+                
+                <div class="form-group col-md-6">
+                    <label class="control-label" style="text-align:left" for="Valor Mtrs">Precio Venta Propietario</label>
+                    <div class="input-group col-md-12">
+                    	<span class="input-group-addon">$</span>
+                    		<input id="precioventapropietario" class="form-control" type="text" required="" value="0" name="precioventapropietario">
+                    	<span class="input-group-addon">.00</span>
+                    </div>
+                </div>
+                
+                
+                <div class="form-group col-md-6">
+                    <label class="control-label" style="text-align:left" for="celular1">Nombre Propietario</label>
+                    <div class="input-group col-md-12">
+                    	<input id="nombrepropietario" class="form-control" type="text" required="" placeholder="Ingrese Nombre del Propietario..." name="nombrepropietario">
+                    </div>
+                </div>
+                
+                
+                <div class="form-group col-md-6">
+                    <label class="control-label" style="text-align:left" for="celular1">Apellido Propietario</label>
+                    <div class="input-group col-md-12">
+                    	<input id="apellidopropietario" class="form-control" type="text" required="" placeholder="Ingrese Apellido del Propietario..." name="apellidopropietario">
+                    </div>
+                </div>
+                
+                
+                <div class="form-group col-md-6">
+                    <label for="fechacarga" class="control-label" style="text-align:left">Fecha de Carga</label>
+                    <div class="input-group col-md-6">
+                        <input class="form-control" type="text" name="fechacarga" id="fechacarga" value="Date"/>
+                    </div>
+                    
+                </div>
+
+				
+                <div class="form-group col-md-6">
+                	<label class="control-label" style="text-align:left" for="celular1">Usuario</label>
+                    <div class="input-group col-md-12">
+                    	<select id="refusuario" name="refusuario" class="form-control">
+                            <?php while ($rowUsua = mysql_fetch_array($resUsuario)) { ?>
+                                <option value="<?php echo $rowUsua[0]; ?>"><?php echo $rowUsua['apellidoynombre']; ?></option>
+                            <?php } ?>
+                            
+                        </select>
+                    </div>
+                </div>
+                
+                
+                <div class="form-group col-md-6">
+                	<label class="control-label" style="text-align:left" for="celular1">Comisión</label>
+                    <div class="input-group col-md-12">
+                    	<select id="refcomision" name="refcomision" class="form-control">
+                            <?php while ($rowCom = mysql_fetch_array($resComision)) { ?>
+                                <option value="<?php echo $rowCom[0]; ?>"><?php echo $rowCom[1]; ?></option>
+                            <?php } ?>
+                            
+                        </select>
+                    </div>
+                </div>
+                
+                
+                <div class="form-group col-md-6">
+                	<label class="control-label" style="text-align:left" for="celular1">Costo Mtrs</label>
+                    <div class="input-group col-md-12">
+                    	<select id="refcostomts" name="refcostomts" class="form-control">
+                            
+                            
+                        </select>
+                    </div>
+                </div>
+                
+                
+                <div class="form-group col-md-6">
+                	<label class="control-label" style="text-align:left" for="celular1">Costo Nacional</label>
+                    <div class="input-group col-md-12">
+                    	<select id="refcostonacional" name="refcostonacional" class="form-control">
+                            
+                            
+                        </select>
+                    </div>
+                </div>
+
+                
             </div>
             
             <div class='row' style="margin-left:25px; margin-right:25px;">
@@ -182,7 +336,59 @@ if ($_SESSION['refroll_predio'] != 1) {
         	
         </div>
     	<div class="cuerpoBox">
-        	<?php echo $lstCargados; ?>
+        	<form class="form-inline formulario" role="form">
+            	
+                <div class="row">
+                    
+                    
+                    <div class="form-group col-md-6">
+                     <label class="control-label" style="text-align:left" for="torneo">Tipo de Busqueda</label>
+                        <div class="input-group col-md-12">
+                            <select id="tipobusqueda" class="form-control" name="tipobusqueda">
+                                <option value="0">--Seleccione--</option>
+                                <option value="1">País</option>
+                                <option value="2">Provincia</option>
+                                <option value="3">Nombre Propietario</option>
+                                <option value="4">Apellido Propietario</option>
+                                <option value="5">Valoración</option>
+                                
+                            </select>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="form-group col-md-6">
+                     <label class="control-label" style="text-align:left" for="torneo">Busqueda</label>
+                        <div class="input-group col-md-12">
+                            <input type="text" name="busqueda" id="busqueda" class="form-control">
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-group col-md-12">
+                    	 <ul class="list-inline" style="margin-top:15px;">
+                            <li>
+                             <button id="buscar" class="btn btn-primary" style="margin-left:0px;" type="button">Buscar</button>
+                            </li>
+                        </ul>
+
+                    </div>
+                    
+                    <div class="form-group col-md-12">
+                    	<div class="cuerpoBox" id="resultados">
+        
+       		 			</div>
+					</div>
+                
+                </div>
+                
+                <div class="row">
+                    <div class="alert"> </div>
+                    <div id="load"> </div>
+                </div>
+
+            
+            </form>
     	</div>
     </div>
     
@@ -235,7 +441,64 @@ $(document).ready(function(){
 		  }
 	} );
 	
-
+	$('#buscar').click(function(e) {
+        $.ajax({
+				data:  {busqueda: $('#busqueda').val(),
+						tipobusqueda: $('#tipobusqueda').val(),
+						accion: 'buscarInmuebles'},
+				url:   '../../ajax/ajax.php',
+				type:  'post',
+				beforeSend: function () {
+						
+				},
+				success:  function (response) {
+						$('#resultados').html(response);
+						
+				}
+		});
+		
+	});
+	
+	function traerCostoNacional() {
+        $.ajax({
+				data:  {refurbanizacion: $('#refurbanizacion').val(),
+						accion: 'traerCostoNacionalPorPais'},
+				url:   '../../ajax/ajax.php',
+				type:  'post',
+				beforeSend: function () {
+						
+				},
+				success:  function (response) {
+						$('#refcostonacional').html(response);
+						
+				}
+		});
+	}
+	
+	function traerCostoMts() {
+        $.ajax({
+				data:  {refurbanizacion: $('#refurbanizacion').val(),
+						accion: 'traerCostomtsPorCiudad'},
+				url:   '../../ajax/ajax.php',
+				type:  'post',
+				beforeSend: function () {
+						
+				},
+				success:  function (response) {
+						$('#refcostomts').html(response);
+						
+				}
+		});
+	}
+	
+	
+	
+	$('#refurbanizacion').change(function(e) {
+		traerCostoNacional();
+		traerCostoMts();
+	});
+	
+	
 	$("#example").on("click",'.varborrar', function(){
 		  usersid =  $(this).attr("id");
 		  if (!isNaN(usersid)) {
@@ -367,6 +630,19 @@ $(document).ready(function(){
 
 });
 </script>
+<script src="../../js/chosen.jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+  </script>
 <?php } ?>
 </body>
 </html>

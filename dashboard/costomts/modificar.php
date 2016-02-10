@@ -100,13 +100,13 @@ if ($_SESSION['idroll_predio'] == 1) {
 	
 }
 
-$refdescripcion = array(0 => $cadRef);
-$refCampo 	=  array("refprovincia");
+$refdescripcion = array(0 => $cadRef,1 => $cadRefU,2 => $cadRefUsu);
+$refCampo 	=  array("refciudad","refuso", "refusuario");
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
 
 
-
+$fecha = mysql_result($resResultado,0,'fechamodi');
 
 
 $formulario 	= $serviciosFunciones->camposTablaModificar($id, $idTabla, $modificar,$tabla,$lblCambio,$lblreemplazo,$refdescripcion,$refCampo);
@@ -368,6 +368,33 @@ $(document).ready(function(){
 
 });
 </script>
+<script>
+  $(function() {
+	  $.datepicker.regional['es'] = {
+ closeText: 'Cerrar',
+ prevText: '<Ant',
+ nextText: 'Sig>',
+ currentText: 'Hoy',
+ monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+ monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+ dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+ dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+ dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+ weekHeader: 'Sm',
+ dateFormat: 'dd/mm/yy',
+ firstDay: 1,
+ isRTL: false,
+ showMonthAfterYear: false,
+ yearSuffix: ''
+ };
+ $.datepicker.setDefaults($.datepicker.regional['es']);
+ 
+    $( "#fechamodi" ).datepicker();
+
+    $( "#fechamodi" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+	$('#fechamodi').datepicker('setDate', <?php echo "'".$fecha."'"; ?>);
+  });
+  </script>
 <?php } ?>
 </body>
 </html>

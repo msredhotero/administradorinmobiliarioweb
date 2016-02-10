@@ -22,39 +22,67 @@ $serviciosReferencias 	= new ServiciosReferencias();
 $fecha = date('Y-m-d');
 
 //$resProductos = $serviciosProductos->traerProductosLimite(6);
-$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Paises",$_SESSION['refroll_predio'],'');
+$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Costo Nacional",$_SESSION['refroll_predio'],'');
 
 
 /////////////////////// Opciones pagina ///////////////////////////////////////////////
-$singular = "Pais";
+$singular = "Costo Nacional";
 
-$plural = "Paises";
+$plural = "Costo Nacionales";
 
-$eliminar = "eliminarPaises";
+$eliminar = "eliminarCostoNacional";
 
-$insertar = "insertarPaises";
+$insertar = "insertarCostoNacional";
 
 $tituloWeb = "Gestión: Caracol Bienes Raíces";
 //////////////////////// Fin opciones ////////////////////////////////////////////////
 
 
 /////////////////////// Opciones para la creacion del formulario  /////////////////////
-$tabla 			= "paises";
+$tabla 			= "costonacional";
 
-$lblCambio	 	= array("nombre");
-$lblreemplazo	= array("Pais");
+$lblCambio	 	= array("refpais","fechamodi","refusuario","valormts");
+$lblreemplazo	= array("País","Fecha Modificación","Usuario","Valor Mtrs");
 
+$resPais 	= $serviciosReferencias->traerPaises();
 $cadRef = '';
+while ($rowTT = mysql_fetch_array($resPais)) {
+	$cadRef = $cadRef.'<option value="'.$rowTT[0].'">'.utf8_encode($rowTT[1]).'</option>';
+}
 
-$refdescripcion = array(0 => "");
-$refCampo[] 	= ""; 
+
+
+if ($_SESSION['idroll_predio'] == 1) {
+	
+	$resUsuarios 	= $serviciosReferencias->traerUsuariosRegistrados();
+	$cadRefUsu = '';
+	while ($rowUsu = mysql_fetch_array($resUsuarios)) {
+		$cadRefUsu = $cadRefUsu.'<option value="'.$rowUsu[0].'">'.utf8_encode($rowUsu[3]).'</option>';
+	}
+	
+} else {
+	
+	$resUsuarios 	= $serviciosReferencias->traerUsuariosRegistradosPorId($_SESSION['idusuario']);
+	$cadRefUsu = '';
+	while ($rowUsu = mysql_fetch_array($resUsuarios)) {
+		$cadRefUsu = $cadRefUsu.'<option value="'.$rowUsu[0].'">'.utf8_encode($rowUsu[3]).'</option>';
+
+	}
+	
+}
+
+$refdescripcion = array(0 => $cadRef,1 => $cadRefUsu);
+$refCampo 	=  array("refpais", "refusuario");
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
 
 
 
 /////////////////////// Opciones para la creacion del view  /////////////////////
-$cabeceras 		= "	<th>Pais</th>";
+$cabeceras 		= "	<th>País</th>
+					<th>Valor Mtrs</th>
+					<th>Fecha</th>
+					<th>Usuario</th>";
 
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
@@ -63,7 +91,7 @@ $cabeceras 		= "	<th>Pais</th>";
 
 $formulario 	= $serviciosFunciones->camposTabla($insertar ,$tabla,$lblCambio,$lblreemplazo,$refdescripcion,$refCampo);
 
-$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerPaises(),1);
+$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerCostoNacional(),4);
 
 
 
@@ -106,7 +134,8 @@ if ($_SESSION['refroll_predio'] != 1) {
 	<link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <!-- Latest compiled and minified JavaScript -->
     <script src="../../bootstrap/js/bootstrap.min.js"></script>
-
+	<script src="../../js/jquery.number.min.js"></script>
+    
 	<style type="text/css">
 		
   
@@ -226,6 +255,7 @@ $(document).ready(function(){
 		  }
 	} );
 	
+	$("#valormts").number( true, 2 , '.', '');
 
 	$("#example").on("click",'.varborrar', function(){
 		  usersid =  $(this).attr("id");
@@ -358,6 +388,33 @@ $(document).ready(function(){
 
 });
 </script>
+
+<script>
+  $(function() {
+	  $.datepicker.regional['es'] = {
+ closeText: 'Cerrar',
+ prevText: '<Ant',
+ nextText: 'Sig>',
+ currentText: 'Hoy',
+ monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+ monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+ dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+ dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+ dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+ weekHeader: 'Sm',
+ dateFormat: 'dd/mm/yy',
+ firstDay: 1,
+ isRTL: false,
+ showMonthAfterYear: false,
+ yearSuffix: ''
+ };
+ $.datepicker.setDefaults($.datepicker.regional['es']);
+ 
+    $( "#fechamodi" ).datepicker();
+
+    $( "#fechamodi" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+  });
+  </script>
 <?php } ?>
 </body>
 </html>

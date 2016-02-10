@@ -204,6 +204,9 @@ case 'eliminarCostoNacional':
 eliminarCostoNacional($serviciosReferencias);
 break;
 
+case 'traerCostoNacionalPorPais':
+	traerCostoNacionalPorPais($serviciosReferencias);
+	break;
 /* Fin */
 
 
@@ -218,6 +221,9 @@ case 'eliminarCostomts':
 eliminarCostomts($serviciosReferencias);
 break;
 
+case 'traerCostomtsPorCiudad':
+	traerCostomtsPorCiudad($serviciosReferencias);
+	break;
 /* Fin */
 
 
@@ -271,6 +277,9 @@ modificarInmuebles($serviciosReferencias);
 break;
 case 'eliminarInmuebles':
 eliminarInmuebles($serviciosReferencias);
+break;
+case 'buscarInmuebles':
+buscarInmuebles($serviciosReferencias);
 break;
 
 /* Fin */
@@ -670,6 +679,19 @@ $res = $serviciosReferencias->eliminarCostoNacional($id);
 echo $res;
 }
 
+function traerCostoNacionalPorPais($serviciosReferencias) {
+	$pais	=	$_POST['refurbanizacion'];
+	
+	$res	= $serviciosReferencias->traerCostoNacionalPorPais($pais);
+	
+	$cad = '';
+	while ($rowCN = mysql_fetch_array($res)) {
+		$cad .= $cad.'<option value='.$rowCN[0].'>'.$rowCN['apellidoynombre'].' - $'.$rowCN['valormts'].'</option>';	
+	}
+	
+	echo $cad;
+}
+
 /* Fin */ 
 
 
@@ -709,6 +731,19 @@ function eliminarCostomts($serviciosReferencias) {
 	echo $res;
 }
 
+
+function traerCostomtsPorCiudad($serviciosReferencias) {
+	$ciudad	=	$_POST['refurbanizacion'];
+	
+	$res	= $serviciosReferencias->traerCostomtsPorCiudad($ciudad);
+	
+	$cad = '';
+	while ($rowCN = mysql_fetch_array($res)) {
+		$cad .= $cad.'<option value='.$rowCN[0].'>'.$rowCN['apellidoynombre'].' - $'.$rowCN['valormts'].'</option>';	
+	}
+	
+	echo $cad;
+}
 /* Fin */ 
 
 
@@ -793,12 +828,14 @@ $celular2 = $_POST['celular2'];
 $celular3 = $_POST['celular3'];
 $email1 = $_POST['email1'];
 $email2 = $_POST['email2'];
-$refperfil = $_POST['refperfil'];
+$refsituacion = $_POST['refsituacion'];
 $refurbanizacion = $_POST['refurbanizacion'];
 $calle = $_POST['calle'];
 $nro = $_POST['nro'];
 $codpostal = $_POST['codpostal'];
-$res = $serviciosReferencias->insertarUsuariosRegistrados($fechadeingreso,$reftipousuario,$apellidoynombre,$nombreentidad,$celular1,$celular2,$celular3,$email1,$email2,$refperfil,$refurbanizacion,$calle,$nro,$codpostal);
+$documento = $_POST['documento'];
+$password = $_POST['password'];
+$res = $serviciosReferencias->insertarUsuariosRegistrados($fechadeingreso,$reftipousuario,$apellidoynombre,$nombreentidad,$celular1,$celular2,$celular3,$email1,$email2,$refsituacion,$refurbanizacion,$calle,$nro,$codpostal,$documento,$password);
 if ((integer)$res > 0) {
 echo '';
 } else {
@@ -816,12 +853,14 @@ $celular2 = $_POST['celular2'];
 $celular3 = $_POST['celular3'];
 $email1 = $_POST['email1'];
 $email2 = $_POST['email2'];
-$refperfil = $_POST['refperfil'];
+$refsituacion = $_POST['refsituacion'];
 $refurbanizacion = $_POST['refurbanizacion'];
 $calle = $_POST['calle'];
 $nro = $_POST['nro'];
 $codpostal = $_POST['codpostal'];
-$res = $serviciosReferencias->modificarUsuariosRegistrados($id,$fechadeingreso,$reftipousuario,$apellidoynombre,$nombreentidad,$celular1,$celular2,$celular3,$email1,$email2,$refperfil,$refurbanizacion,$calle,$nro,$codpostal);
+$documento = $_POST['documento'];
+$password = $_POST['password'];
+$res = $serviciosReferencias->modificarUsuariosRegistrados($id,$fechadeingreso,$reftipousuario,$apellidoynombre,$nombreentidad,$celular1,$celular2,$celular3,$email1,$email2,$refsituacion,$refurbanizacion,$calle,$nro,$codpostal,$documento,$password);
 if ($res == true) {
 echo '';
 } else {
@@ -833,6 +872,7 @@ $id = $_POST['id'];
 $res = $serviciosReferencias->eliminarUsuariosRegistrados($id);
 echo $res;
 }
+
 
 /* Fin */ 
 
@@ -916,6 +956,117 @@ function eliminarInmuebles($serviciosReferencias) {
 $id = $_POST['id'];
 $res = $serviciosReferencias->eliminarInmuebles($id);
 echo $res;
+}
+
+function buscarInmuebles($tipobusqueda, $busqueda) {
+	$tipobusqueda	= $_POST['tipobusqueda'];
+	$busqueda		= $_POST['busqueda'];
+	
+	$res = $serviciosJugadores->buscarJugadores($tipobusqueda,$busqueda);
+	
+	$cad3 = '';
+	//////////////////////////////////////////////////////busquedajugadores/////////////////////
+	$cad3 = $cad3.'
+				<div class="col-md-12">
+				<div class="panel panel-info">
+                                <div class="panel-heading">
+                                	<h3 class="panel-title">Resultado de la Busqueda</h3>
+                                </div>
+                                <div class="panel-body-info" style="padding:5px 20px;">
+                                	';
+	$cad3 = $cad3.'
+	<div class="row">
+                	<table id="example" class="table table-responsive table-striped" style="font-size:0.8em; padding:2px;">
+						<thead>
+                        <tr>
+                        	<th>Dormitorios</th>
+							<th>Banios</th>
+							<th>Mts en contruc.</th>
+							<th>Mts2</th>
+							<th>Año Construc.</th>
+							<th>Precio Venta Propietario</th>
+							<th>Nombre Propietario</th>
+							<th>Apellido Propietario</th>
+							<th>Fec. Carga</th>
+							<th>Calc.Edad Construc.</th>
+							<th>Calc. % Deprec.</th>
+							<th>Calc.Avaluo Construc.</th>
+							<th>Calc.Depreciacion</th>
+							<th>Calc.Avaluo Terreno</th>
+							<th>Calc.Precio Real Mercado</th>
+							<th>Calc.Resta Cliente</th>
+							<th>Calc. %</th>
+							<th>Valoracion</th>
+							<th>Urbanizacion</th>
+							<th>Ciudad</th>
+							<th>Provincia</th>
+							<th>País</th>
+							<th>Tipo Vivienda</th>
+							<th>Usos</th>
+							<th>Situacion Inmueble</th>
+							<th>Usuario</th>
+							<th>Comisión</th>
+							<th>Acciones</th>
+                        </tr>
+						</thead>
+						<tbody>';
+	while ($rowJ = mysql_fetch_array($res)) {
+		$cad3 .= '<tr>
+					<td>'.utf8_encode($rowJ[1]).'</td>
+					<td>'.utf8_encode($rowJ[2]).'</td>
+					<td>'.utf8_encode($rowJ[3]).'</td>
+					<td>'.utf8_encode($rowJ[4]).'</td>
+					<td>'.utf8_encode($rowJ[5]).'</td>
+					<td>'.utf8_encode($rowJ[6]).'</td>
+					<td>'.utf8_encode($rowJ[7]).'</td>
+					<td>'.utf8_encode($rowJ[8]).'</td>
+					<td>'.utf8_encode($rowJ[9]).'</td>
+					<td>'.utf8_encode($rowJ[10]).'</td>
+					<td>'.utf8_encode($rowJ[11]).'</td>
+					<td>'.utf8_encode($rowJ[12]).'</td>
+					<td>'.utf8_encode($rowJ[13]).'</td>
+					<td>'.utf8_encode($rowJ[14]).'</td>
+					<td>'.utf8_encode($rowJ[15]).'</td>
+					<td>'.utf8_encode($rowJ[16]).'</td>
+					<td>'.utf8_encode($rowJ[17]).'</td>
+					<td>'.utf8_encode($rowJ[18]).'</td>
+					<td>'.utf8_encode($rowJ[19]).'</td>
+					<td>'.utf8_encode($rowJ[20]).'</td>
+					<td>'.utf8_encode($rowJ[21]).'</td>
+					<td>'.utf8_encode($rowJ[22]).'</td>
+					<td>'.utf8_encode($rowJ[23]).'</td>
+					<td>'.utf8_encode($rowJ[24]).'</td>
+					<td>'.utf8_encode($rowJ[25]).'</td>
+					<td>'.utf8_encode($rowJ[26]).'</td>
+					<td>'.utf8_encode($rowJ[27]).'</td>
+					<td>
+								
+							<div class="btn-group">
+								<button class="btn btn-success" type="button">Acciones</button>
+								
+								<button class="btn btn-success dropdown-toggle" data-toggle="dropdown" type="button">
+								<span class="caret"></span>
+								<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								
+								<ul class="dropdown-menu" role="menu">
+									<li>
+									<a href="modificar.php?id='.$rowJ[0].'" class="varmodificar" id="'.$rowJ[0].'">Modificar</a>
+									</li>
+
+									
+								</ul>
+							</div>
+						</td>';
+	}
+	
+	$cad3 = $cad3.'</tbody>
+                                </table></div>
+                            </div>
+						</div>';
+						
+	echo $cad3;	
+	
 }
 
 /* Fin */ 

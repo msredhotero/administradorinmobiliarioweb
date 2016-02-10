@@ -22,39 +22,77 @@ $serviciosReferencias 	= new ServiciosReferencias();
 $fecha = date('Y-m-d');
 
 //$resProductos = $serviciosProductos->traerProductosLimite(6);
-$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Paises",$_SESSION['refroll_predio'],'');
+$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Usuarios Registrados",$_SESSION['refroll_predio'],'');
 
 
 /////////////////////// Opciones pagina ///////////////////////////////////////////////
-$singular = "Pais";
+$singular = "Usuarios Registrados";
 
-$plural = "Paises";
+$plural = "Usuarios Registrados";
 
-$eliminar = "eliminarPaises";
+$eliminar = "eliminarUsuariosRegistrados";
 
-$insertar = "insertarPaises";
+$insertar = "insertarUsuariosRegistrados";
 
 $tituloWeb = "Gestión: Caracol Bienes Raíces";
 //////////////////////// Fin opciones ////////////////////////////////////////////////
 
 
 /////////////////////// Opciones para la creacion del formulario  /////////////////////
-$tabla 			= "paises";
+$tabla 			= "usuariosregistrados";
 
-$lblCambio	 	= array("nombre");
-$lblreemplazo	= array("Pais");
+$lblCambio	 	= array("fechadeingreso","reftipousuario","apellidoynombre","nombreentidad","refsituacion","refurbanizacion","codpostal");
+$lblreemplazo	= array("Fecha Ingreso","Tipo Usuario","Apellido Y Nombre","Nombre Entidad","Situación","Urbanización","Cod. Postal");
 
+
+$resUrbanizacion 	= $serviciosReferencias->traerUrbanizacion();
 $cadRef = '';
+while ($rowTT = mysql_fetch_array($resUrbanizacion)) {
+	$cadRef = $cadRef.'<option value="'.$rowTT[0].'" selected>'.utf8_encode($rowTT[1]).'</option>';
+}
 
-$refdescripcion = array(0 => "");
-$refCampo[] 	= ""; 
+
+
+$resTipoUsuario 	= $serviciosReferencias->traerTipoUsuarios();
+$cadRefU = '';
+while ($rowU = mysql_fetch_array($resTipoUsuario)) {
+	$cadRefU = $cadRefU.'<option value="'.$rowU[0].'" selected>'.utf8_encode($rowU[1]).'</option>';
+}
+
+
+
+$resSituaciones 	= $serviciosReferencias->traerSituaciones();
+$cadRefS = '';
+while ($rowS = mysql_fetch_array($resSituaciones)) {
+	$cadRefS = $cadRefS.'<option value="'.$rowS[0].'" selected>'.utf8_encode($rowS[1]).'</option>';
+}
+
+
+
+$refdescripcion = array(0 => $cadRef,1 => $cadRefU,2 => $cadRefS);
+$refCampo 	=  array("refurbanizacion","reftipousuario", "refsituacion");
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
 
 
 
 /////////////////////// Opciones para la creacion del view  /////////////////////
-$cabeceras 		= "	<th>Pais</th>";
+$cabeceras 		= "	<th>Fec. Ingr.</th>
+					<th>Tipo Usua.</th>
+					<th>Ape. Y Nom.</th>
+					<th>Nombre Entidad</th>
+					<th>Celular 1</th>
+					<th>Celular 2</th>
+					<th>Celular 3</th>
+					<th>Email 1</th>
+					<th>Email 2</th>
+					<th>Situación</th>
+					<th>Urbaniz.</th>
+					<th>Calle</th>
+					<th>Nro</th>
+					<th>Cod. Postal</th>
+					<th>Documento</th>
+					<th>Password</th>";
 
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
@@ -63,15 +101,13 @@ $cabeceras 		= "	<th>Pais</th>";
 
 $formulario 	= $serviciosFunciones->camposTabla($insertar ,$tabla,$lblCambio,$lblreemplazo,$refdescripcion,$refCampo);
 
-$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerPaises(),1);
+$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerUsuariosRegistrados(),16);
 
 
 
-if ($_SESSION['refroll_predio'] != 1) {
-
-} else {
-
-	
+if ($_SESSION['idroll_predio'] != 1) {
+	echo "<script>alert('No posee Permisos para ingresar a esta pagina')</script>";
+	echo "<script language='javascript'>window.location='../index.php'</script>;";
 }
 
 
@@ -142,6 +178,12 @@ if ($_SESSION['refroll_predio'] != 1) {
     	<div class="cuerpoBox">
         	<form class="form-inline formulario" role="form">
         	<div class="row">
+            <div class="alert alert-info" style="margin-left:15px; margin-right:15px;">
+            	<p><span class="glyphicon glyphicon-info-sign"></span> Los campos Documento, Email1, Password y Apellido y Nombre son obligatorios</p>
+            </div>
+            <div class="alert alert-warning" style="margin-left:15px; margin-right:15px;">
+            	<p><span class="glyphicon glyphicon-info-sign"></span> Con el campo Email1 y Password ingresara al Sistema</p>
+            </div>
 			<?php echo $formulario; ?>
             </div>
             
@@ -358,6 +400,33 @@ $(document).ready(function(){
 
 });
 </script>
+
+<script>
+  $(function() {
+	  $.datepicker.regional['es'] = {
+ closeText: 'Cerrar',
+ prevText: '<Ant',
+ nextText: 'Sig>',
+ currentText: 'Hoy',
+ monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+ monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+ dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+ dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+ dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+ weekHeader: 'Sm',
+ dateFormat: 'dd/mm/yy',
+ firstDay: 1,
+ isRTL: false,
+ showMonthAfterYear: false,
+ yearSuffix: ''
+ };
+ $.datepicker.setDefaults($.datepicker.regional['es']);
+ 
+    $( "#fechadeingreso" ).datepicker();
+
+    $( "#fechadeingreso" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+  });
+  </script>
 <?php } ?>
 </body>
 </html>

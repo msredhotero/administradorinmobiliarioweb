@@ -22,39 +22,75 @@ $serviciosReferencias 	= new ServiciosReferencias();
 $fecha = date('Y-m-d');
 
 //$resProductos = $serviciosProductos->traerProductosLimite(6);
-$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Paises",$_SESSION['refroll_predio'],'');
+$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Costo Mtrs",$_SESSION['refroll_predio'],'');
 
 
 /////////////////////// Opciones pagina ///////////////////////////////////////////////
-$singular = "Pais";
+$singular = "Costo Mtrs";
 
-$plural = "Paises";
+$plural = "Costo Mtrs";
 
-$eliminar = "eliminarPaises";
+$eliminar = "eliminarCostomts";
 
-$insertar = "insertarPaises";
+$insertar = "insertarCostomts";
 
 $tituloWeb = "Gestión: Caracol Bienes Raíces";
 //////////////////////// Fin opciones ////////////////////////////////////////////////
 
 
 /////////////////////// Opciones para la creacion del formulario  /////////////////////
-$tabla 			= "paises";
+$tabla 			= "costomts";
 
-$lblCambio	 	= array("nombre");
-$lblreemplazo	= array("Pais");
+$lblCambio	 	= array("refciudad","refuso","fechamodi","refusuario","valormts");
+$lblreemplazo	= array("Ciudad","Uso","Fecha Modificación","Usuario","Valor Mtrs");
 
+$resCiudad 	= $serviciosReferencias->traerCiudades();
 $cadRef = '';
+while ($rowTT = mysql_fetch_array($resCiudad)) {
+	$cadRef = $cadRef.'<option value="'.$rowTT[0].'">'.utf8_encode($rowTT[1]).'</option>';
+}
 
-$refdescripcion = array(0 => "");
-$refCampo[] 	= ""; 
+
+
+$resUsos 	= $serviciosReferencias->traerUsos();
+$cadRefU = '';
+while ($rowU = mysql_fetch_array($resUsos)) {
+	$cadRefU = $cadRefU.'<option value="'.$rowU[0].'">'.utf8_encode($rowU[1]).'</option>';
+}
+
+
+if ($_SESSION['idroll_predio'] == 1) {
+	
+	$resUsuarios 	= $serviciosReferencias->traerUsuariosRegistrados();
+	$cadRefUsu = '';
+	while ($rowUsu = mysql_fetch_array($resUsuarios)) {
+		$cadRefUsu = $cadRefUsu.'<option value="'.$rowUsu[0].'">'.utf8_encode($rowUsu[3]).'</option>';
+	}
+	
+} else {
+	
+	$resUsuarios 	= $serviciosReferencias->traerUsuariosRegistradosPorId($_SESSION['idusuario']);
+	$cadRefUsu = '';
+	while ($rowUsu = mysql_fetch_array($resUsuarios)) {
+		$cadRefUsu = $cadRefUsu.'<option value="'.$rowUsu[0].'">'.utf8_encode($rowUsu[3]).'</option>';
+
+	}
+	
+}
+
+$refdescripcion = array(0 => $cadRef,1 => $cadRefU,2 => $cadRefUsu);
+$refCampo 	=  array("refciudad","refuso", "refusuario");
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
 
 
 
 /////////////////////// Opciones para la creacion del view  /////////////////////
-$cabeceras 		= "	<th>Pais</th>";
+$cabeceras 		= "	<th>Ciudad</th>
+					<th>Uso</th>
+					<th>Valor Mtrs</th>
+					<th>Fecha</th>
+					<th>Usuario</th>";
 
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
@@ -63,7 +99,7 @@ $cabeceras 		= "	<th>Pais</th>";
 
 $formulario 	= $serviciosFunciones->camposTabla($insertar ,$tabla,$lblCambio,$lblreemplazo,$refdescripcion,$refCampo);
 
-$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerPaises(),1);
+$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerCostomts(),5);
 
 
 
@@ -358,6 +394,33 @@ $(document).ready(function(){
 
 });
 </script>
+
+<script>
+  $(function() {
+	  $.datepicker.regional['es'] = {
+ closeText: 'Cerrar',
+ prevText: '<Ant',
+ nextText: 'Sig>',
+ currentText: 'Hoy',
+ monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+ monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+ dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+ dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+ dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+ weekHeader: 'Sm',
+ dateFormat: 'dd/mm/yy',
+ firstDay: 1,
+ isRTL: false,
+ showMonthAfterYear: false,
+ yearSuffix: ''
+ };
+ $.datepicker.setDefaults($.datepicker.regional['es']);
+ 
+    $( "#fechamodi" ).datepicker();
+
+    $( "#fechamodi" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+  });
+  </script>
 <?php } ?>
 </body>
 </html>

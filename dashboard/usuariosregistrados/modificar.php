@@ -22,54 +22,84 @@ $serviciosReferencias 	= new ServiciosReferencias();
 $fecha = date('Y-m-d');
 
 //$resProductos = $serviciosProductos->traerProductosLimite(6);
-$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Paises",$_SESSION['refroll_predio'],utf8_encode($_SESSION['usua_empresa']));
+$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Usuarios Registrados",$_SESSION['refroll_predio'],'');
 
 
 $id = $_GET['id'];
 
-$resResultado = $serviciosReferencias->traerPaisesPorId($id);
-
+$resResultado = $serviciosReferencias->traerUsuariosRegistradosPorId($id);
 
 /////////////////////// Opciones pagina ///////////////////////////////////////////////
-$singular = "Pais";
+$singular = "Usuarios Registrados";
 
-$plural = "Paises";
+$plural = "Usuarios Registrados";
 
-$eliminar = "eliminarPaises";
+$eliminar = "eliminarUsuariosRegistrados";
 
-$modificar = "modificarPaises";
+$modificar = "modificarUsuariosRegistrados";
 
-$idTabla = "idpais";
+$idTabla = "idusuarioregistrado";
 
 $tituloWeb = "Gestión: Caracol Bienes Raíces";
 //////////////////////// Fin opciones ////////////////////////////////////////////////
 
 
 /////////////////////// Opciones para la creacion del formulario  /////////////////////
-$tabla 			= "paises";
+$tabla 			= "usuariosregistrados";
 
-$lblCambio	 	= array("nombre");
-$lblreemplazo	= array("Pais");
+$lblCambio	 	= array("fechadeingreso","reftipousuario","apellidoynombre","nombreentidad","refsituacion","refurbanizacion","codpostal");
+$lblreemplazo	= array("Fecha Ingreso","Tipo Usuario","Apellido Y Nombre","Nombre Entidad","Situación","Urbanización","Cod. Postal");
 
+
+$resUrbanizacion 	= $serviciosReferencias->traerUrbanizacion();
 $cadRef = '';
+while ($rowTT = mysql_fetch_array($resUrbanizacion)) {
+	if ($rowTT[0] == mysql_result($resResultado,0,'refurbanizacion')) {
+		$cadRef = $cadRef.'<option value="'.$rowTT[0].'" selected>'.utf8_encode($rowTT[1]).'</option>';
+	} else {
+		$cadRef = $cadRef.'<option value="'.$rowTT[0].'">'.utf8_encode($rowTT[1]).'</option>';	
+	}
+}
 
-$refdescripcion = array(0 => "");
-$refCampo[] 	= ""; 
+
+
+$resTipoUsuario 	= $serviciosReferencias->traerTipoUsuarios();
+$cadRefU = '';
+while ($rowU = mysql_fetch_array($resTipoUsuario)) {
+	if ($rowU[0] == mysql_result($resResultado,0,'reftipousuario')) {
+		$cadRefU = $cadRefU.'<option value="'.$rowU[0].'" selected>'.utf8_encode($rowU[1]).'</option>';
+	} else {
+		$cadRefU = $cadRefU.'<option value="'.$rowU[0].'">'.utf8_encode($rowU[1]).'</option>';	
+	}
+}
+
+
+
+$resSituaciones 	= $serviciosReferencias->traerSituaciones();
+$cadRefS = '';
+while ($rowS = mysql_fetch_array($resSituaciones)) {
+	if ($rowS[0] == mysql_result($resResultado,0,'refsituacion')) {
+		$cadRefS = $cadRefS.'<option value="'.$rowS[0].'" selected>'.utf8_encode($rowS[1]).'</option>';
+	} else {
+		$cadRefS = $cadRefS.'<option value="'.$rowS[0].'">'.utf8_encode($rowS[1]).'</option>';	
+	}
+}
+
+
+
+$refdescripcion = array(0 => $cadRef,1 => $cadRefU,2 => $cadRefS);
+$refCampo 	=  array("refurbanizacion","reftipousuario", "refsituacion");
+
+
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
-
-
-
-
+$fecha = mysql_result($resResultado,0,'fechadeingreso');
 
 $formulario 	= $serviciosFunciones->camposTablaModificar($id, $idTabla, $modificar,$tabla,$lblCambio,$lblreemplazo,$refdescripcion,$refCampo);
 
-
-if ($_SESSION['refroll_predio'] != 1) {
-
-} else {
-
-	
+if ($_SESSION['idroll_predio'] != 1) {
+	echo "<script>alert('No posee Permisos para ingresar a esta pagina')</script>";
+	echo "<script language='javascript'>window.location='../index.php'</script>;";
 }
 
 
@@ -321,6 +351,35 @@ $(document).ready(function(){
 
 });
 </script>
+
+<script>
+  $(function() {
+	  $.datepicker.regional['es'] = {
+ closeText: 'Cerrar',
+ prevText: '<Ant',
+ nextText: 'Sig>',
+ currentText: 'Hoy',
+ monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+ monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+ dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+ dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+ dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+ weekHeader: 'Sm',
+ dateFormat: 'dd/mm/yy',
+ firstDay: 1,
+ isRTL: false,
+ showMonthAfterYear: false,
+ yearSuffix: ''
+ };
+ $.datepicker.setDefaults($.datepicker.regional['es']);
+ 
+    $( "#fechadeingreso" ).datepicker();
+
+    $( "#fechadeingreso" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+	$('#fechadeingreso').datepicker('setDate', <?php echo "'".$fecha."'"; ?>);
+  });
+  </script>
+
 <?php } ?>
 </body>
 </html>
