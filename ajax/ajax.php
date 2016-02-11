@@ -906,8 +906,8 @@ function insertarInmuebles($serviciosReferencias) {
 	$calc_porcentaje 				= '';
 	$refvaloracion 					= '';
 	
-	$idCostoMts			=	$_POST['refcomision'];
-	$idCostoNacional	=	$_POST['refcomision'];
+	$idCostoMts			=	$_POST['refcostomts'];
+	$idCostoNacional	=	$_POST['refcostonacional'];
 	
 	$res = $serviciosReferencias->insertarInmuebles($refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion,$idCostoMts,$idCostoNacional);
 	
@@ -962,11 +962,11 @@ $res = $serviciosReferencias->eliminarInmuebles($id);
 echo $res;
 }
 
-function buscarInmuebles($tipobusqueda, $busqueda) {
+function buscarInmuebles($serviciosReferencias) {
 	$tipobusqueda	= $_POST['tipobusqueda'];
 	$busqueda		= $_POST['busqueda'];
 	
-	$res = $serviciosJugadores->buscarJugadores($tipobusqueda,$busqueda);
+	$res = $serviciosReferencias->buscarInmuebles($tipobusqueda,$busqueda);
 	
 	$cad3 = '';
 	//////////////////////////////////////////////////////busquedajugadores/////////////////////

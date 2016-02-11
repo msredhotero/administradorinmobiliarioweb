@@ -878,7 +878,8 @@ function calc_porcentajedepreciacion($edad) {
 function calc_avaluoconstruccion($mtrsConstruccion, $idprecioNacional) {
 	//tabla costonacional
 	$resPrecioNacional	=	$this->traerCostoNacionalPorId($idprecioNacional);
-	return $mtrsConstruccion * mysql_result($resPrecioNacional,0,'valormts');
+	//echo $idprecioNacional;
+	return $mtrsConstruccion * mysql_result($resPrecioNacional,0,2);
 }
 
 function calc_depreciacion($edad) {
@@ -912,9 +913,9 @@ function insertarInmuebles($refurbanizacion,$reftipovivienda,$refuso,$refsituaci
 	
 	//calculos fijos
 	$calc_edadconstruccion 			= $this->calc_edadconstruccion($anioconstruccion);
-	$calc_porcentajedepreciacion 	= $this->calc_porcentajedepreciacion(getdate('Y') - $anioconstruccion);
+	$calc_porcentajedepreciacion 	= $this->calc_porcentajedepreciacion(date('Y') - $anioconstruccion);
 	$calc_avaluoconstruccion 		= $this->calc_avaluoconstruccion( $encontruccion,$idCostoNacional);
-	$calc_depreciacion 				= $this->calc_depreciacion(getdate('Y') - $anioconstruccion);
+	$calc_depreciacion 				= $this->calc_depreciacion(date('Y') - $anioconstruccion);
 	$calc_avaluoterreno 			= $this->calc_avaluoterreno($mts2,$idCostoMts);
 	$calc_preciorealmercado 		= $calc_depreciacion + $calc_avaluoterreno;
 	$calc_restacliente 				= $calc_preciorealmercado - $precioventapropietario;
@@ -979,7 +980,7 @@ return $res;
 } 
 
 
-function buscarJugadores($tipobusqueda,$busqueda) {
+function buscarInmuebles($tipobusqueda,$busqueda) {
 		switch ($tipobusqueda) {
 			case '1':
 				$sql = "select
@@ -987,7 +988,7 @@ function buscarJugadores($tipobusqueda,$busqueda) {
 						i.anioconstruccion, i.precioventapropietario, i.nombrepropietario, i.apellidopropietario, i.fechacarga,
 						i.calc_edadconstruccion, i.calc_porcentajedepreciacion, i.calc_avaluoconstruccion, i.calc_depreciacion, i.calc_avaluoterreno,
 						i.calc_preciorealmercado, i.calc_restacliente, i.calc_porcentaje,
-						v.valoracion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
+						v.observacion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
 						i.refvaloracion, i.refurbanizacion, i.reftipovivienda, i.refuso, i.refsituacioninmueble, i.refusuario, i.refcomision
 						
 						from inmuebles i 
@@ -1010,7 +1011,7 @@ function buscarJugadores($tipobusqueda,$busqueda) {
 						i.anioconstruccion, i.precioventapropietario, i.nombrepropietario, i.apellidopropietario, i.fechacarga,
 						i.calc_edadconstruccion, i.calc_porcentajedepreciacion, i.calc_avaluoconstruccion, i.calc_depreciacion, i.calc_avaluoterreno,
 						i.calc_preciorealmercado, i.calc_restacliente, i.calc_porcentaje,
-						v.valoracion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
+						v.observacion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
 						i.refvaloracion, i.refurbanizacion, i.reftipovivienda, i.refuso, i.refsituacioninmueble, i.refusuario, i.refcomision
 						
 						from inmuebles i 
@@ -1033,7 +1034,7 @@ function buscarJugadores($tipobusqueda,$busqueda) {
 						i.anioconstruccion, i.precioventapropietario, i.nombrepropietario, i.apellidopropietario, i.fechacarga,
 						i.calc_edadconstruccion, i.calc_porcentajedepreciacion, i.calc_avaluoconstruccion, i.calc_depreciacion, i.calc_avaluoterreno,
 						i.calc_preciorealmercado, i.calc_restacliente, i.calc_porcentaje,
-						v.valoracion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
+						v.observacion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
 						i.refvaloracion, i.refurbanizacion, i.reftipovivienda, i.refuso, i.refsituacioninmueble, i.refusuario, i.refcomision
 						
 						from inmuebles i 
@@ -1056,7 +1057,7 @@ function buscarJugadores($tipobusqueda,$busqueda) {
 						i.anioconstruccion, i.precioventapropietario, i.nombrepropietario, i.apellidopropietario, i.fechacarga,
 						i.calc_edadconstruccion, i.calc_porcentajedepreciacion, i.calc_avaluoconstruccion, i.calc_depreciacion, i.calc_avaluoterreno,
 						i.calc_preciorealmercado, i.calc_restacliente, i.calc_porcentaje,
-						v.valoracion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
+						v.observacion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
 						i.refvaloracion, i.refurbanizacion, i.reftipovivienda, i.refuso, i.refsituacioninmueble, i.refusuario, i.refcomision
 						
 						from inmuebles i 
@@ -1079,7 +1080,7 @@ function buscarJugadores($tipobusqueda,$busqueda) {
 						i.anioconstruccion, i.precioventapropietario, i.nombrepropietario, i.apellidopropietario, i.fechacarga,
 						i.calc_edadconstruccion, i.calc_porcentajedepreciacion, i.calc_avaluoconstruccion, i.calc_depreciacion, i.calc_avaluoterreno,
 						i.calc_preciorealmercado, i.calc_restacliente, i.calc_porcentaje,
-						v.valoracion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
+						v.observacion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
 						i.refvaloracion, i.refurbanizacion, i.reftipovivienda, i.refuso, i.refsituacioninmueble, i.refusuario, i.refcomision
 						
 						from inmuebles i 
@@ -1093,7 +1094,7 @@ function buscarJugadores($tipobusqueda,$busqueda) {
 						inner join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
 						inner join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
 						inner join comision co on co.idcomision = i.refcomision
-				where v.valoracion = ".$busqueda."
+				where v.observacion = ".$busqueda."
 				order by pa.nombre,p.provincia,c.ciudad,u.urbanizacion";
 				break;
 		

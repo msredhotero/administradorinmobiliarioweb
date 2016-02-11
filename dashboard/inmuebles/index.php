@@ -66,7 +66,7 @@ $resUrbanizacion	=	$serviciosReferencias->traerUrbanizacion();
 $resTipoVivienda	=	$serviciosReferencias->traerTipoVivienda();
 $resUsos			=	$serviciosReferencias->traerUsos();
 $resComision		=	$serviciosReferencias->traerComision();
-
+$resSitInm			=	$serviciosReferencias->traerSituacionInmueble();
 
 if ($_SESSION['idroll_predio'] == 1) {
 	$resUsuario = $serviciosReferencias->traerUsuariosRegistrados();
@@ -183,10 +183,24 @@ if ($_SESSION['idroll_predio'] == 1) {
                     </div>
                 </div>
                 
+                
+                <div class="form-group col-md-6">
+                	<label class="control-label" style="text-align:left" for="celular1">Situación Inmueble</label>
+                    <div class="input-group col-md-12">
+                    	<select id="refsituacioninmueble" name="refsituacioninmueble" class="form-control">
+                            <?php while ($rowST = mysql_fetch_array($resSitInm)) { ?>
+                                <option value="<?php echo $rowST[0]; ?>"><?php echo $rowST[1]; ?></option>
+                            <?php } ?>
+                            
+                        </select>
+                    </div>
+                </div>
+                
+                
                 <div class="form-group col-md-6">
                     <label class="control-label" style="text-align:left" for="celular1">Dormitorios</label>
                     <div class="input-group col-md-12">
-                    	<input id="dormitorios" class="form-control" type="number" required="" placeholder="Ingrese los Dormitorios..." name="dormitorios">
+                    	<input id="dormitorios" class="form-control" type="number" required placeholder="Ingrese los Dormitorios..." name="dormitorios">
                     </div>
                 </div>
                 
@@ -194,7 +208,7 @@ if ($_SESSION['idroll_predio'] == 1) {
                 <div class="form-group col-md-6">
                     <label class="control-label" style="text-align:left" for="celular1">Baños</label>
                     <div class="input-group col-md-12">
-                    	<input id="banios" class="form-control" type="number" required="" placeholder="Ingrese los Baños..." name="banios">
+                    	<input id="banios" class="form-control" type="number" required placeholder="Ingrese los Baños..." name="banios">
                     </div>
                 </div>
                 
@@ -202,7 +216,7 @@ if ($_SESSION['idroll_predio'] == 1) {
                 <div class="form-group col-md-6">
                     <label class="control-label" style="text-align:left" for="celular1">Mtrs En Construcción</label>
                     <div class="input-group col-md-12">
-                    	<input id="encontruccion" class="form-control" type="number" required="" placeholder="Ingrese los Mtrs en Construcción..." name="encontruccion">
+                    	<input id="encontruccion" class="form-control" type="number" required placeholder="Ingrese los Mtrs en Construcción..." name="encontruccion">
                     </div>
                 </div>
                 
@@ -210,7 +224,7 @@ if ($_SESSION['idroll_predio'] == 1) {
                 <div class="form-group col-md-6">
                     <label class="control-label" style="text-align:left" for="celular1">Mtrs Cuadrados</label>
                     <div class="input-group col-md-12">
-                    	<input id="mts2" class="form-control" type="number" required="" placeholder="Ingrese los Mtrs Cuadrados..." name="mts2">
+                    	<input id="mts2" class="form-control" type="number" required placeholder="Ingrese los Mtrs Cuadrados..." name="mts2">
                     </div>
                 </div>
                 
@@ -218,7 +232,7 @@ if ($_SESSION['idroll_predio'] == 1) {
                 <div class="form-group col-md-6">
                     <label class="control-label" style="text-align:left" for="celular1">Año en Construcción</label>
                     <div class="input-group col-md-12">
-                    	<input id="anioconstruccion" class="form-control" type="number" required="" placeholder="Ingrese los Años en Construcción..." name="anioconstruccion">
+                    	<input id="anioconstruccion" class="form-control" type="number" required placeholder="Ingrese los Años en Construcción..." name="anioconstruccion">
                     </div>
                 </div>
                 
@@ -227,7 +241,7 @@ if ($_SESSION['idroll_predio'] == 1) {
                     <label class="control-label" style="text-align:left" for="Valor Mtrs">Precio Venta Propietario</label>
                     <div class="input-group col-md-12">
                     	<span class="input-group-addon">$</span>
-                    		<input id="precioventapropietario" class="form-control" type="text" required="" value="0" name="precioventapropietario">
+                    		<input id="precioventapropietario" class="form-control" type="text" required value="0" name="precioventapropietario">
                     	<span class="input-group-addon">.00</span>
                     </div>
                 </div>
@@ -236,7 +250,7 @@ if ($_SESSION['idroll_predio'] == 1) {
                 <div class="form-group col-md-6">
                     <label class="control-label" style="text-align:left" for="celular1">Nombre Propietario</label>
                     <div class="input-group col-md-12">
-                    	<input id="nombrepropietario" class="form-control" type="text" required="" placeholder="Ingrese Nombre del Propietario..." name="nombrepropietario">
+                    	<input id="nombrepropietario" class="form-control" type="text" required placeholder="Ingrese Nombre del Propietario..." name="nombrepropietario">
                     </div>
                 </div>
                 
@@ -244,7 +258,7 @@ if ($_SESSION['idroll_predio'] == 1) {
                 <div class="form-group col-md-6">
                     <label class="control-label" style="text-align:left" for="celular1">Apellido Propietario</label>
                     <div class="input-group col-md-12">
-                    	<input id="apellidopropietario" class="form-control" type="text" required="" placeholder="Ingrese Apellido del Propietario..." name="apellidopropietario">
+                    	<input id="apellidopropietario" class="form-control" type="text" required placeholder="Ingrese Apellido del Propietario..." name="apellidopropietario">
                     </div>
                 </div>
                 
