@@ -649,16 +649,23 @@ echo $res;
 
 /* PARA CostoNacional */
 function insertarCostoNacional($serviciosReferencias) {
-$refpais = $_POST['refpais'];
-$valormts = $_POST['valormts'];
-$fechamodi = $_POST['fechamodi'];
-$refusuario = $_POST['refusuario'];
-$res = $serviciosReferencias->insertarCostoNacional($refpais,$valormts,$fechamodi,$refusuario);
-if ((integer)$res > 0) {
-echo '';
-} else {
-echo 'Huvo un error al insertar datos';
-}
+	$refpais = $_POST['refpais'];
+	$valormts = $_POST['valormts'];
+	$fechamodi = $_POST['fechamodi'];
+	$refusuario = $_POST['refusuario'];
+
+	if ($serviciosReferencias->existeCostoNacional($refpais) == 0) {
+
+		$res = $serviciosReferencias->insertarCostoNacional($refpais,$valormts,$fechamodi,$refusuario);
+		
+		if ((integer)$res > 0) {
+			echo '';
+		} else {
+			echo 'Huvo un error al insertar datos';
+		}
+	} else {
+		echo 'Ya existe un Costo Nacional cargado';
+	}
 }
 function modificarCostoNacional($serviciosReferencias) {
 $id = $_POST['id'];
@@ -936,17 +943,20 @@ function modificarInmuebles($serviciosReferencias) {
 	$fechacarga = $_POST['fechacarga'];
 	$refusuario = $_POST['refusuario'];
 	$refcomision = $_POST['refcomision'];
-	$calc_edadconstruccion = $_POST['calc_edadconstruccion'];
-	$calc_porcentajedepreciacion = $_POST['calc_porcentajedepreciacion'];
-	$calc_avaluoconstruccion = $_POST['calc_avaluoconstruccion'];
-	$calc_depreciacion = $_POST['calc_depreciacion'];
-	$calc_avaluoterreno = $_POST['calc_avaluoterreno'];
-	$calc_preciorealmercado = $_POST['calc_preciorealmercado'];
-	$calc_restacliente = $_POST['calc_restacliente'];
-	$calc_porcentaje = $_POST['calc_porcentaje'];
-	$refvaloracion = $_POST['refvaloracion'];
+	$calc_edadconstruccion 			= '';
+	$calc_porcentajedepreciacion 	= '';
+	$calc_avaluoconstruccion 		= '';
+	$calc_depreciacion 				= '';
+	$calc_avaluoterreno 			= '';
+	$calc_preciorealmercado 		= '';
+	$calc_restacliente 				= '';
+	$calc_porcentaje 				= '';
+	$refvaloracion 					= '';
 	
-	$res = $serviciosReferencias->modificarInmuebles($id,$refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion);
+	$idCostoMts			=	$_POST['refcostomts'];
+	$idCostoNacional	=	$_POST['refcostonacional'];
+	
+	$res = $serviciosReferencias->modificarInmuebles($id,$refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion,$idCostoMts,$idCostoNacional);
 	
 	if ($res == true) {
 		echo '';

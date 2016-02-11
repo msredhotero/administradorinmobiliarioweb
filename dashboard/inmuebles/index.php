@@ -41,7 +41,6 @@ $tituloWeb = "Gestión: Caracol Bienes Raíces";
 /////////////////////// Opciones para la creacion del formulario  /////////////////////
 $tabla 			= "inmuebles";
 
-$resUrbanizacion = $serviciosReferencias->traerUrbanizacion();
 
 $lblCambio	 	= array("banios",'encontruccion','anioconstruccion','precioventapropietario','nombrepropietario','apellidopropietario','fechacarga','calc_edadconstruccion','calc_porcentajedepreciacion','calc_avaluoconstruccion','calc_depreciacion','calc_avaluoterreno','calc_preciorealmercado','calc_restacliente','calc_porcentaje','refvaloracion','refurbanizacion','reftipovivienda','refuso','refsituacioninmueble','refusuario','refcomision');
 $lblreemplazo	= array("Baños",'En Contrucción','Año Construcción','Precio Venta Propietario','Nombre Propietario','Apellido Propietario','Fecha Carga','Calc. Edad Construcción','Calc. % Depreciación','Calc. Avaluo Construcción','Calc. Depreciación','Calc. Avaluo Terreno','Calc. Precio Real Mercado','Calc. Resta Cliente','Calc. Porcentaje','Valoración','Urbanización','Tipo Vivienda','Uso','Situac. Inmueble','Usuario','Comisión');
@@ -144,7 +143,9 @@ if ($_SESSION['idroll_predio'] == 1) {
     	<div class="cuerpoBox">
         	<form class="form-inline formulario" role="form">
         	<div class="row">
-
+				<div class="alert alert-info" style="margin:0 15px;">
+                	<p><span class="glyphicon glyphicon-info-sign"></span> Los datos <strong>Urbanización, Mtrs En Construcción, Mtrs Cuadrados, Año en Construcción, Precio Venta Propietario, Costo Mtrs, Costo Nacional</strong>.</p>
+                </div>
             	<div class="form-group col-md-6">
                 	<label class="control-label" style="text-align:left" for="celular1">Urbanización</label>
                     <div class="input-group col-md-12">
@@ -592,7 +593,7 @@ $(document).ready(function(){
 	//al enviar el formulario
     $('#cargar').click(function(){
 		
-		if (validador() == "")
+		if ((validador() == "") && ($('#refcostomts').val() != '') && ($('#refcostonacional').val() != ''))
         {
 			//información del formulario
 			var formData = new FormData($(".formulario")[0]);
@@ -644,7 +645,13 @@ $(document).ready(function(){
                     $("#load").html('');
 				}
 			});
+		} else {
+			$(".alert").removeClass("alert-danger");
+            $(".alert").addClass("alert-danger");
+			$(".alert").html('<strong>Error!</strong> Verifique que esten los campos obligatorios completos');
+            $("#load").html('');
 		}
+		
     });
 
 });

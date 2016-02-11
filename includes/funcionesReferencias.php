@@ -564,6 +564,16 @@ return $res;
 
 /* PARA CostoNacional */
 
+function existeCostoNacional($refpais) {
+	$sql	=	"select * from costonacional where refpais = ".$refpais;
+	$res = $this->query($sql,0);
+	
+	if (mysql_num_rows($res)>0) {
+		return 1;
+	}
+	return 0;
+}
+
 function insertarCostoNacional($refpais,$valormts,$fechamodi,$refusuario) {
 $sql = "insert into costonacional(idcostonacional,refpais,valormts,fechamodi,refusuario)
 values ('',".$refpais.",".$valormts.",'".utf8_decode($fechamodi)."',".$refusuario.")";
@@ -929,7 +939,20 @@ return $res;
 }
 
 
-function modificarInmuebles($id,$refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion) {
+function modificarInmuebles($id,$refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion,$idCostoMts,$idCostoNacional) {
+	
+	//calculos fijos
+	$calc_edadconstruccion 			= $this->calc_edadconstruccion($anioconstruccion);
+	$calc_porcentajedepreciacion 	= $this->calc_porcentajedepreciacion(date('Y') - $anioconstruccion);
+	$calc_avaluoconstruccion 		= $this->calc_avaluoconstruccion( $encontruccion,$idCostoNacional);
+	$calc_depreciacion 				= $this->calc_depreciacion(date('Y') - $anioconstruccion);
+	$calc_avaluoterreno 			= $this->calc_avaluoterreno($mts2,$idCostoMts);
+	$calc_preciorealmercado 		= $calc_depreciacion + $calc_avaluoterreno;
+	$calc_restacliente 				= $calc_preciorealmercado - $precioventapropietario;
+	$calc_porcentaje 				= $calc_restacliente * 100 / $calc_preciorealmercado;
+	$refvaloracion 					= mysql_result($this->traerValoracionPorPorcentaje($calc_porcentaje),0,0);	
+	
+	
 $sql = "update inmuebles
 set
 refurbanizacion = ".$refurbanizacion.",reftipovivienda = ".$reftipovivienda.",refuso = ".$refuso.",refsituacioninmueble = ".$refsituacioninmueble.",dormitorios = ".$dormitorios.",banios = ".$banios.",encontruccion = ".$encontruccion.",mts2 = ".$mts2.",anioconstruccion = ".$anioconstruccion.",precioventapropietario = ".$precioventapropietario.",nombrepropietario = '".utf8_decode($nombrepropietario)."',apellidopropietario = '".utf8_decode($apellidopropietario)."',fechacarga = '".utf8_decode($fechacarga)."',refusuario = ".$refusuario.",refcomision = ".$refcomision.",calc_edadconstruccion = ".$calc_edadconstruccion.",calc_porcentajedepreciacion = ".$calc_porcentajedepreciacion.",calc_avaluoconstruccion = ".$calc_avaluoconstruccion.",calc_depreciacion = ".$calc_depreciacion.",calc_avaluoterreno = ".$calc_avaluoterreno.",calc_preciorealmercado = ".$calc_preciorealmercado.",calc_restacliente = ".$calc_restacliente.",calc_porcentaje = ".$calc_porcentaje.",refvaloracion = ".$refvaloracion."
