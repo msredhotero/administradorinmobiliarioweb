@@ -1125,6 +1125,403 @@ function buscarInmuebles($tipobusqueda,$busqueda) {
 		return $this->query($sql,0);
 	}
 
+function graficosValoracion($where) {
+	if ($where != '') {
+		$sql = "select
+			i.refvaloracion, count(*)
+		
+		from inmuebles i 
+			inner join valoracion v on v.idvaloracion = i.refvaloracion
+			inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+			inner join ciudades c on c.idciudad = u.refciudad
+			inner join provincias p on p.idprovincia = c.refprovincia
+			inner join paises pa on pa.idpais = p.refpais
+			inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+			inner join usos us on us.iduso = i.refuso
+			inner join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+			inner join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+			inner join comision co on co.idcomision = i.refcomision
+		group by i.refvaloracion
+		order by i.refvaloracion
+		";
+		
+		
+		$sqlT = "select
+			count(*)
+		
+		from inmuebles i 
+			inner join valoracion v on v.idvaloracion = i.refvaloracion
+			inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+			inner join ciudades c on c.idciudad = u.refciudad
+			inner join provincias p on p.idprovincia = c.refprovincia
+			inner join paises pa on pa.idpais = p.refpais
+			inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+			inner join usos us on us.iduso = i.refuso
+			inner join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+			inner join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+			inner join comision co on co.idcomision = i.refcomision
+				";
+
+		
+	} else {
+		$sql = "select
+					i.refvaloracion, count(*)
+				
+				from inmuebles i 
+					inner join valoracion v on v.idvaloracion = i.refvaloracion
+					inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+					inner join ciudades c on c.idciudad = u.refciudad
+					inner join provincias p on p.idprovincia = c.refprovincia
+					inner join paises pa on pa.idpais = p.refpais
+					inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+					inner join usos us on us.iduso = i.refuso
+					inner join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+					inner join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+					inner join comision co on co.idcomision = i.refcomision
+				group by i.refvaloracion
+				order by i.refvaloracion
+				";
+				
+		$sqlT = "select
+					count(*)
+				
+				from inmuebles i 
+					inner join valoracion v on v.idvaloracion = i.refvaloracion
+					inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+					inner join ciudades c on c.idciudad = u.refciudad
+					inner join provincias p on p.idprovincia = c.refprovincia
+					inner join paises pa on pa.idpais = p.refpais
+					inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+					inner join usos us on us.iduso = i.refuso
+					inner join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+					inner join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+					inner join comision co on co.idcomision = i.refcomision
+				";
+	}
+	
+	$resT = mysql_result($this->query($sqlT,0),0,0);
+	$resR = $this->query($sql,0);
+	
+	$porcentajeOportunidad = 0;
+	$porcentajeNormal = 0;
+	$porcentajeCaro = 0;
+	$porcentajeFueraMercado = 0;
+	
+	if ($resT > 0) {
+		while ($row = mysql_fetch_array($resR)) {
+			switch ($row[0]) {
+				case 1:
+					$porcentajeOportunidad	=	(100 * $row[1])	/ $resT;
+					break;
+				case 2:
+					$porcentajeNormal		=	(100 * $row[1])	/ $resT;
+					break;
+				case 3:
+					$porcentajeCaro			=	(100 * $row[1])	/ $resT;
+					break;
+				case 4:
+					$porcentajeFueraMercado	=	(100 * $row[1])	/ $resT;
+					break;
+			}
+		}
+	}
+	
+	$cad	= "Morris.Donut({
+              element: 'graph',
+              data: [
+                {value: ".$porcentajeOportunidad.", label: 'Oportunidad'},
+                {value: ".$porcentajeNormal.", label: 'Normal'},
+                {value: ".$porcentajeCaro.", label: 'Caro'},
+                {value: ".$porcentajeFueraMercado.", label: 'Fuera del Mercado'}
+              ],
+              formatter: function (x) { return x + '%'}
+            }).on('click', function(i, row){
+              console.log(i, row);
+            });";
+			
+	return $cad;
+}
+
+
+function graficosTipoVivienda($where) {
+	
+	/*
+	i.idinmueble, i.dormitorios, i.banios, i.encontruccion, i.mts2,
+						i.anioconstruccion, i.precioventapropietario, i.nombrepropietario, i.apellidopropietario, i.fechacarga,
+						i.calc_edadconstruccion, i.calc_porcentajedepreciacion, i.calc_avaluoconstruccion, i.calc_depreciacion, i.calc_avaluoterreno,
+						i.calc_preciorealmercado, i.calc_restacliente, i.calc_porcentaje,
+						v.observacion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
+						i.refvaloracion, i.refurbanizacion, i.reftipovivienda, i.refuso, i.refsituacioninmueble, i.refusuario, i.refcomision
+	
+	*/
+	if ($where != '') {
+		$sql = "select
+					tv.idtipovivienda, tv.tipovivienda, coalesce(count(i.reftipovivienda),0)
+				
+				from tipovivienda tv 
+					left join inmuebles i on tv.idtipovivienda = i.reftipovivienda
+					left join valoracion v on v.idvaloracion = i.refvaloracion
+					left join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+					left join ciudades c on c.idciudad = u.refciudad
+					left join provincias p on p.idprovincia = c.refprovincia
+					left join paises pa on pa.idpais = p.refpais
+					left join usos us on us.iduso = i.refuso
+					left join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+					left join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+					left join comision co on co.idcomision = i.refcomision
+				group by tv.idtipovivienda, tv.tipovivienda
+				order by tv.idtipovivienda
+		";
+		
+		
+		$sqlT = "select
+			count(*)
+		
+		from inmuebles i 
+			inner join valoracion v on v.idvaloracion = i.refvaloracion
+			inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+			inner join ciudades c on c.idciudad = u.refciudad
+			inner join provincias p on p.idprovincia = c.refprovincia
+			inner join paises pa on pa.idpais = p.refpais
+			inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+			inner join usos us on us.iduso = i.refuso
+			inner join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+			inner join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+			inner join comision co on co.idcomision = i.refcomision
+				";
+
+		
+	} else {
+		$sql = "select
+					tv.idtipovivienda, tv.tipovivienda, coalesce(count(i.reftipovivienda),0)
+				
+				from tipovivienda tv 
+					left join inmuebles i on tv.idtipovivienda = i.reftipovivienda
+					left join valoracion v on v.idvaloracion = i.refvaloracion
+					left join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+					left join ciudades c on c.idciudad = u.refciudad
+					left join provincias p on p.idprovincia = c.refprovincia
+					left join paises pa on pa.idpais = p.refpais
+					left join usos us on us.iduso = i.refuso
+					left join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+					left join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+					left join comision co on co.idcomision = i.refcomision
+				group by tv.idtipovivienda, tv.tipovivienda
+				order by tv.idtipovivienda
+				";
+				
+		$sqlT = "select
+					count(*)
+				
+				from inmuebles i 
+					inner join valoracion v on v.idvaloracion = i.refvaloracion
+					inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+					inner join ciudades c on c.idciudad = u.refciudad
+					inner join provincias p on p.idprovincia = c.refprovincia
+					inner join paises pa on pa.idpais = p.refpais
+					inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+					inner join usos us on us.iduso = i.refuso
+					inner join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+					inner join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+					inner join comision co on co.idcomision = i.refcomision
+				";
+	}
+	
+	$resT = mysql_result($this->query($sqlT,0),0,0);
+	$resR = $this->query($sql,0);
+	
+	$cad	= "Morris.Donut({
+              element: 'graph2',
+              data: [";
+	$cadValue = '';
+	if ($resT > 0) {
+		while ($row = mysql_fetch_array($resR)) {
+			$cadValue .= "{value: ".((100 * $row[2])	/ $resT).", label: '".$row[1]."'},";
+		}
+	}
+	
+/*
+                {value: ".$porcentajeOportunidad.", label: 'Oportunidad'},
+                {value: ".$porcentajeNormal.", label: 'Normal'},
+                {value: ".$porcentajeCaro.", label: 'Caro'},
+                {value: ".$porcentajeFueraMercado.", label: 'Fuera del Mercado'}*/
+	$cad .= substr($cadValue,0,strlen($cadValue)-1);
+    $cad .=          "],
+              formatter: function (x) { return x + '%'}
+            }).on('click', function(i, row){
+              console.log(i, row);
+            });";
+			
+	return $cad;
+}
+
+
+function graficosUsos($where) {
+	
+	/*
+	i.idinmueble, i.dormitorios, i.banios, i.encontruccion, i.mts2,
+						i.anioconstruccion, i.precioventapropietario, i.nombrepropietario, i.apellidopropietario, i.fechacarga,
+						i.calc_edadconstruccion, i.calc_porcentajedepreciacion, i.calc_avaluoconstruccion, i.calc_depreciacion, i.calc_avaluoterreno,
+						i.calc_preciorealmercado, i.calc_restacliente, i.calc_porcentaje,
+						v.observacion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
+						i.refvaloracion, i.refurbanizacion, i.reftipovivienda, i.refuso, i.refsituacioninmueble, i.refusuario, i.refcomision
+	
+	*/
+	if ($where != '') {
+		$sql = "select
+					us.iduso, us.usos, coalesce(count(i.reftipovivienda),0)
+				
+				from usos us 
+					left join inmuebles i on us.iduso = i.refuso
+					left join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+					left join valoracion v on v.idvaloracion = i.refvaloracion
+					left join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+					left join ciudades c on c.idciudad = u.refciudad
+					left join provincias p on p.idprovincia = c.refprovincia
+					left join paises pa on pa.idpais = p.refpais
+					left join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+					left join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+					left join comision co on co.idcomision = i.refcomision
+				group by us.iduso, us.usos
+				order by us.iduso
+		";
+		
+		
+		$sqlT = "select
+			count(*)
+		
+		from inmuebles i 
+			inner join valoracion v on v.idvaloracion = i.refvaloracion
+			inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+			inner join ciudades c on c.idciudad = u.refciudad
+			inner join provincias p on p.idprovincia = c.refprovincia
+			inner join paises pa on pa.idpais = p.refpais
+			inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+			inner join usos us on us.iduso = i.refuso
+			inner join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+			inner join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+			inner join comision co on co.idcomision = i.refcomision
+				";
+
+		
+	} else {
+		$sql = "select
+					us.iduso, us.usos, coalesce(count(i.reftipovivienda),0)
+				
+				from usos us 
+					left join inmuebles i on us.iduso = i.refuso
+					left join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+					left join valoracion v on v.idvaloracion = i.refvaloracion
+					left join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+					left join ciudades c on c.idciudad = u.refciudad
+					left join provincias p on p.idprovincia = c.refprovincia
+					left join paises pa on pa.idpais = p.refpais
+					left join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+					left join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+					left join comision co on co.idcomision = i.refcomision
+				group by us.iduso, us.usos
+				order by us.iduso
+				";
+				
+		$sqlT = "select
+					count(*)
+				
+				from inmuebles i 
+					inner join valoracion v on v.idvaloracion = i.refvaloracion
+					inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+					inner join ciudades c on c.idciudad = u.refciudad
+					inner join provincias p on p.idprovincia = c.refprovincia
+					inner join paises pa on pa.idpais = p.refpais
+					inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+					inner join usos us on us.iduso = i.refuso
+					inner join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+					inner join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+					inner join comision co on co.idcomision = i.refcomision
+				";
+	}
+	
+	$resT = mysql_result($this->query($sqlT,0),0,0);
+	$resR = $this->query($sql,0);
+	
+	$cad	= "Morris.Donut({
+              element: 'graph3',
+              data: [";
+	$cadValue = '';
+	if ($resT > 0) {
+		while ($row = mysql_fetch_array($resR)) {
+			$cadValue .= "{value: ".((100 * $row[2])	/ $resT).", label: '".$row[1]."'},";
+		}
+	}
+	
+/*
+                {value: ".$porcentajeOportunidad.", label: 'Oportunidad'},
+                {value: ".$porcentajeNormal.", label: 'Normal'},
+                {value: ".$porcentajeCaro.", label: 'Caro'},
+                {value: ".$porcentajeFueraMercado.", label: 'Fuera del Mercado'}*/
+	$cad .= substr($cadValue,0,strlen($cadValue)-1);
+    $cad .=          "],
+              formatter: function (x) { return x + '%'}
+            }).on('click', function(i, row){
+              console.log(i, row);
+            });";
+			
+	return $cad;
+}
+
+function filtros($where) {
+	
+	if ($where != '') {
+				$sql = "select
+				i.idinmueble,v.observacion, i.dormitorios, i.banios, i.encontruccion, i.mts2,
+				i.anioconstruccion, i.precioventapropietario, i.nombrepropietario, i.apellidopropietario, i.fechacarga,
+				i.calc_edadconstruccion, i.calc_porcentajedepreciacion, i.calc_avaluoconstruccion, i.calc_depreciacion, i.calc_avaluoterreno,
+				i.calc_preciorealmercado, i.calc_restacliente, i.calc_porcentaje,
+				u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
+				i.refvaloracion, i.refurbanizacion, i.reftipovivienda, i.refuso, i.refsituacioninmueble, i.refusuario, i.refcomision
+				
+				from inmuebles i 
+				inner join valoracion v on v.idvaloracion = i.refvaloracion
+				inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+				inner join ciudades c on c.idciudad = u.refciudad
+				inner join provincias p on p.idprovincia = c.refprovincia
+				inner join paises pa on pa.idpais = p.refpais
+				inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+				inner join usos us on us.iduso = i.refuso
+				inner join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+				inner join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+				inner join comision co on co.idcomision = i.refcomision
+
+		order by i.refvaloracion,pa.nombre,p.provincia,c.ciudad,u.urbanizacion";
+
+		
+	} else {
+		$sql = "select
+				i.idinmueble, i.dormitorios, i.banios, i.encontruccion, i.mts2,
+				i.anioconstruccion, i.precioventapropietario, i.nombrepropietario, i.apellidopropietario, i.fechacarga,
+				i.calc_edadconstruccion, i.calc_porcentajedepreciacion, i.calc_avaluoconstruccion, i.calc_depreciacion, i.calc_avaluoterreno,
+				i.calc_preciorealmercado, i.calc_restacliente, i.calc_porcentaje,
+				v.observacion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
+				i.refvaloracion, i.refurbanizacion, i.reftipovivienda, i.refuso, i.refsituacioninmueble, i.refusuario, i.refcomision
+				
+				from inmuebles i 
+				inner join valoracion v on v.idvaloracion = i.refvaloracion
+				inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+				inner join ciudades c on c.idciudad = u.refciudad
+				inner join provincias p on p.idprovincia = c.refprovincia
+				inner join paises pa on pa.idpais = p.refpais
+				inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+				inner join usos us on us.iduso = i.refuso
+				inner join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+				inner join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+				inner join comision co on co.idcomision = i.refcomision
+
+		order by i.refvaloracion,pa.nombre,p.provincia,c.ciudad,u.urbanizacion";
+	}
+	
+	return $this->query($sql,0);
+		
+}
+
 /* Fin */
 
 function query($sql,$accion) {

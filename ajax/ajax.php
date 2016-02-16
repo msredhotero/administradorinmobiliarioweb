@@ -282,6 +282,21 @@ case 'buscarInmuebles':
 buscarInmuebles($serviciosReferencias);
 break;
 
+case 'Filtros':
+Filtros($serviciosReferencias);
+break;
+
+case 'graficosValoracion':
+graficosValoracion($serviciosReferencias);
+break;
+
+case 'graficosTipoVivienda':
+graficosTipoVivienda($serviciosReferencias);
+break;
+
+case 'graficosUsos':
+graficosUsos($serviciosReferencias);
+break;
 /* Fin */
 
 }
@@ -1044,6 +1059,224 @@ function buscarInmuebles($serviciosReferencias) {
 					<td>'.utf8_encode($rowJ[16]).'</td>
 					<td>'.utf8_encode($rowJ[17]).'</td>
 					<td>'.utf8_encode($rowJ[18]).'</td>
+					<td>'.utf8_encode($rowJ[19]).'</td>
+					<td>'.utf8_encode($rowJ[20]).'</td>
+					<td>'.utf8_encode($rowJ[21]).'</td>
+					<td>'.utf8_encode($rowJ[22]).'</td>
+					<td>'.utf8_encode($rowJ[23]).'</td>
+					<td>'.utf8_encode($rowJ[24]).'</td>
+					<td>'.utf8_encode($rowJ[25]).'</td>
+					<td>'.utf8_encode($rowJ[26]).'</td>
+					<td>'.utf8_encode($rowJ[27]).'</td>
+					<td>
+								
+							<div class="btn-group">
+								<button class="btn btn-success" type="button">Acciones</button>
+								
+								<button class="btn btn-success dropdown-toggle" data-toggle="dropdown" type="button">
+								<span class="caret"></span>
+								<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								
+								<ul class="dropdown-menu" role="menu">
+									<li>
+									<a href="modificar.php?id='.$rowJ[0].'" class="varmodificar" id="'.$rowJ[0].'">Modificar</a>
+									</li>
+
+									
+								</ul>
+							</div>
+						</td>';
+	}
+	
+	$cad3 = $cad3.'</tbody>
+                                </table></div>
+                            </div>
+						</div>';
+						
+	echo $cad3;	
+	
+}
+
+function graficosValoracion($serviciosReferencias) {
+	$refurbanizacion = $_POST['refurbanizacion'];
+	$reftipovivienda = $_POST['reftipovivienda'];
+	$refuso = $_POST['refuso'];
+	$refsituacioninmueble = $_POST['refsituacioninmueble'];
+	$dormitorios = $_POST['dormitorios'];
+	$banios = $_POST['banios'];
+	$encontruccion = $_POST['encontruccion'];
+	$mts2 = $_POST['mts2'];
+	$anioconstruccion = $_POST['anioconstruccion'];
+	$precioventapropietario = $_POST['precioventapropietario'];
+	$nombrepropietario = $_POST['nombrepropietario'];
+	$apellidopropietario = $_POST['apellidopropietario'];
+	$fechacarga = $_POST['fechacarga'];
+	$refusuario = $_POST['refusuario'];
+	$refcomision = $_POST['refcomision'];
+	
+	$where = '';
+	
+	$res = $serviciosReferencias->graficosValoracion($where);
+	
+	echo $res;
+	
+}
+
+
+function graficosTipoVivienda($serviciosReferencias) {
+	$refurbanizacion = $_POST['refurbanizacion'];
+	$reftipovivienda = $_POST['reftipovivienda'];
+	$refuso = $_POST['refuso'];
+	$refsituacioninmueble = $_POST['refsituacioninmueble'];
+	$dormitorios = $_POST['dormitorios'];
+	$banios = $_POST['banios'];
+	$encontruccion = $_POST['encontruccion'];
+	$mts2 = $_POST['mts2'];
+	$anioconstruccion = $_POST['anioconstruccion'];
+	$precioventapropietario = $_POST['precioventapropietario'];
+	$nombrepropietario = $_POST['nombrepropietario'];
+	$apellidopropietario = $_POST['apellidopropietario'];
+	$fechacarga = $_POST['fechacarga'];
+	$refusuario = $_POST['refusuario'];
+	$refcomision = $_POST['refcomision'];
+	
+	$where = '';
+	
+	$res = $serviciosReferencias->graficosTipoVivienda($where);
+	
+	echo $res;
+	
+}
+
+
+function graficosUsos($serviciosReferencias) {
+	$refurbanizacion = $_POST['refurbanizacion'];
+	$reftipovivienda = $_POST['reftipovivienda'];
+	$refuso = $_POST['refuso'];
+	$refsituacioninmueble = $_POST['refsituacioninmueble'];
+	$dormitorios = $_POST['dormitorios'];
+	$banios = $_POST['banios'];
+	$encontruccion = $_POST['encontruccion'];
+	$mts2 = $_POST['mts2'];
+	$anioconstruccion = $_POST['anioconstruccion'];
+	$precioventapropietario = $_POST['precioventapropietario'];
+	$nombrepropietario = $_POST['nombrepropietario'];
+	$apellidopropietario = $_POST['apellidopropietario'];
+	$fechacarga = $_POST['fechacarga'];
+	$refusuario = $_POST['refusuario'];
+	$refcomision = $_POST['refcomision'];
+	
+	$where = '';
+	
+	$res = $serviciosReferencias->graficosUsos($where);
+	
+	echo $res;
+	
+}
+
+function Filtros($serviciosReferencias) {
+	$refurbanizacion = $_POST['refurbanizacion'];
+	$reftipovivienda = $_POST['reftipovivienda'];
+	$refuso = $_POST['refuso'];
+	$refsituacioninmueble = $_POST['refsituacioninmueble'];
+	$dormitorios = $_POST['dormitorios'];
+	$banios = $_POST['banios'];
+	$encontruccion = $_POST['encontruccion'];
+	$mts2 = $_POST['mts2'];
+	$anioconstruccion = $_POST['anioconstruccion'];
+	$precioventapropietario = $_POST['precioventapropietario'];
+	$nombrepropietario = $_POST['nombrepropietario'];
+	$apellidopropietario = $_POST['apellidopropietario'];
+	$fechacarga = $_POST['fechacarga'];
+	$refusuario = $_POST['refusuario'];
+	$refcomision = $_POST['refcomision'];
+	
+	$where = '';
+	
+	$res = $serviciosReferencias->filtros($where);
+	
+	$cad3 = '';
+	//////////////////////////////////////////////////////busquedajugadores/////////////////////
+	$cad3 = $cad3.'
+				<div class="col-md-12">
+				<div class="panel panel-info">
+                                <div class="panel-heading">
+                                	<h3 class="panel-title">Resultado de la Busqueda</h3>
+                                </div>
+                                <div class="panel-body-info" style="padding:5px 20px;">
+                                	';
+	$cad3 = $cad3.'
+	<div class="row">
+                	<table style="font-size:1em; padding:2px;">
+						<thead>
+                        <tr>
+                        	<th>Valoracion</th>
+							<th>Dormitorios</th>
+							<th>Banios</th>
+							<th>Mts en contruc.</th>
+							<th>Mts2</th>
+							<th>Año Construc.</th>
+							<th>Precio Venta Propietario</th>
+							<th>Nombre Propietario</th>
+							<th>Apellido Propietario</th>
+							<th>Fec. Carga</th>
+							<th>Calc.Edad Construc.</th>
+							<th>Calc. % Deprec.</th>
+							<th>Calc.Avaluo Construc.</th>
+							<th>Calc.Depreciacion</th>
+							<th>Calc.Avaluo Terreno</th>
+							<th>Calc.Precio Real Mercado</th>
+							<th>Calc.Resta Cliente</th>
+							<th>Calc. %</th>
+							<th>Urbanizacion</th>
+							<th>Ciudad</th>
+							<th>Provincia</th>
+							<th>País</th>
+							<th>Tipo Vivienda</th>
+							<th>Usos</th>
+							<th>Situacion Inmueble</th>
+							<th>Usuario</th>
+							<th>Comisión</th>
+							<th>Acciones</th>
+                        </tr>
+						</thead>
+						<tbody>';
+	while ($rowJ = mysql_fetch_array($res)) {
+		switch ($rowJ[28])
+		{
+			case 1:
+				$color = " bgcolor='#04B404' ";
+				break;
+			case 2:
+				$color = " bgcolor='#FFFF00' ";
+				break;
+			case 3:
+				$color = " bgcolor='#FF8000' ";
+				break;
+			case 4:
+				$color = " bgcolor='red' ";
+				break;	
+		}
+		$cad3 .= '<tr'.$color.'>
+					<td>'.utf8_encode($rowJ[18]).'</td>
+					<td>'.utf8_encode($rowJ[1]).'</td>
+					<td>'.utf8_encode($rowJ[2]).'</td>
+					<td>'.utf8_encode($rowJ[3]).'</td>
+					<td>'.utf8_encode($rowJ[4]).'</td>
+					<td>'.utf8_encode($rowJ[5]).'</td>
+					<td>'.utf8_encode($rowJ[6]).'</td>
+					<td>'.utf8_encode($rowJ[7]).'</td>
+					<td>'.utf8_encode($rowJ[8]).'</td>
+					<td>'.utf8_encode($rowJ[9]).'</td>
+					<td>'.utf8_encode($rowJ[10]).'</td>
+					<td>'.utf8_encode($rowJ[11]).'</td>
+					<td>'.utf8_encode($rowJ[12]).'</td>
+					<td>'.utf8_encode($rowJ[13]).'</td>
+					<td>'.utf8_encode($rowJ[14]).'</td>
+					<td>'.utf8_encode($rowJ[15]).'</td>
+					<td>'.utf8_encode($rowJ[16]).'</td>
+					<td>'.utf8_encode($rowJ[17]).'</td>
 					<td>'.utf8_encode($rowJ[19]).'</td>
 					<td>'.utf8_encode($rowJ[20]).'</td>
 					<td>'.utf8_encode($rowJ[21]).'</td>

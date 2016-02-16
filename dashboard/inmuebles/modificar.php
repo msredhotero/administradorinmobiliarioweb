@@ -341,6 +341,7 @@ if ($_SESSION['idroll_predio'] == 1) {
                     </div>
                 </div>
 				<input type="hidden" id="accion" name="accion" value="<?php echo $modificar; ?>"/>
+                <input type="hidden" id="id" name="id" value="<?php echo $id; ?>"/>
             </div>
             
             
