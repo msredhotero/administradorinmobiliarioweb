@@ -573,6 +573,299 @@ padding-bottom: 10px;
 			cursor:pointer;
 		}
 		
+		.icovaloracion {
+			background:url(../imagenes/iconmenu/valoracion.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			float:left;
+			margin-right:10px;
+		}
+		
+		.icovaloracion2 {
+			background:url(../imagenes/iconmenu/valoracion.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			margin-right:10px;
+			margin-bottom:25px;
+			cursor:pointer;
+		}
+		
+		
+		.icocomisiones {
+			background:url(../imagenes/iconmenu/comisiones.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			float:left;
+			margin-right:10px;
+		}
+		
+		.icocomisiones2 {
+			background:url(../imagenes/iconmenu/comisiones.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			margin-right:10px;
+			margin-bottom:25px;
+			cursor:pointer;
+		}
+		
+		
+		.icotipoinformacion {
+			background:url(../imagenes/iconmenu/tipoinformacion.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			float:left;
+			margin-right:10px;
+		}
+		
+		.icotipoinformacion2 {
+			background:url(../imagenes/iconmenu/tipoinformacion.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			margin-right:10px;
+			margin-bottom:25px;
+			cursor:pointer;
+		}
+		
+		.icoperfiles {
+			background:url(../imagenes/iconmenu/perfiles.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			float:left;
+			margin-right:10px;
+		}
+		
+		.icoperfiles2 {
+			background:url(../imagenes/iconmenu/perfiles.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			margin-right:10px;
+			margin-bottom:25px;
+			cursor:pointer;
+		}
+		
+		
+		.icociudad {
+			background:url(../imagenes/iconmenu/ciudad.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			float:left;
+			margin-right:10px;
+		}
+		
+		.icociudad2 {
+			background:url(../imagenes/iconmenu/ciudad.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			margin-right:10px;
+			margin-bottom:25px;
+			cursor:pointer;
+		}
+		
+		.icousos {
+			background:url(../imagenes/iconmenu/usos.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			float:left;
+			margin-right:10px;
+		}
+		
+		.icousos2 {
+			background:url(../imagenes/iconmenu/usos.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			margin-right:10px;
+			margin-bottom:25px;
+			cursor:pointer;
+		}
+		
+		
+		.icopaises {
+			background:url(../imagenes/iconmenu/paises.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			float:left;
+			margin-right:10px;
+		}
+		
+		.icopaises2 {
+			background:url(../imagenes/iconmenu/paises.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			margin-right:10px;
+			margin-bottom:25px;
+			cursor:pointer;
+		}
+		
+		.icoinmuebles1 {
+			background:url(../imagenes/iconmenu/inmuebles1.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			float:left;
+			margin-right:10px;
+		}
+		
+		.icoinmuebles12 {
+			background:url(../imagenes/iconmenu/inmuebles1.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			margin-right:10px;
+			margin-bottom:25px;
+			cursor:pointer;
+		}
+		
+		
+		.icocostosnacional {
+			background:url(../imagenes/iconmenu/costosnacional.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			float:left;
+			margin-right:10px;
+		}
+		
+		.icocostosnacional2 {
+			background:url(../imagenes/iconmenu/costosnacional.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			margin-right:10px;
+			margin-bottom:25px;
+			cursor:pointer;
+		}
+		
+		.icotipovivienda {
+			background:url(../imagenes/iconmenu/tipovivienda.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			float:left;
+			margin-right:10px;
+		}
+		
+		.icotipovivienda2 {
+			background:url(../imagenes/iconmenu/tipovivienda.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			margin-right:10px;
+			margin-bottom:25px;
+			cursor:pointer;
+		}
+		
+		
+		.icourbanizacion {
+			background:url(../imagenes/iconmenu/urbanizacion.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			float:left;
+			margin-right:10px;
+		}
+		
+		.icourbanizacion2 {
+			background:url(../imagenes/iconmenu/urbanizacion.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			margin-right:10px;
+			margin-bottom:25px;
+			cursor:pointer;
+		}
+		
+		.icoprovincias {
+			background:url(../imagenes/iconmenu/provincias.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			float:left;
+			margin-right:10px;
+		}
+		
+		.icoprovincias2 {
+			background:url(../imagenes/iconmenu/provincias.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			margin-right:10px;
+			margin-bottom:25px;
+			cursor:pointer;
+		}
+		
+		
+		.icocostosmts {
+			background:url(../imagenes/iconmenu/costosmts.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			float:left;
+			margin-right:10px;
+		}
+		
+		.icocostosmts2 {
+			background:url(../imagenes/iconmenu/costosmts.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			margin-right:10px;
+			margin-bottom:25px;
+			cursor:pointer;
+		}
+		
+		.icosituacioninmueble {
+			background:url(../imagenes/iconmenu/situacioninmueble.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			float:left;
+			margin-right:10px;
+		}
+		
+		.icosituacioninmueble2 {
+			background:url(../imagenes/iconmenu/situacioninmueble.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			margin-right:10px;
+			margin-bottom:25px;
+			cursor:pointer;
+		}
+		
+		
+		.icosituaciones {
+			background:url(../imagenes/iconmenu/situaciones.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			float:left;
+			margin-right:10px;
+		}
+		
+		.icosituaciones2 {
+			background:url(../imagenes/iconmenu/situaciones.png) no-repeat;
+			background-position: center center;
+			width:40px;
+			height:25px;
+			margin-right:10px;
+			margin-bottom:25px;
+			cursor:pointer;
+		}
+		
 		
 		.ulHober {
 			list-style:none;
