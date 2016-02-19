@@ -126,6 +126,10 @@ th {
 caption {
    padding: 0.3em;
 }
+
+.headBoxInfo span {
+	cursor:pointer;
+}
 		
 	</style>
     
@@ -163,12 +167,12 @@ caption {
 
     <div class="boxInfoLargo">
         <div id="headBoxInfo">
-        	<p style="color: #fff; font-size:18px; height:16px;">Filtros</p>
-        	
-        </div>
-    	<div class="cuerpoBox">
+        	<p style="color: #fff; font-size:18px; height:16px;">Filtros <span class="glyphicon glyphicon-minus abrir" style="cursor:pointer; float:right; padding-right:12px;">(Cerrar)</span></p>
+	        
+        </div><!-- fin del headBoxInfo-->
+    	<div class="cuerpoBox filt">
             <form class="form-inline formulario" role="form">
-                <div class="row">
+            <div class="row">
     			<div class="form-group col-md-3">
                 	<label class="control-label" style="text-align:left" for="celular1">Urbanización</label>
                     <div class="input-group col-md-12">
@@ -345,41 +349,47 @@ caption {
                 </div>
             </div>
             </form>
-		</div>
-    </div>
+    </div><!-- fin del cuerpoBox-->
+
+    </div><!-- fin del BoxLargo-->
     
-    <div class="row" style="margin:0 15px;">
-    	<div class="col-md-4">
-        	<div align="center">
-            <h3>Valoración</h3>
-            </div>
-        	<div id="graph"></div>
-            <pre id="code" class="prettyprint linenums">
-
-            </pre>
-        </div>
-        <div class="col-md-4">
-        	<div align="center">
-            <h3>Tipo Vivienda</h3>
-            </div>
-        	<div id="graph2"></div>
-            <pre id="code2" class="prettyprint linenums">
-
-            </pre>
-        </div>
+    
+    <div class="boxInfoLargo2">
+    	<div class="cuerpoBox">
+            <div class="row" style="margin:0 15px;">
+                <div class="col-md-4">
+                    <div align="center">
+                    <h3>Valoración</h3>
+                    </div>
+                    
+                    <div id="graph"></div>
+                    <pre id="code" class="prettyprint linenums">
         
-        <div class="col-md-4">
-        	<div align="center">
-            <h3>Usos</h3>
+                    </pre>
+                </div>
+                <div class="col-md-4">
+                    <div align="center">
+                    <h3>Tipo Vivienda</h3>
+                    </div>
+                    <div id="graph2"></div>
+                    <pre id="code2" class="prettyprint linenums">
+        
+                    </pre>
+                </div>
+                
+                <div class="col-md-4">
+                    <div align="center">
+                    <h3>Usos</h3>
+                    </div>
+                    <div id="graph3"></div>
+                    <pre id="code3" class="prettyprint linenums">
+        
+                    </pre>
+                </div>
+        
             </div>
-        	<div id="graph3"></div>
-            <pre id="code3" class="prettyprint linenums">
-
-            </pre>
-        </div>
-
+    	</div>
     </div>
-    
     
     <div class="boxInfoLargo">
         <div id="headBoxInfo">
@@ -393,8 +403,7 @@ caption {
     
     
     
-   
-</div>
+
 
 
 </div>
@@ -443,6 +452,28 @@ caption {
   </script>
 <script type="text/javascript">
 $(document).ready(function(){
+	
+	$('.abrir').click(function() {
+		
+		if ($('.abrir').text() == '(Abrir)') {
+			$('.filt').show( "slow" );
+			$('.abrir').text('(Cerrar)');
+			$('.abrir').removeClass('glyphicon glyphicon-plus');
+			$('.abrir').addClass('glyphicon glyphicon-minus');
+		} else {
+			$('.filt').slideToggle( "slow" );
+			$('.abrir').text('(Abrir)');
+			$('.abrir').addClass('glyphicon glyphicon-plus');
+			$('.abrir').removeClass('glyphicon glyphicon-minus');
+
+		}
+	});
+	
+	$('.abrir').click();
+	
+	$('.abrir').click(function() {
+		$('.filt').show();
+	});
 	
 	function traerInmuebles() {
 		$.ajax({

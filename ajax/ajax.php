@@ -32,6 +32,20 @@ switch ($accion) {
 		registrar($serviciosUsuarios);
         break;
 
+
+/* PARA Sector */
+case 'insertarSector':
+insertarSector($serviciosReferencias);
+break;
+case 'modificarSector':
+modificarSector($serviciosReferencias);
+break;
+case 'eliminarSector':
+eliminarSector($serviciosReferencias);
+break;
+
+/* Fin */
+
 /* PARA Ciudades */
 case 'insertarCiudades':
 insertarCiudades($serviciosReferencias);
@@ -302,6 +316,39 @@ break;
 }
 
 //////////////////////////Traer datos */////////////////////////////////////////////////////////////
+
+
+/* PARA Sector */
+function insertarSector($serviciosReferencias) {
+$refciudad = $_POST['refciudad'];
+$sector = $_POST['sector'];
+$res = $serviciosReferencias->insertarSector($refciudad,$sector);
+if ((integer)$res > 0) {
+echo '';
+} else {
+echo 'Huvo un error al insertar datos';
+}
+}
+function modificarSector($serviciosReferencias) {
+$id = $_POST['id'];
+$refciudad = $_POST['refciudad'];
+$sector = $_POST['sector'];
+$res = $serviciosReferencias->modificarSector($id,$refciudad,$sector);
+if ($res == true) {
+echo '';
+} else {
+echo 'Huvo un error al modificar datos';
+}
+}
+function eliminarSector($serviciosReferencias) {
+$id = $_POST['id'];
+$res = $serviciosReferencias->eliminarSector($id);
+echo $res;
+}
+
+/* Fin */ 
+
+
 /* PARA Ciudades */
 function insertarCiudades($serviciosReferencias) {
 $refprovincia = $_POST['refprovincia'];
@@ -600,9 +647,9 @@ echo $res;
 
 /* PARA Urbanizacion */
 function insertarUrbanizacion($serviciosReferencias) {
-$refciudad = $_POST['refciudad'];
+$refsector = $_POST['refsector'];
 $urbanizacion = $_POST['urbanizacion'];
-$res = $serviciosReferencias->insertarUrbanizacion($refciudad,$urbanizacion);
+$res = $serviciosReferencias->insertarUrbanizacion($refsector,$urbanizacion);
 if ((integer)$res > 0) {
 echo '';
 } else {
@@ -611,9 +658,9 @@ echo 'Huvo un error al insertar datos';
 }
 function modificarUrbanizacion($serviciosReferencias) {
 $id = $_POST['id'];
-$refciudad = $_POST['refciudad'];
+$refsector = $_POST['refsector'];
 $urbanizacion = $_POST['urbanizacion'];
-$res = $serviciosReferencias->modificarUrbanizacion($id,$refciudad,$urbanizacion);
+$res = $serviciosReferencias->modificarUrbanizacion($id,$refsector,$urbanizacion);
 if ($res == true) {
 echo '';
 } else {

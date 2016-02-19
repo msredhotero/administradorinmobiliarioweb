@@ -20,6 +20,53 @@ function GUID()
 }
 
 
+/* PARA Sector */
+
+function insertarSector($refciudad,$sector) {
+$sql = "insert into sector(idsector,refciudad,sector)
+values ('',".$refciudad.",'".utf8_decode($sector)."')";
+$res = $this->query($sql,1);
+return $res;
+}
+
+
+function modificarSector($id,$refciudad,$sector) {
+$sql = "update sector
+set
+refciudad = ".$refciudad.",sector = '".utf8_decode($sector)."'
+where idsector =".$id;
+$res = $this->query($sql,0);
+return $res;
+}
+
+
+function eliminarSector($id) {
+$sql = "delete from sector where idsector =".$id;
+$res = $this->query($sql,0);
+return $res;
+}
+
+
+function traerSector() {
+$sql = "select idsector,sector, c.ciudad, p.provincia, pa.nombre ,refciudad
+		from sector s 
+		inner join ciudades c on c.idciudad = s.refciudad
+		inner join provincias p on p.idprovincia = c.refprovincia
+		inner join paises pa on pa.idpais = p.refpais
+		order by 1";
+$res = $this->query($sql,0);
+return $res;
+}
+
+
+function traerSectorPorId($id) {
+$sql = "select idsector,refciudad,sector from sector where idsector =".$id;
+$res = $this->query($sql,0);
+return $res;
+}
+
+/* Fin */
+
 
 /* PARA Ciudades */
 
@@ -469,18 +516,18 @@ return $res;
 
 /* PARA Urbanizacion */
 
-function insertarUrbanizacion($refciudad,$urbanizacion) {
-$sql = "insert into urbanizacion(idurbanizacion,refciudad,urbanizacion)
-values ('',".$refciudad.",'".utf8_decode($urbanizacion)."')";
+function insertarUrbanizacion($refsector,$urbanizacion) {
+$sql = "insert into urbanizacion(idurbanizacion,refsector,urbanizacion)
+values ('',".$refsector.",'".utf8_decode($urbanizacion)."')";
 $res = $this->query($sql,1);
 return $res;
 }
 
 
-function modificarUrbanizacion($id,$refciudad,$urbanizacion) {
+function modificarUrbanizacion($id,$refsector,$urbanizacion) {
 $sql = "update urbanizacion
 set
-refciudad = ".$refciudad.",urbanizacion = '".utf8_decode($urbanizacion)."'
+refsector = ".$refsector.",urbanizacion = '".utf8_decode($urbanizacion)."'
 where idurbanizacion =".$id;
 $res = $this->query($sql,0);
 return $res;
@@ -496,9 +543,10 @@ return $res;
 
 function traerUrbanizacion() {
 $sql = "select 
-			u.idurbanizacion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre , u.refciudad, c.idciudad, p.idprovincia, pa.idpais
+			u.idurbanizacion, u.urbanizacion, s.sector, c.ciudad, p.provincia, pa.nombre , c.idciudad, idsector, p.idprovincia, pa.idpais
 		from urbanizacion u
-		inner join ciudades c on c.idciudad = u.refciudad
+		inner join sector s on s.idsector = u.refsector 
+		inner join ciudades c on c.idciudad = s.refciudad
 		inner join provincias p on p.idprovincia = c.refprovincia
 		inner join paises pa on pa.idpais = p.refpais 
 		order by 2";
@@ -982,7 +1030,8 @@ i.refvaloracion, i.refurbanizacion, i.reftipovivienda, i.refuso, i.refsituacioni
 from inmuebles i 
 inner join valoracion v on v.idvaloracion = i.refvaloracion
 inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-inner join ciudades c on c.idciudad = u.refciudad
+inner join sector ss on ss.idsector = u.refsector
+inner join ciudades c on c.idciudad = ss.refciudad
 inner join provincias p on p.idprovincia = c.refprovincia
 inner join paises pa on pa.idpais = p.refpais
 inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
@@ -1017,7 +1066,8 @@ function buscarInmuebles($tipobusqueda,$busqueda) {
 						from inmuebles i 
 						inner join valoracion v on v.idvaloracion = i.refvaloracion
 						inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-						inner join ciudades c on c.idciudad = u.refciudad
+						inner join sector ss on ss.idsector = u.refsector
+						inner join ciudades c on c.idciudad = ss.refciudad
 						inner join provincias p on p.idprovincia = c.refprovincia
 						inner join paises pa on pa.idpais = p.refpais
 						inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
@@ -1040,7 +1090,8 @@ function buscarInmuebles($tipobusqueda,$busqueda) {
 						from inmuebles i 
 						inner join valoracion v on v.idvaloracion = i.refvaloracion
 						inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-						inner join ciudades c on c.idciudad = u.refciudad
+						inner join sector ss on ss.idsector = u.refsector
+						inner join ciudades c on c.idciudad = ss.refciudad
 						inner join provincias p on p.idprovincia = c.refprovincia
 						inner join paises pa on pa.idpais = p.refpais
 						inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
@@ -1063,7 +1114,8 @@ function buscarInmuebles($tipobusqueda,$busqueda) {
 						from inmuebles i 
 						inner join valoracion v on v.idvaloracion = i.refvaloracion
 						inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-						inner join ciudades c on c.idciudad = u.refciudad
+						inner join sector ss on ss.idsector = u.refsector
+						inner join ciudades c on c.idciudad = ss.refciudad
 						inner join provincias p on p.idprovincia = c.refprovincia
 						inner join paises pa on pa.idpais = p.refpais
 						inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
@@ -1086,7 +1138,8 @@ function buscarInmuebles($tipobusqueda,$busqueda) {
 						from inmuebles i 
 						inner join valoracion v on v.idvaloracion = i.refvaloracion
 						inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-						inner join ciudades c on c.idciudad = u.refciudad
+						inner join sector ss on ss.idsector = u.refsector
+						inner join ciudades c on c.idciudad = ss.refciudad
 						inner join provincias p on p.idprovincia = c.refprovincia
 						inner join paises pa on pa.idpais = p.refpais
 						inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
@@ -1109,7 +1162,8 @@ function buscarInmuebles($tipobusqueda,$busqueda) {
 						from inmuebles i 
 						inner join valoracion v on v.idvaloracion = i.refvaloracion
 						inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-						inner join ciudades c on c.idciudad = u.refciudad
+						inner join sector ss on ss.idsector = u.refsector
+						inner join ciudades c on c.idciudad = ss.refciudad
 						inner join provincias p on p.idprovincia = c.refprovincia
 						inner join paises pa on pa.idpais = p.refpais
 						inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
@@ -1133,7 +1187,8 @@ function graficosValoracion($where) {
 		from inmuebles i 
 			inner join valoracion v on v.idvaloracion = i.refvaloracion
 			inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-			inner join ciudades c on c.idciudad = u.refciudad
+			inner join sector ss on ss.idsector = u.refsector
+			inner join ciudades c on c.idciudad = ss.refciudad
 			inner join provincias p on p.idprovincia = c.refprovincia
 			inner join paises pa on pa.idpais = p.refpais
 			inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
@@ -1152,7 +1207,8 @@ function graficosValoracion($where) {
 		from inmuebles i 
 			inner join valoracion v on v.idvaloracion = i.refvaloracion
 			inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-			inner join ciudades c on c.idciudad = u.refciudad
+			inner join sector ss on ss.idsector = u.refsector
+			inner join ciudades c on c.idciudad = ss.refciudad
 			inner join provincias p on p.idprovincia = c.refprovincia
 			inner join paises pa on pa.idpais = p.refpais
 			inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
@@ -1170,7 +1226,8 @@ function graficosValoracion($where) {
 				from inmuebles i 
 					inner join valoracion v on v.idvaloracion = i.refvaloracion
 					inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-					inner join ciudades c on c.idciudad = u.refciudad
+					inner join sector ss on ss.idsector = u.refsector
+					inner join ciudades c on c.idciudad = ss.refciudad
 					inner join provincias p on p.idprovincia = c.refprovincia
 					inner join paises pa on pa.idpais = p.refpais
 					inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
@@ -1188,7 +1245,8 @@ function graficosValoracion($where) {
 				from inmuebles i 
 					inner join valoracion v on v.idvaloracion = i.refvaloracion
 					inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-					inner join ciudades c on c.idciudad = u.refciudad
+					inner join sector ss on ss.idsector = u.refsector
+					inner join ciudades c on c.idciudad = ss.refciudad
 					inner join provincias p on p.idprovincia = c.refprovincia
 					inner join paises pa on pa.idpais = p.refpais
 					inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
@@ -1262,9 +1320,6 @@ function graficosTipoVivienda($where) {
 					left join inmuebles i on tv.idtipovivienda = i.reftipovivienda
 					left join valoracion v on v.idvaloracion = i.refvaloracion
 					left join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-					left join ciudades c on c.idciudad = u.refciudad
-					left join provincias p on p.idprovincia = c.refprovincia
-					left join paises pa on pa.idpais = p.refpais
 					left join usos us on us.iduso = i.refuso
 					left join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
 					left join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
@@ -1280,7 +1335,8 @@ function graficosTipoVivienda($where) {
 		from inmuebles i 
 			inner join valoracion v on v.idvaloracion = i.refvaloracion
 			inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-			inner join ciudades c on c.idciudad = u.refciudad
+			inner join sector ss on ss.idsector = u.refsector
+			inner join ciudades c on c.idciudad = ss.refciudad
 			inner join provincias p on p.idprovincia = c.refprovincia
 			inner join paises pa on pa.idpais = p.refpais
 			inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
@@ -1299,9 +1355,7 @@ function graficosTipoVivienda($where) {
 					left join inmuebles i on tv.idtipovivienda = i.reftipovivienda
 					left join valoracion v on v.idvaloracion = i.refvaloracion
 					left join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-					left join ciudades c on c.idciudad = u.refciudad
-					left join provincias p on p.idprovincia = c.refprovincia
-					left join paises pa on pa.idpais = p.refpais
+					
 					left join usos us on us.iduso = i.refuso
 					left join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
 					left join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
@@ -1316,7 +1370,8 @@ function graficosTipoVivienda($where) {
 				from inmuebles i 
 					inner join valoracion v on v.idvaloracion = i.refvaloracion
 					inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-					inner join ciudades c on c.idciudad = u.refciudad
+					inner join sector ss on ss.idsector = u.refsector
+					inner join ciudades c on c.idciudad = ss.refciudad
 					inner join provincias p on p.idprovincia = c.refprovincia
 					inner join paises pa on pa.idpais = p.refpais
 					inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
@@ -1376,9 +1431,7 @@ function graficosUsos($where) {
 					left join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
 					left join valoracion v on v.idvaloracion = i.refvaloracion
 					left join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-					left join ciudades c on c.idciudad = u.refciudad
-					left join provincias p on p.idprovincia = c.refprovincia
-					left join paises pa on pa.idpais = p.refpais
+					
 					left join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
 					left join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
 					left join comision co on co.idcomision = i.refcomision
@@ -1393,7 +1446,8 @@ function graficosUsos($where) {
 		from inmuebles i 
 			inner join valoracion v on v.idvaloracion = i.refvaloracion
 			inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-			inner join ciudades c on c.idciudad = u.refciudad
+			inner join sector ss on ss.idsector = u.refsector
+			inner join ciudades c on c.idciudad = ss.refciudad
 			inner join provincias p on p.idprovincia = c.refprovincia
 			inner join paises pa on pa.idpais = p.refpais
 			inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
@@ -1413,9 +1467,7 @@ function graficosUsos($where) {
 					left join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
 					left join valoracion v on v.idvaloracion = i.refvaloracion
 					left join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-					left join ciudades c on c.idciudad = u.refciudad
-					left join provincias p on p.idprovincia = c.refprovincia
-					left join paises pa on pa.idpais = p.refpais
+					
 					left join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
 					left join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
 					left join comision co on co.idcomision = i.refcomision
@@ -1429,7 +1481,8 @@ function graficosUsos($where) {
 				from inmuebles i 
 					inner join valoracion v on v.idvaloracion = i.refvaloracion
 					inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-					inner join ciudades c on c.idciudad = u.refciudad
+					inner join sector ss on ss.idsector = u.refsector
+					inner join ciudades c on c.idciudad = ss.refciudad
 					inner join provincias p on p.idprovincia = c.refprovincia
 					inner join paises pa on pa.idpais = p.refpais
 					inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
@@ -1482,7 +1535,8 @@ function filtros($where) {
 				from inmuebles i 
 				inner join valoracion v on v.idvaloracion = i.refvaloracion
 				inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-				inner join ciudades c on c.idciudad = u.refciudad
+				inner join sector ss on ss.idsector = u.refsector
+				inner join ciudades c on c.idciudad = ss.refciudad
 				inner join provincias p on p.idprovincia = c.refprovincia
 				inner join paises pa on pa.idpais = p.refpais
 				inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
@@ -1506,7 +1560,8 @@ function filtros($where) {
 				from inmuebles i 
 				inner join valoracion v on v.idvaloracion = i.refvaloracion
 				inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
-				inner join ciudades c on c.idciudad = u.refciudad
+				inner join sector ss on ss.idsector = u.refsector
+				inner join ciudades c on c.idciudad = ss.refciudad
 				inner join provincias p on p.idprovincia = c.refprovincia
 				inner join paises pa on pa.idpais = p.refpais
 				inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda

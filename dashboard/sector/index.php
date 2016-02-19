@@ -22,50 +22,48 @@ $serviciosReferencias 	= new ServiciosReferencias();
 $fecha = date('Y-m-d');
 
 //$resProductos = $serviciosProductos->traerProductosLimite(6);
-$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Urbanización",$_SESSION['refroll_predio'],'');
+$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Sector",$_SESSION['refroll_predio'],'');
 
 
 /////////////////////// Opciones pagina ///////////////////////////////////////////////
-$singular = "Urbanización";
+$singular = "Sector";
 
-$plural = "Urbanizaciones";
+$plural = "Sectores";
 
-$eliminar = "eliminarUrbanizacion";
+$eliminar = "eliminarSector";
 
-$insertar = "insertarUrbanizacion";
+$insertar = "insertarSector";
 
 $tituloWeb = "Gestión: Caracol Bienes Raíces";
 //////////////////////// Fin opciones ////////////////////////////////////////////////
 
 
 /////////////////////// Opciones para la creacion del formulario  /////////////////////
-$tabla 			= "urbanizacion";
+$tabla 			= "sector";
 
-$lblCambio	 	= array("refsector");
-$lblreemplazo	= array("Sector");
+$lblCambio	 	= array("refciudad");
+$lblreemplazo	= array("Ciudades");
 
+
+$resCiudad 	= $serviciosReferencias->traerCiudades();
 $cadRef = '';
-
-$resCiudades 	= $serviciosReferencias->traerSector();
-$cadRef = '';
-while ($rowTT = mysql_fetch_array($resCiudades)) {
-	$cadRef = $cadRef.'<option value="'.$rowTT[0].'">'.utf8_encode($rowTT[4]).' - '.utf8_encode($rowTT[3]).' - '.utf8_encode($rowTT[2]).' - '.utf8_encode($rowTT[1]).'</option>';
+while ($rowTT = mysql_fetch_array($resCiudad)) {
+	$cadRef = $cadRef.'<option value="'.$rowTT[0].'">'.utf8_encode($rowTT[3]).' - '.utf8_encode($rowTT[2]).' - '.utf8_encode($rowTT[1]).'</option>';
 	
 }
 
 $refdescripcion = array(0 => $cadRef);
-$refCampo 	=  array("refsector");
+$refCampo 	=  array("refciudad");
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
 
 
 
 /////////////////////// Opciones para la creacion del view  /////////////////////
-$cabeceras 		= "	<th>Urbanización</th>
-					<th>Sector</th>
+$cabeceras 		= "	<th>Sector</th>
 					<th>Ciudad</th>
 					<th>Provincia</th>
-					<th>País</th>";
+					<th>Paises</th>";
 
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
@@ -74,7 +72,7 @@ $cabeceras 		= "	<th>Urbanización</th>
 
 $formulario 	= $serviciosFunciones->camposTabla($insertar ,$tabla,$lblCambio,$lblreemplazo,$refdescripcion,$refCampo);
 
-$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerUrbanizacion(),5);
+$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerSector(),4);
 
 
 

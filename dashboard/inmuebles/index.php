@@ -152,7 +152,7 @@ if ($_SESSION['idroll_predio'] == 1) {
                     	<select data-placeholder="selecione el cliente..." id="refurbanizacion" name="refurbanizacion" class="chosen-select" style="width:450px;" tabindex="2">
                             <option value=""></option>
                             <?php while ($rowC = mysql_fetch_array($resUrbanizacion)) { ?>
-                                <option value="<?php echo $rowC[0]; ?>"><?php echo $rowC[4].' - '.$rowC[3].' - '.$rowC[2].' - '.$rowC[1]; ?></option>
+                                <option value="<?php echo $rowC[0]; ?>"><?php echo $rowC[5].' - '.$rowC[4].' - '.$rowC[3].' - '.$rowC[2].' - '.$rowC[1]; ?></option>
                             <?php } ?>
                             
                         </select>

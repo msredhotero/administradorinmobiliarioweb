@@ -48,7 +48,7 @@ $lblreemplazo	= array("Provincia");
 $resProvincia 	= $serviciosReferencias->traerProvincias();
 $cadRef = '';
 while ($rowTT = mysql_fetch_array($resProvincia)) {
-	$cadRef = $cadRef.'<option value="'.$rowTT[0].'">'.utf8_encode($rowTT[1]).'</option>';
+	$cadRef = $cadRef.'<option value="'.$rowTT[0].'">'.utf8_encode($rowTT[2]).' - '.utf8_encode($rowTT[1]).'</option>';
 	
 }
 
