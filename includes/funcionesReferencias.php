@@ -20,6 +20,20 @@ function GUID()
 }
 
 
+
+function traerRegiones() {
+$sql = "select idregion,region from regiones order by 1";
+$res = $this->query($sql,0);
+return $res;
+}
+
+
+function traerRegionesPorId($id) {
+$sql = "select idregion,region from regiones where idregion =".$id;
+$res = $this->query($sql,0);
+return $res;
+} 
+
 /* PARA Sector */
 
 function insertarSector($refciudad,$sector) {
@@ -715,14 +729,27 @@ return $res;
 
 
 function traerCostomts() {
+$sqlReg	=	"select idcostomts, rr.region
+				from costomts c 
+			inner join regiones rr on rr.idregion = c.refregion
+			inner join usos u on u.iduso = c.refuso
+			inner join usuariosregistrados ur on ur.idusuarioregistrado = c.refusuario ";	
+
+$resCad	=	$this->query($sqlReg,0);
+		
+while ($rowR = mysql_fetch_array($resCad)) {
+		
+}
 $sql = "select idcostomts,CONCAT(cc.ciudad,' - ',p.provincia,' - ',pa.nombre) as ciudad,u.usos,valormts,fechamodi,ur.apellidoynombre,refusuario ,refciudad,refuso
 from costomts c 
+inner join (select idregion from regiones rr where rr.idregion = c.refregion)
 inner join ciudades cc on cc.idciudad = c.refciudad
 inner join provincias p on p.idprovincia = cc.refprovincia
 inner join paises pa on pa.idpais = p.refpais
 inner join usos u on u.iduso = c.refuso
 inner join usuariosregistrados ur on ur.idusuarioregistrado = c.refusuario 
 order by pa.nombre,p.provincia,cc.ciudad";
+
 $res = $this->query($sql,0);
 return $res;
 }

@@ -41,13 +41,35 @@ $tituloWeb = "Gestión: Caracol Bienes Raíces";
 /////////////////////// Opciones para la creacion del formulario  /////////////////////
 $tabla 			= "costomts";
 
-$lblCambio	 	= array("refciudad","refuso","fechamodi","refusuario","valormts");
-$lblreemplazo	= array("Ciudad","Uso","Fecha Modificación","Usuario","Valor Mtrs");
+$lblCambio	 	= array("refregion","refuso","fechamodi","refusuario","valormts");
+$lblreemplazo	= array("Region","Uso","Fecha Modificación","Usuario","Valor Mtrs");
+
+
+$resProvincias 	= $serviciosReferencias->traerProvincias();
+$cadRefPP = '';
+while ($rowPP = mysql_fetch_array($resProvincias)) {
+	$cadRefPP = $cadRefPP.'<option value="'.$rowPP[0].'">'.utf8_encode($rowPP[1]).'</option>';
+}
+
 
 $resCiudad 	= $serviciosReferencias->traerCiudades();
 $cadRef = '';
 while ($rowTT = mysql_fetch_array($resCiudad)) {
 	$cadRef = $cadRef.'<option value="'.$rowTT[0].'">'.utf8_encode($rowTT[1]).'</option>';
+}
+
+
+$resSector 	= $serviciosReferencias->traerSector();
+$cadRefSS = '';
+while ($rowSS = mysql_fetch_array($resSector)) {
+	$cadRefSS = $cadRefSS.'<option value="'.$rowSS[0].'">'.utf8_encode($rowSS[1]).'</option>';
+}
+
+
+$resUrbanizacion 	= $serviciosReferencias->traerUrbanizacion();
+$cadRefUU = '';
+while ($rowUU = mysql_fetch_array($resRegiones)) {
+	$cadRefUU = $cadRefUU.'<option value="'.$rowUU[0].'">'.utf8_encode($rowUU[1]).'</option>';
 }
 
 
@@ -78,8 +100,10 @@ if ($_SESSION['idroll_predio'] == 1) {
 	
 }
 
-$refdescripcion = array(0 => $cadRef,1 => $cadRefU,2 => $cadRefUsu);
-$refCampo 	=  array("refciudad","refuso", "refusuario");
+
+
+$refdescripcion = array(0 => $cadRef,1 => $cadRefU,2 => $cadRefUsu,3=>$cadRefPP,4=>$cadRefSS,5=>$cadRefUU);
+$refCampo 	=  array("refciudad","refuso", "refusuario","refprovincia","refsector","refurbanizacion");
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
 
@@ -99,7 +123,7 @@ $cabeceras 		= "	<th>Ciudad</th>
 
 $formulario 	= $serviciosFunciones->camposTabla($insertar ,$tabla,$lblCambio,$lblreemplazo,$refdescripcion,$refCampo);
 
-$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerCostomts(),5);
+$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerCostomts(),6);
 
 
 
