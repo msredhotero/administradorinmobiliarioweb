@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 10-02-2016 a las 13:29:32
--- Versión del servidor: 5.5.24-log
+-- Tiempo de generación: 22-02-2016 a las 18:36:27
+-- Versión del servidor: 5.1.36-community-log
 -- Versión de PHP: 5.4.3
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
@@ -31,14 +31,18 @@ CREATE TABLE IF NOT EXISTS `ciudades` (
   `refprovincia` smallint(6) NOT NULL,
   `ciudad` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`idciudad`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=6 ;
 
 --
 -- Volcado de datos para la tabla `ciudades`
 --
 
 INSERT INTO `ciudades` (`idciudad`, `refprovincia`, `ciudad`) VALUES
-(1, 1, 'La Plata');
+(1, 1, 'La Plata'),
+(2, 1, 'Pilar'),
+(3, 1, 'Lujan'),
+(4, 2, 'Caluma'),
+(5, 3, 'Guayaquil');
 
 -- --------------------------------------------------------
 
@@ -73,20 +77,28 @@ INSERT INTO `comision` (`idcomision`, `comision`) VALUES
 
 CREATE TABLE IF NOT EXISTS `costomts` (
   `idcostomts` int(11) NOT NULL AUTO_INCREMENT,
-  `refciudad` int(11) NOT NULL,
+  `refprovincia` int(11) DEFAULT NULL,
+  `refciudad` int(11) DEFAULT NULL,
+  `refsector` int(11) DEFAULT NULL,
+  `refurbanizacion` int(11) DEFAULT NULL,
   `refuso` smallint(6) NOT NULL,
   `valormts` decimal(18,2) NOT NULL,
   `fechamodi` date DEFAULT NULL,
   `refusuario` int(11) NOT NULL,
   PRIMARY KEY (`idcostomts`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=7 ;
 
 --
 -- Volcado de datos para la tabla `costomts`
 --
 
-INSERT INTO `costomts` (`idcostomts`, `refciudad`, `refuso`, `valormts`, `fechamodi`, `refusuario`) VALUES
-(1, 1, 1, '2600.00', '2016-02-11', 1);
+INSERT INTO `costomts` (`idcostomts`, `refprovincia`, `refciudad`, `refsector`, `refurbanizacion`, `refuso`, `valormts`, `fechamodi`, `refusuario`) VALUES
+(1, 1, 1, NULL, NULL, 1, '2600.00', '2016-02-11', 1),
+(2, 1, 1, NULL, NULL, 1, '95.00', '2016-02-10', 1),
+(3, 3, 1, NULL, NULL, 2, '102.00', '2016-02-10', 1),
+(4, 1, 1, NULL, NULL, 4, '99.00', '2016-02-10', 1),
+(5, 4, 1, NULL, NULL, 2, '780.00', '2016-02-16', 3),
+(6, 4, 1, NULL, NULL, 1, '450.00', '2016-02-16', 3);
 
 -- --------------------------------------------------------
 
@@ -143,7 +155,30 @@ CREATE TABLE IF NOT EXISTS `inmuebles` (
   `calc_porcentaje` decimal(18,2) DEFAULT NULL,
   `refvaloracion` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`idinmueble`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `inmuebles`
+--
+
+INSERT INTO `inmuebles` (`idinmueble`, `refurbanizacion`, `reftipovivienda`, `refuso`, `refsituacioninmueble`, `dormitorios`, `banios`, `encontruccion`, `mts2`, `anioconstruccion`, `precioventapropietario`, `nombrepropietario`, `apellidopropietario`, `fechacarga`, `refusuario`, `refcomision`, `calc_edadconstruccion`, `calc_porcentajedepreciacion`, `calc_avaluoconstruccion`, `calc_depreciacion`, `calc_avaluoterreno`, `calc_preciorealmercado`, `calc_restacliente`, `calc_porcentaje`, `refvaloracion`) VALUES
+(1, 1, 1, 1, 2, 2, 1, 100, '250.00', 127, '550450.00', 'Pato', 'Toranzo', '2016-02-11', 1, 4, '5.00', '8.33', '206000.00', '12.00', '650000.00', '650012.00', '99562.00', '15.32', 2),
+(2, 2, 1, 1, 2, 2, 1, 80, '120.00', 127, '400500.00', 'kok', 'pop', '2016-02-16', 1, 3, '26.00', '43.33', '164800.00', '2.31', '312000.00', '312002.31', '-88497.69', '-28.36', 1),
+(3, 3, 9, 2, 2, 1, 1, 70, '70.00', 127, '10653.00', 'Gaston', 'Braque', '2016-02-16', 2, 1, '1889.00', '3148.33', '144200.00', '0.03', '54600.00', '54600.03', '43947.03', '80.49', 4),
+(4, 3, 1, 1, 2, 5, 2, 220, '400.00', 127, '3488210.00', 'lol', 'qew', '2016-02-16', 1, 1, '41.00', '68.33', '453200.00', '1.46', '180000.00', '180001.46', '-3308208.54', '-1837.88', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `inmueblesituacioninmueble`
+--
+
+CREATE TABLE IF NOT EXISTS `inmueblesituacioninmueble` (
+  `idinmueblesituacioninmueble` int(11) NOT NULL AUTO_INCREMENT,
+  `refinmueble` int(11) NOT NULL,
+  `refsituacioninmueble` int(11) NOT NULL,
+  PRIMARY KEY (`idinmueblesituacioninmueble`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -160,7 +195,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `hover` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
   `permiso` varchar(50) COLLATE utf8_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`idmenu`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=36 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=37 ;
 
 --
 -- Volcado de datos para la tabla `menu`
@@ -172,7 +207,7 @@ INSERT INTO `menu` (`idmenu`, `url`, `icono`, `nombre`, `Orden`, `hover`, `permi
 (16, '../paises/', 'icoclientes', 'Paises', 15, NULL, 'Administrador'),
 (17, '../provincias/', 'icoinmubles', 'Provincias', 16, NULL, 'Administrador'),
 (18, '../ciudades/', 'icoalquileres', 'Ciudades', 17, NULL, 'Administrador'),
-(19, '../urbanizacion/', 'icopagos', 'Urbanización', 18, NULL, 'Administrador'),
+(19, '../urbanizacion/', 'icopagos', 'Urbanización', 19, NULL, 'Administrador'),
 (20, '../usuarios/', 'icousuarios', 'Usuarios', 28, NULL, 'Administrador'),
 (21, '../reportes/', 'icoreportes', 'Reportes', 29, NULL, 'Administrador'),
 (22, '../comision/', 'icosalir', 'Comisión', 14, NULL, 'Administrador'),
@@ -188,7 +223,8 @@ INSERT INTO `menu` (`idmenu`, `url`, `icono`, `nombre`, `Orden`, `hover`, `permi
 (32, '../tipovivienda/', 'icopagos', 'Tipo Vivienda', 4, NULL, 'Administrador'),
 (33, '../usos/', 'icopagos', 'Usos', 5, NULL, 'Administrador'),
 (34, '../usuariosregistrados/', 'icousuarios', 'Usuarios Registrados', 13, NULL, 'Administrador'),
-(35, '../valoracion/', 'icopagos', 'Valoración', 6, NULL, 'Administrador');
+(35, '../valoracion/', 'icopagos', 'Valoración', 6, NULL, 'Administrador'),
+(36, '../sector/', 'icoalquileres', 'Sector', 18, NULL, 'Administrador');
 
 -- --------------------------------------------------------
 
@@ -257,14 +293,61 @@ CREATE TABLE IF NOT EXISTS `provincias` (
   `refpais` smallint(6) NOT NULL,
   `provincia` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`idprovincia`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `provincias`
 --
 
 INSERT INTO `provincias` (`idprovincia`, `refpais`, `provincia`) VALUES
-(1, 1, 'Buenos Aires');
+(1, 1, 'Buenos Aires'),
+(2, 2, 'Bolívar'),
+(3, 2, 'Guayas');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `regiones`
+--
+
+CREATE TABLE IF NOT EXISTS `regiones` (
+  `idregion` int(11) NOT NULL AUTO_INCREMENT,
+  `region` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`idregion`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=6 ;
+
+--
+-- Volcado de datos para la tabla `regiones`
+--
+
+INSERT INTO `regiones` (`idregion`, `region`) VALUES
+(1, 'paises'),
+(2, 'provincias'),
+(3, 'ciudades'),
+(4, 'sector'),
+(5, 'urbanizacion');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `sector`
+--
+
+CREATE TABLE IF NOT EXISTS `sector` (
+  `idsector` int(11) NOT NULL AUTO_INCREMENT,
+  `refciudad` int(11) NOT NULL,
+  `sector` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`idsector`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=5 ;
+
+--
+-- Volcado de datos para la tabla `sector`
+--
+
+INSERT INTO `sector` (`idsector`, `refciudad`, `sector`) VALUES
+(1, 1, 'La Plata'),
+(2, 5, 'Samborombon'),
+(4, 5, 'Cruz');
 
 -- --------------------------------------------------------
 
@@ -391,18 +474,20 @@ INSERT INTO `tipovivienda` (`idtipovivienda`, `tipovivienda`) VALUES
 
 CREATE TABLE IF NOT EXISTS `urbanizacion` (
   `idurbanizacion` int(11) NOT NULL AUTO_INCREMENT,
-  `refciudad` int(11) NOT NULL,
+  `refsector` int(11) NOT NULL,
   `urbanizacion` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`idurbanizacion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `urbanizacion`
 --
 
-INSERT INTO `urbanizacion` (`idurbanizacion`, `refciudad`, `urbanizacion`) VALUES
+INSERT INTO `urbanizacion` (`idurbanizacion`, `refsector`, `urbanizacion`) VALUES
 (1, 1, 'Ensenada'),
-(2, 1, 'La Plata');
+(2, 1, 'La Plata'),
+(3, 4, 'Caluma'),
+(4, 2, 'El Rio');
 
 -- --------------------------------------------------------
 
@@ -451,7 +536,7 @@ CREATE TABLE IF NOT EXISTS `usuariosregistrados` (
   `documento` varchar(11) COLLATE utf8_spanish_ci NOT NULL,
   `password` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`idusuarioregistrado`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `usuariosregistrados`
@@ -459,7 +544,8 @@ CREATE TABLE IF NOT EXISTS `usuariosregistrados` (
 
 INSERT INTO `usuariosregistrados` (`idusuarioregistrado`, `fechadeingreso`, `reftipousuario`, `apellidoynombre`, `nombreentidad`, `celular1`, `celular2`, `celular3`, `email1`, `email2`, `refsituacion`, `refurbanizacion`, `calle`, `nro`, `codpostal`, `documento`, `password`) VALUES
 (1, '2016-01-01', 1, 'Saupurein Marcos', 'Caracol', NULL, NULL, NULL, 'msredhotero@msn.com', NULL, 1, 1, '76', '123', '1900', '31552466', 'm'),
-(2, '2016-02-09', 3, 'Martinoli Alexandra', 'Alex', '1564983215', '', '', 'alex@msn.com', '', 1, 2, '16', '846', '1900', '25444666', 'alex');
+(2, '2016-02-09', 3, 'Martinoli Alexandra', 'Alex', '1564983215', '', '', 'alex@msn.com', '', 1, 2, '16', '846', '1900', '25444666', 'alex'),
+(3, '2016-02-11', 7, 'Kike', 'Caracol', '1651894', '', '', 'kike@msn.com', '', 1, 2, '45', '849', '1900', '17849561', 'kike');
 
 -- --------------------------------------------------------
 
@@ -471,6 +557,8 @@ CREATE TABLE IF NOT EXISTS `valoracion` (
   `idvaloracion` smallint(6) NOT NULL AUTO_INCREMENT,
   `valoracion` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
   `observacion` varchar(30) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `desde` int(11) DEFAULT NULL,
+  `hasta` int(11) DEFAULT NULL,
   PRIMARY KEY (`idvaloracion`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=5 ;
 
@@ -478,11 +566,11 @@ CREATE TABLE IF NOT EXISTS `valoracion` (
 -- Volcado de datos para la tabla `valoracion`
 --
 
-INSERT INTO `valoracion` (`idvaloracion`, `valoracion`, `observacion`) VALUES
-(1, '< -20%', 'OPORTUNIDAD'),
-(2, '> -20% Y < 20%', 'NORMAL'),
-(3, '> 21% Y <30%', 'CARO'),
-(4, '>31%', 'FUERA DEL MERCADO');
+INSERT INTO `valoracion` (`idvaloracion`, `valoracion`, `observacion`, `desde`, `hasta`) VALUES
+(1, '< -20%', 'OPORTUNIDAD', -9999999, -20),
+(2, '> -20% Y < 20%', 'NORMAL', -21, 20),
+(3, '> 21% Y <30%', 'CARO', 21, 30),
+(4, '>31%', 'FUERA DEL MERCADO', 31, 9999999);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
