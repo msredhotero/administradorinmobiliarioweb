@@ -703,22 +703,22 @@ return $res;
 
 /* PARA Costomts */
 
-function insertarCostomts($refciudad,$refuso,$valormts,$fechamodi,$refusuario) {
-$sql = "insert into costomts(idcostomts,refciudad,refuso,valormts,fechamodi,refusuario)
-values ('',".$refciudad.",".$refuso.",".$valormts.",'".utf8_decode($fechamodi)."',".$refusuario.")";
+function insertarCostomts($refprovincia,$refciudad,$refsector,$refurbanizacion,$refuso,$valormts,$fechamodi,$refusuario) {
+$sql = "insert into costomts(idcostomts,refprovincia,refciudad,refsector,refurbanizacion,refuso,valormts,fechamodi,refusuario)
+values ('',".($refprovincia == '' ? 'null' : $refprovincia).",".($refciudad == '' ? 'null' : $refciudad).",".($refsector == '' ? 'null' : $refsector).",".($refurbanizacion == '' ? 'null' : $refurbanizacion).",".$refuso.",".$valormts.",'".utf8_decode($fechamodi)."',".$refusuario.")";
 $res = $this->query($sql,1);
 return $res;
 }
 
 
-function modificarCostomts($id,$refciudad,$refuso,$valormts,$fechamodi,$refusuario) {
+function modificarCostomts($id,$refprovincia,$refciudad,$refsector,$refurbanizacion,$refuso,$valormts,$fechamodi,$refusuario) {
 $sql = "update costomts
 set
-refciudad = ".$refciudad.",refuso = ".$refuso.",valormts = ".$valormts.",fechamodi = '".utf8_decode($fechamodi)."',refusuario = ".$refusuario."
+refprovincia = ".$refprovincia.",refciudad = ".$refciudad.",refsector = ".$refsector.",refurbanizacion = ".$refurbanizacion.",refuso = ".$refuso.",valormts = ".$valormts.",fechamodi = '".utf8_decode($fechamodi)."',refusuario = ".$refusuario."
 where idcostomts =".$id;
 $res = $this->query($sql,0);
 return $res;
-}
+} 
 
 
 function eliminarCostomts($id) {
@@ -729,26 +729,122 @@ return $res;
 
 
 function traerCostomts() {
-$sqlReg	=	"select idcostomts, rr.region
-				from costomts c 
-			inner join regiones rr on rr.idregion = c.refregion
-			inner join usos u on u.iduso = c.refuso
-			inner join usuariosregistrados ur on ur.idusuarioregistrado = c.refusuario ";	
 
-$resCad	=	$this->query($sqlReg,0);
-		
-while ($rowR = mysql_fetch_array($resCad)) {
-		
-}
-$sql = "select idcostomts,CONCAT(cc.ciudad,' - ',p.provincia,' - ',pa.nombre) as ciudad,u.usos,valormts,fechamodi,ur.apellidoynombre,refusuario ,refciudad,refuso
-from costomts c 
-inner join (select idregion from regiones rr where rr.idregion = c.refregion)
-inner join ciudades cc on cc.idciudad = c.refciudad
-inner join provincias p on p.idprovincia = cc.refprovincia
-inner join paises pa on pa.idpais = p.refpais
-inner join usos u on u.iduso = c.refuso
-inner join usuariosregistrados ur on ur.idusuarioregistrado = c.refusuario 
-order by pa.nombre,p.provincia,cc.ciudad";
+$sql = "select
+t.idcostomts,max(t.urbanizacion) as urbanizacion,max(t.sector) as sector,max(t.ciudad) as ciudad,max(t.provincia) as provincia, t.usos,t.valormts, t.fechamodi, t.apellidoynombre,t.refusuario,t.refuso
+from (
+	select 
+		idcostomts,
+		uu.urbanizacion,
+		'' as sector,
+		'' as ciudad,
+		'' as provincia,
+		u.usos,
+		valormts,
+		fechamodi,
+		ur.apellidoynombre,
+		refusuario,
+		refuso
+	from
+		costomts c
+			inner join
+		urbanizacion uu ON uu.idurbanizacion = c.refurbanizacion
+			inner join
+		sector ss ON ss.idsector = uu.refsector
+			inner join
+		ciudades cc ON cc.idciudad = ss.refciudad
+			inner join
+		provincias p ON p.idprovincia = cc.refprovincia
+			inner join
+		paises pa ON pa.idpais = p.refpais
+			inner join
+		usos u ON u.iduso = c.refuso
+			inner join
+		usuariosregistrados ur ON ur.idusuarioregistrado = c.refusuario
+
+	union all
+
+	select 
+		idcostomts,
+		'' as urbanizacion,
+		ss.sector as sector,
+		'' as ciudad,
+		'' as provincia,
+		u.usos,
+		valormts,
+		fechamodi,
+		ur.apellidoynombre,
+		refusuario,
+		refuso
+	from
+		costomts c
+			inner join
+		sector ss ON ss.idsector = c.refsector
+			inner join
+		ciudades cc ON cc.idciudad = ss.refciudad
+			inner join
+		provincias p ON p.idprovincia = cc.refprovincia
+			inner join
+		paises pa ON pa.idpais = p.refpais
+			inner join
+		usos u ON u.iduso = c.refuso
+			inner join
+		usuariosregistrados ur ON ur.idusuarioregistrado = c.refusuario
+
+	union all
+
+	select 
+		idcostomts,
+		'' as urbanizacion,
+		'' as sector,
+		cc.ciudad as ciudad,
+		'' as provincia,
+		u.usos,
+		valormts,
+		fechamodi,
+		ur.apellidoynombre,
+		refusuario,
+		refuso
+	from
+		costomts c
+			inner join
+		ciudades cc ON cc.idciudad = c.refciudad
+			inner join
+		provincias p ON p.idprovincia = cc.refprovincia
+			inner join
+		paises pa ON pa.idpais = p.refpais
+			inner join
+		usos u ON u.iduso = c.refuso
+			inner join
+		usuariosregistrados ur ON ur.idusuarioregistrado = c.refusuario
+
+	union all
+
+	select 
+		idcostomts,
+		'' as urbanizacion,
+		'' as sector,
+		'' as ciudad,
+		p.provincia as provincia,
+		u.usos,
+		valormts,
+		fechamodi,
+		ur.apellidoynombre,
+		refusuario,
+		refuso
+	from
+		costomts c
+			inner join
+		provincias p ON p.idprovincia = c.refprovincia
+			inner join
+		paises pa ON pa.idpais = p.refpais
+			inner join
+		usos u ON u.iduso = c.refuso
+			inner join
+		usuariosregistrados ur ON ur.idusuarioregistrado = c.refusuario
+	) as t
+	group by t.idcostomts, t.usos,t.valormts, t.fechamodi, t.apellidoynombre,t.refusuario,t.refuso
+";
 
 $res = $this->query($sql,0);
 return $res;

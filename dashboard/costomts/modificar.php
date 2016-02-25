@@ -48,8 +48,8 @@ $tituloWeb = "Gestión: Caracol Bienes Raíces";
 /////////////////////// Opciones para la creacion del formulario  /////////////////////
 $tabla 			= "costomts";
 
-$lblCambio	 	= array("refciudad","refuso","fechamodi","refusuario");
-$lblreemplazo	= array("Ciudad","Uso","Fecha Modificación","Usuario");
+$lblCambio	 	= array("refciudad","refuso","fechamodi","refusuario","refprovincia","refurbanizacion","refsector");
+$lblreemplazo	= array("Ciudad","Uso","Fecha Modificación","Usuario","Provincia","Urbanizacion","Sector");
 
 $resCiudad 	= $serviciosReferencias->traerCiudades();
 $cadRef = '';

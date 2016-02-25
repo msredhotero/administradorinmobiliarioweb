@@ -41,34 +41,42 @@ $tituloWeb = "Gestión: Caracol Bienes Raíces";
 /////////////////////// Opciones para la creacion del formulario  /////////////////////
 $tabla 			= "costomts";
 
-$lblCambio	 	= array("refregion","refuso","fechamodi","refusuario","valormts");
-$lblreemplazo	= array("Region","Uso","Fecha Modificación","Usuario","Valor Mtrs");
+$lblCambio	 	= array("refciudad","refuso","fechamodi","refusuario","valormts","refprovincia","refurbanizacion","refsector");
+$lblreemplazo	= array("Ciudad","Uso","Fecha Modificación","Usuario","Valor Mtrs","Provincia","Urbanizacion","Sector");
 
 
 $resProvincias 	= $serviciosReferencias->traerProvincias();
 $cadRefPP = '';
+$cadRefPP = $cadRefPP.'<option value=""></option>';
 while ($rowPP = mysql_fetch_array($resProvincias)) {
+	
 	$cadRefPP = $cadRefPP.'<option value="'.$rowPP[0].'">'.utf8_encode($rowPP[1]).'</option>';
 }
 
 
 $resCiudad 	= $serviciosReferencias->traerCiudades();
 $cadRef = '';
+$cadRef = $cadRef.'<option value=""></option>';
 while ($rowTT = mysql_fetch_array($resCiudad)) {
+	
 	$cadRef = $cadRef.'<option value="'.$rowTT[0].'">'.utf8_encode($rowTT[1]).'</option>';
 }
 
 
 $resSector 	= $serviciosReferencias->traerSector();
 $cadRefSS = '';
+$cadRefSS = $cadRefSS.'<option value=""></option>';
 while ($rowSS = mysql_fetch_array($resSector)) {
+	
 	$cadRefSS = $cadRefSS.'<option value="'.$rowSS[0].'">'.utf8_encode($rowSS[1]).'</option>';
 }
 
 
 $resUrbanizacion 	= $serviciosReferencias->traerUrbanizacion();
 $cadRefUU = '';
-while ($rowUU = mysql_fetch_array($resRegiones)) {
+$cadRefUU = $cadRefUU.'<option value=""></option>';
+while ($rowUU = mysql_fetch_array($resUrbanizacion)) {
+	
 	$cadRefUU = $cadRefUU.'<option value="'.$rowUU[0].'">'.utf8_encode($rowUU[1]).'</option>';
 }
 
@@ -110,7 +118,10 @@ $refCampo 	=  array("refciudad","refuso", "refusuario","refprovincia","refsector
 
 
 /////////////////////// Opciones para la creacion del view  /////////////////////
-$cabeceras 		= "	<th>Ciudad</th>
+$cabeceras 		= "	<th>Urbanización</th>
+					<th>Sector</th>
+					<th>Ciudad</th>
+					<th>Provincia</th>
 					<th>Uso</th>
 					<th>Valor Mtrs</th>
 					<th>Fecha</th>
@@ -123,7 +134,7 @@ $cabeceras 		= "	<th>Ciudad</th>
 
 $formulario 	= $serviciosFunciones->camposTabla($insertar ,$tabla,$lblCambio,$lblreemplazo,$refdescripcion,$refCampo);
 
-$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerCostomts(),6);
+$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerCostomts(),8);
 
 
 

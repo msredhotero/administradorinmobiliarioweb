@@ -766,33 +766,43 @@ function traerCostoNacionalPorPais($serviciosReferencias) {
 
 /* PARA Costomts */
 function insertarCostomts($serviciosReferencias) {
+	$refprovincia = $_POST['refprovincia'];
 	$refciudad = $_POST['refciudad'];
+	$refsector = $_POST['refsector'];
+	$refurbanizacion = $_POST['refurbanizacion'];
 	$refuso = $_POST['refuso'];
 	$valormts = $_POST['valormts'];
 	$fechamodi = $_POST['fechamodi'];
 	$refusuario = $_POST['refusuario'];
-	$res = $serviciosReferencias->insertarCostomts($refciudad,$refuso,$valormts,$fechamodi,$refusuario);
+	
+	$res = $serviciosReferencias->insertarCostomts($refprovincia,$refciudad,$refsector,$refurbanizacion,$refuso,$valormts,$fechamodi,$refusuario);
+	//echo $res;
+	
 	if ((integer)$res > 0) {
 		echo '';
 	} else {
 		echo 'Huvo un error al insertar datos';
 	}
 }
-
 function modificarCostomts($serviciosReferencias) {
 	$id = $_POST['id'];
+	$refprovincia = $_POST['refprovincia'];
 	$refciudad = $_POST['refciudad'];
+	$refsector = $_POST['refsector'];
+	$refurbanizacion = $_POST['refurbanizacion'];
 	$refuso = $_POST['refuso'];
 	$valormts = $_POST['valormts'];
 	$fechamodi = $_POST['fechamodi'];
 	$refusuario = $_POST['refusuario'];
-	$res = $serviciosReferencias->modificarCostomts($id,$refciudad,$refuso,$valormts,$fechamodi,$refusuario);
+	
+	$res = $serviciosReferencias->modificarCostomts($id,$refprovincia,$refciudad,$refsector,$refurbanizacion,$refuso,$valormts,$fechamodi,$refusuario);
+	
 	if ($res == true) {
 		echo '';
 	} else {
 		echo 'Huvo un error al modificar datos';
 	}
-}
+} 
 
 function eliminarCostomts($serviciosReferencias) {
 	$id = $_POST['id'];
