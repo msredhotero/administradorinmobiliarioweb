@@ -686,8 +686,10 @@ $sql = "select co.idcostonacional,co.refpais,co.valormts,co.fechamodi,co.refusua
             pa.idpais
         from
             ciudades cc
+				inner join
+			sector ss ON ss.refciudad = cc.idciudad
                 inner join
-            urbanizacion u ON cc.idciudad = u.refciudad
+            urbanizacion u ON ss.idsector = u.refsector
 				inner join
 			provincias p ON cc.refprovincia = p.idprovincia
 				inner join
@@ -860,17 +862,135 @@ return $res;
 
 
 function traerCostomtsPorCiudad($idCiudad, $iduso) {
-$sql = "select co.idcostomts,co.refciudad,co.refuso,co.valormts,co.fechamodi,co.refusuario , ur.apellidoynombre
-from costomts co 
-		inner join usuariosregistrados ur on ur.idusuarioregistrado = co.refusuario 
-	where refciudad in (select 
-            idciudad
-        from
-            ciudades cc
-                inner join
-            urbanizacion u ON cc.idciudad = u.refciudad
-        where
-            u.idurbanizacion =".$idCiudad.") and co.refuso = ".$iduso;
+$sql = "select
+*
+from	(
+		select 
+			idcostomts,
+			CONCAT(pa.nombre,
+					' - ',
+					p.provincia,
+					' - ',
+					cc.ciudad,
+					' - ',
+					ss.sector,
+					' - ',
+					uu.urbanizacion) as Lugar,
+			u.usos,
+			valormts,
+			fechamodi,
+			ur.apellidoynombre,
+			refusuario,
+			refuso,
+			4 as orden
+		from
+			costomts c
+				inner join
+			urbanizacion uu ON uu.idurbanizacion = c.refurbanizacion
+				inner join
+			sector ss ON ss.idsector = uu.refsector
+				inner join
+			ciudades cc ON cc.idciudad = ss.refciudad
+				inner join
+			provincias p ON p.idprovincia = cc.refprovincia
+				inner join
+			paises pa ON pa.idpais = p.refpais
+				inner join
+			usos u ON u.iduso = c.refuso
+				inner join
+			usuariosregistrados ur ON ur.idusuarioregistrado = c.refusuario
+
+		union all
+
+		select 
+			idcostomts,
+			CONCAT(pa.nombre,
+					' - ',
+					p.provincia,
+					' - ',
+					cc.ciudad,
+					' - ',
+					ss.sector) as Lugar,
+			u.usos,
+			valormts,
+			fechamodi,
+			ur.apellidoynombre,
+			refusuario,
+			refuso,
+			3 as orden
+		from
+			costomts c
+				inner join
+			sector ss ON ss.idsector = c.refsector
+				inner join
+			ciudades cc ON cc.idciudad = ss.refciudad
+				inner join
+			provincias p ON p.idprovincia = cc.refprovincia
+				inner join
+			paises pa ON pa.idpais = p.refpais
+				inner join
+			usos u ON u.iduso = c.refuso
+				inner join
+			usuariosregistrados ur ON ur.idusuarioregistrado = c.refusuario
+
+		union all
+
+		select 
+			idcostomts,
+			CONCAT(pa.nombre,
+					' - ',
+					p.provincia,
+					' - ',
+					cc.ciudad) as Lugar,
+			u.usos,
+			valormts,
+			fechamodi,
+			ur.apellidoynombre,
+			refusuario,
+			refuso,
+			2 as orden
+		from
+			costomts c
+				inner join
+			ciudades cc ON cc.idciudad = c.refciudad
+				inner join
+			provincias p ON p.idprovincia = cc.refprovincia
+				inner join
+			paises pa ON pa.idpais = p.refpais
+				inner join
+			usos u ON u.iduso = c.refuso
+				inner join
+			usuariosregistrados ur ON ur.idusuarioregistrado = c.refusuario
+
+		union all
+
+		select 
+			idcostomts,
+			CONCAT(pa.nombre,
+					' - ',
+					p.provincia) as Lugar,
+			u.usos,
+			valormts,
+			fechamodi,
+			ur.apellidoynombre,
+			refusuario,
+			refuso,
+			1 as orden
+		from
+			costomts c
+				inner join
+			provincias p ON p.idprovincia = c.refprovincia
+				inner join
+			paises pa ON pa.idpais = p.refpais
+				inner join
+			usos u ON u.iduso = c.refuso
+				inner join
+			usuariosregistrados ur ON ur.idusuarioregistrado = c.refusuario
+	) t
+
+order by t.orden desc
+        ";
+		//where u.idurbanizacion =".$idCiudad.") and co.refuso = ".$iduso
 $res = $this->query($sql,0);
 return $res;
 }
