@@ -300,6 +300,10 @@ case 'Filtros':
 Filtros($serviciosReferencias);
 break;
 
+case 'Oportunidades':
+Oportunidades($serviciosReferencias);
+break;
+
 case 'graficosValoracion':
 graficosValoracion($serviciosReferencias);
 break;
@@ -819,7 +823,7 @@ function traerCostomtsPorCiudad($serviciosReferencias) {
 	
 	$cad = '';
 	while ($rowCN = mysql_fetch_array($res)) {
-		$cad .= '<option value='.$rowCN[0].'>'.$rowCN['apellidoynombre'].' - $'.$rowCN['valormts'].'</option>';	
+		$cad .= '<option value='.$rowCN[0].'>'.$rowCN['apellidoynombre'].' - $'.$rowCN['valormts'].' - ('.$rowCN['tipo'].')</option>';	
 	}
 	
 	echo $cad;
@@ -1371,6 +1375,128 @@ function Filtros($serviciosReferencias) {
 						
 	echo $cad3;	
 	
+}
+
+
+function Oportunidades($serviciosReferencias) {
+	$refurbanizacion = $_POST['refurbanizacion'];
+	$reftipovivienda = $_POST['reftipovivienda'];
+	$refuso = $_POST['refuso'];
+	$refsituacioninmueble = $_POST['refsituacioninmueble'];
+	$dormitorios = $_POST['dormitorios'];
+	$banios = $_POST['banios'];
+	$encontruccion = $_POST['encontruccion'];
+	$mts2 = $_POST['mts2'];
+	$anioconstruccion = $_POST['anioconstruccion'];
+	$precioventapropietario = $_POST['precioventapropietario'];
+	$nombrepropietario = $_POST['nombrepropietario'];
+	$apellidopropietario = $_POST['apellidopropietario'];
+	$fechacarga = $_POST['fechacarga'];
+	$refusuario = $_POST['refusuario'];
+	$refcomision = $_POST['refcomision'];
+	
+	$where = '';
+	
+	$res = $serviciosReferencias->Oportunidades($where);
+	
+	$cad3 = '';
+	//////////////////////////////////////////////////////busquedajugadores/////////////////////
+	
+	$cad3 = $cad3.'
+				<div class="col-md-12">
+				<div class="panel panel-info">
+                                <div class="panel-heading">
+                                	<h3 class="panel-title">Resultado de la Busqueda</h3>
+                                </div>
+                                <div class="panel-body-info" style="padding:5px 20px;">
+                                	';
+	$cad3 = $cad3.'
+	<div class="row">
+                	<table style="font-size:1em; padding:2px;">
+						<thead>
+                        <tr>
+                        	
+							
+							<th>Precio Venta Propietario</th>
+							<th>Nombre Propietario</th>
+							<th>Apellido Propietario</th>
+							<th>Urbanizacion</th>
+							<th>Ciudad</th>
+							<th>Provincia</th>
+							<th>País</th>
+							<th>Tipo Vivienda</th>
+							<th>Usos</th>
+							<th>Situacion Inmueble</th>
+							<th>Usuario</th>
+							<th>Comisión</th>
+							<th>Acciones</th>
+                        </tr>
+						</thead>
+						<tbody>';
+	while ($rowJ = mysql_fetch_array($res)) {
+		switch ($rowJ[28])
+		{
+			case 1:
+				$color = " bgcolor='#04B404' ";
+				break;
+			case 2:
+				$color = " bgcolor='#FFFF00' ";
+				break;
+			case 3:
+				$color = " bgcolor='#FF8000' ";
+				break;
+			case 4:
+				$color = " bgcolor='red' ";
+				break;	
+		}
+		$cad3 .= '<tr'.$color.'>
+					
+				
+					<td> $'.number_format(($rowJ[6]),2,',','.').'</td>
+					<td>'.utf8_encode($rowJ[7]).'</td>
+					<td>'.utf8_encode($rowJ[8]).'</td>
+					
+					<td>'.utf8_encode($rowJ[19]).'</td>
+					<td>'.utf8_encode($rowJ[20]).'</td>
+					<td>'.utf8_encode($rowJ[21]).'</td>
+					<td>'.utf8_encode($rowJ[22]).'</td>
+					<td>'.utf8_encode($rowJ[23]).'</td>
+					<td>'.utf8_encode($rowJ[24]).'</td>
+					<td>'.utf8_encode($rowJ[25]).'</td>
+					<td>'.utf8_encode($rowJ[26]).'</td>
+					<td>'.utf8_encode($rowJ[27]).'</td>
+					<td>
+								
+							<div class="btn-group">
+								<button class="btn btn-success" type="button">Acciones</button>
+								
+								<button class="btn btn-success dropdown-toggle" data-toggle="dropdown" type="button">
+								<span class="caret"></span>
+								<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								
+								<ul class="dropdown-menu" role="menu">
+									<li>
+									<a href="modificar.php?id='.$rowJ[0].'" class="varmodificar" id="'.$rowJ[0].'"><span class="glyphicon glyphicon-pencil"></span> Modificar</a>
+									</li>
+									<li>
+									<a href="modificar.php?id='.$rowJ[0].'" class="varmodificar" id="'.$rowJ[0].'"><span class="glyphicon glyphicon-search"></span> Ver</a>
+									</li>
+
+									
+								</ul>
+							</div>
+						</td>';
+	}
+	
+	$cad3 = $cad3.'</tbody>
+                                </table></div>
+                            </div>
+						</div>';
+						
+	echo $cad3;	
+	
+	//echo $res;
 }
 
 /* Fin */ 

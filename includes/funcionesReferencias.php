@@ -876,6 +876,7 @@ from	(
 					ss.sector,
 					' - ',
 					uu.urbanizacion) as Lugar,
+			'Urbanización' as tipo,		
 			u.usos,
 			valormts,
 			fechamodi,
@@ -899,7 +900,17 @@ from	(
 			usos u ON u.iduso = c.refuso
 				inner join
 			usuariosregistrados ur ON ur.idusuarioregistrado = c.refusuario
-
+			where uu.idurbanizacion = (select
+										distinct    s.idsector
+										from		provincias p
+										inner
+										join		ciudades c ON p.idprovincia = c.refprovincia
+										inner
+										join		sector s ON c.idciudad = s.refciudad
+										inner
+										join		urbanizacion u ON s.idsector = u.refsector
+										where		u.idurbanizacion = ".$idCiudad.") and c.refuso = ".$iduso."
+										
 		union all
 
 		select 
@@ -911,6 +922,7 @@ from	(
 					cc.ciudad,
 					' - ',
 					ss.sector) as Lugar,
+			'Sector' as tipo,	
 			u.usos,
 			valormts,
 			fechamodi,
@@ -932,7 +944,16 @@ from	(
 			usos u ON u.iduso = c.refuso
 				inner join
 			usuariosregistrados ur ON ur.idusuarioregistrado = c.refusuario
-
+			where ss.idsector = (select
+										distinct    s.idsector
+										from		provincias p
+										inner
+										join		ciudades c ON p.idprovincia = c.refprovincia
+										inner
+										join		sector s ON c.idciudad = s.refciudad
+										inner
+										join		urbanizacion u ON s.idsector = u.refsector
+										where		u.idurbanizacion = ".$idCiudad.") and c.refuso = ".$iduso."
 		union all
 
 		select 
@@ -942,6 +963,7 @@ from	(
 					p.provincia,
 					' - ',
 					cc.ciudad) as Lugar,
+			'Ciudad' as tipo,
 			u.usos,
 			valormts,
 			fechamodi,
@@ -961,7 +983,16 @@ from	(
 			usos u ON u.iduso = c.refuso
 				inner join
 			usuariosregistrados ur ON ur.idusuarioregistrado = c.refusuario
-
+			where cc.idciudad = (select
+										distinct    c.idciudad
+										from		provincias p
+										inner
+										join		ciudades c ON p.idprovincia = c.refprovincia
+										inner
+										join		sector s ON c.idciudad = s.refciudad
+										inner
+										join		urbanizacion u ON s.idsector = u.refsector
+										where		u.idurbanizacion = ".$idCiudad.") and c.refuso = ".$iduso."
 		union all
 
 		select 
@@ -969,6 +1000,7 @@ from	(
 			CONCAT(pa.nombre,
 					' - ',
 					p.provincia) as Lugar,
+			'Provincia' as tipo,
 			u.usos,
 			valormts,
 			fechamodi,
@@ -986,6 +1018,16 @@ from	(
 			usos u ON u.iduso = c.refuso
 				inner join
 			usuariosregistrados ur ON ur.idusuarioregistrado = c.refusuario
+			where p.idprovincia = (select
+										distinct    p.idprovincia
+										from		provincias p
+										inner
+										join		ciudades c ON p.idprovincia = c.refprovincia
+										inner
+										join		sector s ON c.idciudad = s.refciudad
+										inner
+										join		urbanizacion u ON s.idsector = u.refsector
+										where		u.idurbanizacion = ".$idCiudad.") and c.refuso = ".$iduso."
 	) t
 
 order by t.orden desc
@@ -1818,6 +1860,63 @@ function filtros($where) {
 	
 	return $this->query($sql,0);
 		
+}
+
+
+function Oportunidades($where) {
+	
+	if ($where != '') {
+				$sql = "select
+				i.idinmueble,v.observacion, i.dormitorios, i.banios, i.encontruccion, i.mts2,
+				i.anioconstruccion, i.precioventapropietario, i.nombrepropietario, i.apellidopropietario, i.fechacarga,
+				i.calc_edadconstruccion, i.calc_porcentajedepreciacion, i.calc_avaluoconstruccion, i.calc_depreciacion, i.calc_avaluoterreno,
+				i.calc_preciorealmercado, i.calc_restacliente, i.calc_porcentaje,
+				u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
+				i.refvaloracion, i.refurbanizacion, i.reftipovivienda, i.refuso, i.refsituacioninmueble, i.refusuario, i.refcomision
+				
+				from inmuebles i 
+				inner join valoracion v on v.idvaloracion = i.refvaloracion
+				inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+				inner join sector ss on ss.idsector = u.refsector
+				inner join ciudades c on c.idciudad = ss.refciudad
+				inner join provincias p on p.idprovincia = c.refprovincia
+				inner join paises pa on pa.idpais = p.refpais
+				inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+				inner join usos us on us.iduso = i.refuso
+				inner join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+				inner join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+				inner join comision co on co.idcomision = i.refcomision
+				where v.idvaloracion = 1
+		order by i.calc_porcentaje";
+
+		
+	} else {
+		$sql = "select
+				i.idinmueble, i.dormitorios, i.banios, i.encontruccion, i.mts2,
+				i.anioconstruccion, i.precioventapropietario, i.nombrepropietario, i.apellidopropietario, i.fechacarga,
+				i.calc_edadconstruccion, i.calc_porcentajedepreciacion, i.calc_avaluoconstruccion, i.calc_depreciacion, i.calc_avaluoterreno,
+				i.calc_preciorealmercado, i.calc_restacliente, i.calc_porcentaje,
+				v.observacion, u.urbanizacion, c.ciudad, p.provincia, pa.nombre, tv.tipovivienda, us.usos, si.situacioninmueble, ur.apellidoynombre, co.comision,
+				i.refvaloracion, i.refurbanizacion, i.reftipovivienda, i.refuso, i.refsituacioninmueble, i.refusuario, i.refcomision
+				
+				from inmuebles i 
+				inner join valoracion v on v.idvaloracion = i.refvaloracion
+				inner join urbanizacion u on u.idurbanizacion = i.refurbanizacion
+				inner join sector ss on ss.idsector = u.refsector
+				inner join ciudades c on c.idciudad = ss.refciudad
+				inner join provincias p on p.idprovincia = c.refprovincia
+				inner join paises pa on pa.idpais = p.refpais
+				inner join tipovivienda tv on tv.idtipovivienda = i.reftipovivienda
+				inner join usos us on us.iduso = i.refuso
+				inner join situacioninmueble si on si.idsituacioninmueble = i.refsituacioninmueble
+				inner join usuariosregistrados ur on ur.idusuarioregistrado = i.refusuario
+				inner join comision co on co.idcomision = i.refcomision
+				where v.idvaloracion = 1
+		order by i.calc_porcentaje";
+	}
+	
+	return $this->query($sql,0);
+	//return $sql;	
 }
 
 /* Fin */

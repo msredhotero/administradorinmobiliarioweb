@@ -391,6 +391,25 @@ caption {
     	</div>
     </div>
     
+    
+    
+    
+    <div class="boxInfoLargo">
+        <div id="headBoxInfo">
+        	<p style="color: #fff; font-size:18px; height:16px;">Oportunidades Valiosas <span class="glyphicon glyphicon-refresh actualizar" style="cursor:pointer; float:right; padding-right:12px;">(Actualizar)</span></p>
+	        
+        </div><!-- fin del headBoxInfo-->
+    	<div class="cuerpoBox oportunidades">
+        
+        </div>
+        
+    </div>
+    
+    
+    
+    
+    
+    
     <div class="boxInfoLargo">
         <div id="headBoxInfo">
         	<p style="color: #fff; font-size:18px; height:16px;">Inmuebles Cargados</p>
@@ -500,6 +519,37 @@ $(document).ready(function(){
 				},
 				success:  function (response) {
 						$('.resultados').html(response);
+						
+				}
+		});
+	}
+	
+	
+	function traerOportunidades() {
+		$.ajax({
+				data:  {refurbanizacion : $('#refurbanizacion').val(),
+						reftipovivienda : $('#reftipovivienda').val(),
+						refuso : $('#refuso').val(),
+						refsituacioninmueble : $('#refsituacioninmueble').val(),
+						dormitorios : $('#dormitorios').val(),
+						banios : $('#banios').val(),
+						encontruccion : $('#encontruccion').val(),
+						mts2 : $('#mts2').val(),
+						anioconstruccion : $('#anioconstruccion').val(),
+						precioventapropietario : $('#precioventapropietario').val(),
+						nombrepropietario : $('#nombrepropietario').val(),
+						apellidopropietario : $('#apellidopropietario').val(),
+						fechacarga : $('#fechacarga').val(),
+						refusuario : $('#refusuario').val(),
+						refcomision : $('#refcomision').val(),
+						accion: 'Oportunidades'},
+				url:   '../ajax/ajax.php',
+				type:  'post',
+				beforeSend: function () {
+						
+				},
+				success:  function (response) {
+						$('.oportunidades').html(response);
 						
 				}
 		});
@@ -615,12 +665,17 @@ $(document).ready(function(){
 	}
 	
 	traerInmuebles();
+	traerOportunidades();
 	GraficoValoracion();
 	GraficosTipoVivienda();
 	GraficosUsos();
 	$('#buscar').click(function(e) {
         
 		
+	});
+	
+	$('.actualizar').click(function() {
+		traerOportunidades();
 	});
 	
 	
