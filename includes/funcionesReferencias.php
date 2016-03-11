@@ -867,7 +867,7 @@ $sql = "select
 from	(
 		select 
 			idcostomts,
-			CONCAT(pa.nombre,
+			CAST(CONCAT(pa.nombre,
 					' - ',
 					p.provincia,
 					' - ',
@@ -875,7 +875,7 @@ from	(
 					' - ',
 					ss.sector,
 					' - ',
-					uu.urbanizacion) as Lugar,
+					uu.urbanizacion) as CHAR(300)) as Lugar,
 			'Urbanización' as tipo,		
 			u.usos,
 			valormts,
@@ -915,13 +915,13 @@ from	(
 
 		select 
 			idcostomts,
-			CONCAT(pa.nombre,
+			CAST(CONCAT(pa.nombre,
 					' - ',
 					p.provincia,
 					' - ',
 					cc.ciudad,
 					' - ',
-					ss.sector) as Lugar,
+					ss.sector) as CHAR(300)) as Lugar,
 			'Sector' as tipo,	
 			u.usos,
 			valormts,
@@ -958,11 +958,11 @@ from	(
 
 		select 
 			idcostomts,
-			CONCAT(pa.nombre,
+			CAST(CONCAT(pa.nombre,
 					' - ',
 					p.provincia,
 					' - ',
-					cc.ciudad) as Lugar,
+					cc.ciudad) as CHAR(300)) as Lugar,
 			'Ciudad' as tipo,
 			u.usos,
 			valormts,
@@ -997,9 +997,9 @@ from	(
 
 		select 
 			idcostomts,
-			CONCAT(pa.nombre,
+			CAST(CONCAT(pa.nombre,
 					' - ',
-					p.provincia) as Lugar,
+					p.provincia) as CHAR(300)) as Lugar,
 			'Provincia' as tipo,
 			u.usos,
 			valormts,

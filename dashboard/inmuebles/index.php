@@ -160,6 +160,41 @@ if ($_SESSION['idroll_predio'] == 1) {
                 </div>
                 
                 
+                
+                
+                <div class="form-group col-md-6">
+                	<label class="control-label" style="text-align:left" for="celular1">Uso</label>
+                    <div class="input-group col-md-12">
+                    	<select id="refuso" name="refuso" class="form-control">
+                            <?php while ($rowU = mysql_fetch_array($resUsos)) { ?>
+                                <option value="<?php echo $rowU[0]; ?>"><?php echo $rowU[1]; ?></option>
+                            <?php } ?>
+                            
+                        </select>
+                    </div>
+                </div>
+                    
+                    <div class="form-group col-md-6">
+                	<label class="control-label" style="text-align:left" for="celular1">Costo Mtrs</label>
+                    <div class="input-group col-md-12">
+                    	<select id="refcostomts" name="refcostomts" class="form-control">
+                            
+                            
+                        </select>
+                    </div>
+                </div>
+                
+                
+                <div class="form-group col-md-6">
+                	<label class="control-label" style="text-align:left" for="celular1">Costo Nacional</label>
+                    <div class="input-group col-md-12">
+                        <select id="refcostonacional" name="refcostonacional" class="form-control">
+                            
+                            
+                        </select>
+                    </div>
+                </div>
+                    
                 <div class="form-group col-md-6">
                 	<label class="control-label" style="text-align:left" for="celular1">Tipo Vivienda</label>
                     <div class="input-group col-md-12">
@@ -171,7 +206,8 @@ if ($_SESSION['idroll_predio'] == 1) {
                         </select>
                     </div>
                 </div>
-                
+                    
+                    
                 <div class="form-group col-md-6">
                 	<label class="control-label" style="text-align:left" for="celular1">Uso</label>
                     <div class="input-group col-md-12">
@@ -299,26 +335,7 @@ if ($_SESSION['idroll_predio'] == 1) {
                 </div>
                 
                 
-                <div class="form-group col-md-6">
-                	<label class="control-label" style="text-align:left" for="celular1">Costo Mtrs</label>
-                    <div class="input-group col-md-12">
-                    	<select id="refcostomts" name="refcostomts" class="form-control">
-                            
-                            
-                        </select>
-                    </div>
-                </div>
                 
-                
-                <div class="form-group col-md-6">
-                	<label class="control-label" style="text-align:left" for="celular1">Costo Nacional</label>
-                    <div class="input-group col-md-12">
-                    	<select id="refcostonacional" name="refcostonacional" class="form-control">
-                            
-                            
-                        </select>
-                    </div>
-                </div>
 				<input type="hidden" id="accion" name="accion" value="<?php echo $insertar; ?>"/>
                 
             </div>

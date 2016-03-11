@@ -989,16 +989,32 @@ function insertarInmuebles($serviciosReferencias) {
 	$calc_porcentaje 				= '';
 	$refvaloracion 					= '';
 	
-	$idCostoMts			=	$_POST['refcostomts'];
-	$idCostoNacional	=	$_POST['refcostonacional'];
+	if (isset($_POST['refcostomts'])) {
+            $idCostoMts		=	$_POST['refcostomts'];
+        } else {
+            $idCostoMts		=	'';
+        }
+        
+        if (isset($_POST['refcostonacional'])) {
+            $idCostoNacional	=	$_POST['refcostonacional'];
+        } else {
+            $idCostoNacional		=	'';
+        }
+        
+	if (($idCostoMts != '') && ($idCostoNacional != '')) {
 	
-	$res = $serviciosReferencias->insertarInmuebles($refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion,$idCostoMts,$idCostoNacional);
-	
-	if ((integer)$res > 0) {
-		echo '';
-	} else {
-		echo 'Huvo un error al insertar datos';
-	}
+            $res = $serviciosReferencias->insertarInmuebles($refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion,$idCostoMts,$idCostoNacional);
+
+            if ((integer)$res > 0) {
+                    echo '';
+            } else {
+                    echo 'Huvo un error al insertar datos';
+            }
+        } else {
+            
+            echo 'Error: Es obligatorio cargar los datos de Costos x Mtrs2 y Costo Nacioanl';
+            
+        }
 }
 
 

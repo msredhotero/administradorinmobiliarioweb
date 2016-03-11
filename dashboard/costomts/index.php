@@ -50,7 +50,7 @@ $cadRefPP = '';
 $cadRefPP = $cadRefPP.'<option value=""></option>';
 while ($rowPP = mysql_fetch_array($resProvincias)) {
 	
-	$cadRefPP = $cadRefPP.'<option value="'.$rowPP[0].'">'.utf8_encode($rowPP[1]).'</option>';
+	$cadRefPP = $cadRefPP.'<option value="'.$rowPP[0].'">'.$rowPP[2].' - '.$rowPP[1].'</option>';
 }
 
 
@@ -59,7 +59,7 @@ $cadRef = '';
 $cadRef = $cadRef.'<option value=""></option>';
 while ($rowTT = mysql_fetch_array($resCiudad)) {
 	
-	$cadRef = $cadRef.'<option value="'.$rowTT[0].'">'.utf8_encode($rowTT[1]).'</option>';
+	$cadRef = $cadRef.'<option value="'.$rowTT[0].'">'.$rowTT[3].' - '.$rowTT[2].' - '.$rowTT[1].'</option>';
 }
 
 
@@ -68,7 +68,7 @@ $cadRefSS = '';
 $cadRefSS = $cadRefSS.'<option value=""></option>';
 while ($rowSS = mysql_fetch_array($resSector)) {
 	
-	$cadRefSS = $cadRefSS.'<option value="'.$rowSS[0].'">'.utf8_encode($rowSS[1]).'</option>';
+	$cadRefSS = $cadRefSS.'<option value="'.$rowSS[0].'">'.$rowSS[4].' - '.$rowSS[3].' - '.$rowSS[2].' - '.$rowSS[1].'</option>';
 }
 
 
@@ -77,7 +77,7 @@ $cadRefUU = '';
 $cadRefUU = $cadRefUU.'<option value=""></option>';
 while ($rowUU = mysql_fetch_array($resUrbanizacion)) {
 	
-	$cadRefUU = $cadRefUU.'<option value="'.$rowUU[0].'">'.utf8_encode($rowUU[1]).'</option>';
+	$cadRefUU = $cadRefUU.'<option value="'.$rowUU[0].'">'.$rowUU[5].' - '.$rowUU[4].' - '.$rowUU[3].' - '.$rowUU[2].' - '.$rowUU[1].'</option>';
 }
 
 
