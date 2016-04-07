@@ -77,11 +77,18 @@ $res = $this->query($sql,0);
 return $res; 
 } 
 
-function insertarImportar($dormitorios,$banios,$mtsencontruc,$mts2,$anioconstruc,$precioventapropietario,$nombrepropietario,$apellidopropietario,$feccarga,$calcedadconstruc,$calcporcdeprec,$calcavaluoconstruc,$calcdepreciacion,$preciorealdeconstruccion,$calcavaluoterreno,$calcpreciorealmercado,$calcrestacliente,$calcporc,$valoracion,$urbanizacion,$sector,$ciudad,$provincia,$pais,$tipovivienda,$usos,$situacioninmueble,$usuario,$comision) { 
-$sql = "insert into dbimportar(idimportar,dormitorios,banios,mtsencontruc,mts2,anioconstruc,precioventapropietario,nombrepropietario,apellidopropietario,feccarga,calcedadconstruc,calcporcdeprec,calcavaluoconstruc,calcdepreciacion,preciorealdeconstruccion,calcavaluoterreno,calcpreciorealmercado,calcrestacliente,calcporc,valoracion,urbanizacion,sector,ciudad,provincia,pais,tipovivienda,usos,situacioninmueble,usuario,comision)
-values ('',".$dormitorios.",".$banios.",".$mtsencontruc.",".$mts2.",".$anioconstruc.",".$precioventapropietario.",'".utf8_decode($nombrepropietario)."','".utf8_decode($apellidopropietario)."','".utf8_decode($feccarga)."',".$calcedadconstruc.",".$calcporcdeprec.",".$calcavaluoconstruc.",".$calcdepreciacion.",".$preciorealdeconstruccion.",".$calcavaluoterreno.",".$calcpreciorealmercado.",".$calcrestacliente.",".$calcporc.",'".utf8_decode($valoracion)."','".utf8_decode($urbanizacion)."','".utf8_decode($sector)."','".utf8_decode($ciudad)."','".utf8_decode($provincia)."','".utf8_decode($pais)."','".utf8_decode($tipovivienda)."','".utf8_decode($usos)."','".utf8_decode($situacioninmueble)."','".utf8_decode($usuario)."','".utf8_decode($comision)."');";
-$res = $this->query($sql,1); 
-return $res; 
+function insertarImportar($dormitorios,$banios,$mtsencontruc,$mts2,$anioconstruc,$precioventapropietario,$nombrepropietario,$apellidopropietario,$feccarga,$calcedadconstruc,$calcporcdeprec,$calcavaluoconstruc,$calcdepreciacion,$preciorealdeconstruccion,$calcavaluoterreno,$calcpreciorealmercado,$calcrestacliente,$calcporc,$valoracion,$urbanizacion,$sector,$ciudad,$provincia,$pais,$tipovivienda,$usos,$situacioninmueble,$usuario,$comision,$refvaloracion,$refurbanizacion,$refsector,$refciudad,$refprovincia,$refpais,$reftipovivienda,$refusos,$refsituacioninmueble,$refcomision) {
+$sql = "insert into dbimportar(idimportar,dormitorios,banios,mtsencontruc,mts2,anioconstruc,precioventapropietario,nombrepropietario,apellidopropietario,feccarga,calcedadconstruc,calcporcdeprec,calcavaluoconstruc,calcdepreciacion,preciorealdeconstruccion,calcavaluoterreno,calcpreciorealmercado,calcrestacliente,calcporc,valoracion,urbanizacion,sector,ciudad,provincia,pais,tipovivienda,usos,situacioninmueble,usuario,comision,refvaloracion,refurbanizacion,refsector,refciudad,refprovincia,refpais,reftipovivienda,refusos,refsituacioninmueble,refcomision)
+values ('',".$dormitorios.",".$banios.",".$mtsencontruc.",".$mts2.",".$anioconstruc.",".$precioventapropietario.",'".utf8_decode($nombrepropietario)."','".utf8_decode($apellidopropietario)."','".utf8_decode($feccarga)."',".$calcedadconstruc.",".$calcporcdeprec.",".$calcavaluoconstruc.",".$calcdepreciacion.",".$preciorealdeconstruccion.",".$calcavaluoterreno.",".$calcpreciorealmercado.",".$calcrestacliente.",".$calcporc.",'".utf8_decode($valoracion)."','".utf8_decode($urbanizacion)."','".utf8_decode($sector)."','".utf8_decode($ciudad)."','".utf8_decode($provincia)."','".utf8_decode($pais)."','".utf8_decode($tipovivienda)."','".utf8_decode($usos)."','".utf8_decode($situacioninmueble)."','".utf8_decode($usuario)."','".utf8_decode($comision)."',".$refvaloracion.",".$refurbanizacion.",".$refsector.",".$refciudad.",".$refprovincia.",".$refpais.",".$reftipovivienda.",".$refusos.",".$refsituacioninmueble.",".$refcomision.")";
+$res = $this->query($sql,1);
+return $res;
+} 
+
+
+function traerImportar() {
+$sql = "select idimportar,dormitorios,banios,mtsencontruc,mts2,anioconstruc,precioventapropietario,nombrepropietario,apellidopropietario,feccarga,calcedadconstruc,calcporcdeprec,calcavaluoconstruc,calcdepreciacion,preciorealdeconstruccion,calcavaluoterreno,calcpreciorealmercado,calcrestacliente,calcporc,valoracion,urbanizacion,sector,ciudad,provincia,pais,tipovivienda,usos,situacioninmueble,usuario,comision from dbimportar order by 1";
+$res = $this->query($sql,0);
+return $res;
 } 
 
 function cargarExcel($archivo,$nombre,$descripcion) {
@@ -116,13 +123,47 @@ function cargarExcel($archivo,$nombre,$descripcion) {
 					//$objPHPExcel->getSheetByName('Worksheet 1');
 					
                     //recorremos las filas obtenidas
+					$resValoracion 			= '';
+					$resUrbanizacion		= '';
+					$resSector				= '';
+					$resCiudad				= '';
+					$resProvincia			= '';
+					$resPais				= '';
+					$resTipoVivienda		= '';
+					$resUsos				= '';
+					$resSituacionInmueble	= '';
+					
+					$refValoracion 			= 0;
+					$refUrbanizacion		= 0;
+					$refSector				= 0;
+					$refCiudad				= 0;
+					$refProvincia			= 0;
+					$refPais				= 0;
+					$refTipoVivienda		= 0;
+					$refUsos				= 0;
+					$refSituacionInmueble	= 0;
+					$refComision			= 0;
+							
 					$i = 0;
 					$a = '';
+					$resp = '';
                     foreach ($objHoja as $iIndice=>$objCelda) {
                         //imprimimos el contenido de la celda utilizando la letra de cada columna
 						if ($i != 0) {
-						
-							$this->insertarImportar( ($objCelda['A'] == '' ? 0 : $objCelda['A']),
+							
+							$refValoracion 			= $this->traerValoracionPorValor($objCelda['S'] == '' ? '' : $objCelda['S']);
+							$refUrbanizacion		= $this->traerUrbanizacionPorUrbanizacion($objCelda['T'] == '' ? '' : $objCelda['T']);
+							$refSector				= $this->traerSectorPorSector($objCelda['U'] == '' ? '' : $objCelda['U']);
+							$refCiudad				= $this->traerCiudadesPorCiudad($objCelda['V'] == '' ? '' : $objCelda['V']);
+							$refProvincia			= $this->traerProvinciasPorProvincia($objCelda['W'] == '' ? '' : $objCelda['W']);
+							$refPais				= $this->traerPaisesPorNombre($objCelda['X'] == '' ? '' : $objCelda['X']);
+							$refTipoVivienda		= $this->traerTipoViviendaPorTipoVivienda($objCelda['Y'] == '' ? '' : $objCelda['Y']);
+							$refUsos				= $this->traerUsosPorUsos($objCelda['Z'] == '' ? '' : $objCelda['Z']);
+							$refSituacionInmueble	= $this->traerSituacionInmueblePorSituacionInmueble($objCelda['AA'] == '' ? '' : $objCelda['AA']);
+							$refComision			= $this->traerComisionPorComision($objCelda['AC'] == '' ? '' : $objCelda['AC']);
+							
+							
+							$resp = $this->insertarImportar(($objCelda['A'] == '' ? 0 : $objCelda['A']),
 													 ($objCelda['B'] == '' ? 0 : $objCelda['B']),
 													 ($objCelda['C'] == '' ? 0 : $objCelda['C']),
 													 ($objCelda['D'] == '' ? 0 : $objCelda['D']),
@@ -150,7 +191,17 @@ function cargarExcel($archivo,$nombre,$descripcion) {
 													 ($objCelda['Z'] == '' ? '' : $objCelda['Z']),
 													 ($objCelda['AA'] == '' ? '' : $objCelda['AA']),
 													 ($objCelda['AB'] == '' ? '' : $objCelda['AB']),
-													 ($objCelda['AC'] == '' ? 0 : $objCelda['AC']));
+													 ($objCelda['AC'] == '' ? 0 : $objCelda['AC']),
+													  $refValoracion,
+													  $refUrbanizacion,
+													  $refSector,
+													  $refCiudad,
+													  $refProvincia,
+													  $refPais,
+													  $refTipoVivienda,
+													  $refUsos,
+													  $refSituacionInmueble,
+													  $refComision);
 							//$a .= $resp;
 						}
 						
@@ -221,9 +272,13 @@ return $res;
 }
 
 function traerSectorPorSector($sector) {
-$sql = "select idsector,refciudad,sector from sector where sector like '%".$sector."%' limit 1";
+$sql = "select idsector,refciudad,sector from sector where sector like '%".$sector."%'";
 $res = $this->query($sql,0);
-return $res;
+
+if (mysql_num_rows($res)>0) {
+	return mysql_result($res,0,0);
+}
+return 0;
 }
 
 /* Fin */
@@ -275,9 +330,14 @@ return $res;
 }
 
 function traerCiudadesPorCiudad($ciudad) {
-$sql = "select idciudad,refprovincia,ciudad from ciudades where ciudad like '%".$ciudad."%' limit 1";
+$sql = "select idciudad,refprovincia,ciudad from ciudades where ciudad like '%".$ciudad."%'";
 $res = $this->query($sql,0);
-return $res;
+
+if (mysql_num_rows($res)>0) {
+	return mysql_result($res,0,0);
+}
+return 0;
+
 }
 
 /* Fin */
@@ -334,9 +394,14 @@ function traerProvinciasPorProvincia($provincia) {
 $sql = "select 
 			p.idprovincia, p.provincia, p.refpais
 		from provincias p
-			where p.provincia like '%".$provincia."%' limit 1";
+			where p.provincia like '%".$provincia."%'";
 $res = $this->query($sql,0);
-return $res;
+
+if (mysql_num_rows($res)>0) {
+	return mysql_result($res,0,0);
+}
+return 0;
+
 }
 
 /* Fin */
@@ -380,6 +445,16 @@ function traerPaisesPorId($id) {
 $sql = "select idpais,nombre from paises where idpais =".$id;
 $res = $this->query($sql,0);
 return $res;
+}
+
+function traerPaisesPorNombre($nombre) {
+$sql = "select idpais,nombre from paises where nombre like '%".$nombre."%'";
+$res = $this->query($sql,0);
+
+if (mysql_num_rows($res)>0) {
+	return mysql_result($res,0,0);
+}
+return 0;
 }
 
 /* Fin */
@@ -431,9 +506,13 @@ function traerValoracionPorPorcentaje($porcentaje) {
 }
 
 function traerValoracionPorValor($valor) {
-$sql = "select idvaloracion,valoracion,observacion from valoracion where valoracion like '%".$valor."%' limit 1";
+$sql = "select idvaloracion,valoracion,observacion from valoracion where observacion like '%".$valor."%'";
 $res = $this->query($sql,0);
-return $res;
+
+if (mysql_num_rows($res)>0) {
+	return mysql_result($res,0,0);
+}
+return 0;
 }
 
 /* Fin */
@@ -479,6 +558,16 @@ $res = $this->query($sql,0);
 return $res;
 }
 
+function traerUsosPorUsos($usos) {
+$sql = "select iduso,usos from usos where usos like '%".$usos."%'";
+$res = $this->query($sql,0);
+
+if (mysql_num_rows($res)>0) {
+	return mysql_result($res,0,0);
+}
+return 0;
+}
+
 /* Fin */
 
 
@@ -520,6 +609,16 @@ function traerTipoViviendaPorId($id) {
 $sql = "select idtipovivienda,tipovivienda from tipovivienda where idtipovivienda =".$id;
 $res = $this->query($sql,0);
 return $res;
+}
+
+function traerTipoViviendaPorTipoVivienda($tipovivienda) {
+$sql = "select idtipovivienda,tipovivienda from tipovivienda where tipovivienda like '%".$tipovivienda."%'";
+$res = $this->query($sql,0);
+
+if (mysql_num_rows($res)>0) {
+	return mysql_result($res,0,0);
+}
+return 0;
 }
 
 /* Fin */
@@ -649,6 +748,17 @@ $res = $this->query($sql,0);
 return $res;
 }
 
+
+function traerSituacionInmueblePorSituacionInmueble($situacioninmueble) {
+$sql = "select idsituacioninmueble,situacioninmueble from situacioninmueble where situacioninmueble like '%".$situacioninmueble."%'";
+$res = $this->query($sql,0);
+
+if (mysql_num_rows($res)>0) {
+	return mysql_result($res,0,0);
+}
+return 0;
+}
+
 /* Fin */
 
 
@@ -738,15 +848,19 @@ return $res;
 
 
 function traerUrbanizacionPorId($id) {
-$sql = "select idurbanizacion,refciudad,urbanizacion from urbanizacion where idurbanizacion =".$id;
+$sql = "select idurbanizacion,refsector,urbanizacion from urbanizacion where idurbanizacion =".$id;
 $res = $this->query($sql,0);
 return $res;
 }
 
 function traerUrbanizacionPorUrbanizacion($urbanizacion) {
-$sql = "select idurbanizacion,refciudad,urbanizacion from urbanizacion where urbanizacion like '%".$urbanizacion."%' limit 1";
+$sql = "select idurbanizacion,refsector,urbanizacion from urbanizacion where urbanizacion like '%".$urbanizacion."%'";
 $res = $this->query($sql,0);
-return $res;
+
+if (mysql_num_rows($res)>0) {
+	return mysql_result($res,0,0);
+}
+return 0;
 }
 
 /* Fin */
@@ -1253,6 +1367,16 @@ function traerComisionPorId($id) {
 $sql = "select idcomision,comision from comision where idcomision =".$id;
 $res = $this->query($sql,0);
 return $res;
+}
+
+function traerComisionPorComision($comision) {
+$sql = "select idcomision,comision from comision where comision =".$comision;
+$res = $this->query($sql,0);
+
+if (mysql_num_rows($res)>0) {
+	return mysql_result($res,0,0);
+}
+return 0;
 }
 
 /* Fin */

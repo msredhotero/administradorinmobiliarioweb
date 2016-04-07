@@ -73,10 +73,11 @@ if ($_SESSION['idroll_predio'] == 1) {
 	$resUsuario = $serviciosReferencias->traerUsuariosRegistradosPorId($_SESSION['idusuario']);
 }
 
-$cant = $serviciosReferencias->cargarExcel("asda","asdasd","descr") - 1;
+$cant = $serviciosReferencias->cargarExcel("asda","asdasd","descr");
 
 $res = $serviciosReferencias->traerImportar();
 
+$ff = $serviciosReferencias->insertarImportar('','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','');
 ?>
 
 <!DOCTYPE HTML>
@@ -145,7 +146,7 @@ $res = $serviciosReferencias->traerImportar();
         </div>
     	<div class="cuerpoBox">
         	<form name="form" action="mergearimportacion.php" method="post">
-            <h3>Importado con exito!!!. Registros cargado: <?php echo $cant; ?></h3>
+            <h3>Importado con exito!!!. Registros cargado: <?php echo $ff; ?></h3>
            	<h4>Datos Importados</h4>
             
             <table class="table table-bordered table-responsive table-striped">
