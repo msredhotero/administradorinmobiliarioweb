@@ -65,6 +65,91 @@ function subirArchivo($file) {
 	}	
 }
 
+
+function insertarImportar($dormitorios,$banios,$mtsencontruc,$mts2,$anioconstruc,$precioventapropietario,$nombrepropietario,$apellidopropietario,$feccarga,$calcedadconstruc,$calcporcdeprec,$calcavaluoconstruc,$calcdepreciacion,$preciorealdeconstruccion,$calcavaluoterreno,$calcpreciorealmercado,$calcrestacliente,$calcporc,$valoracion,$urbanizacion,$sector,$ciudad,$provincia,$pais,$tipovivienda,$usos,$situacioninmueble,$usuario,$comision) { 
+$sql = "insert into dbimportar(idimportar,dormitorios,banios,mtsencontruc,mts2,anioconstruc,precioventapropietario,nombrepropietario,apellidopropietario,feccarga,calcedadconstruc,calcporcdeprec,calcavaluoconstruc,calcdepreciacion,preciorealdeconstruccion,calcavaluoterreno,calcpreciorealmercado,calcrestacliente,calcporc,valoracion,urbanizacion,sector,ciudad,provincia,pais,tipovivienda,usos,situacioninmueble,usuario,comision)
+values ('',".$dormitorios.",".$banios.",".$mtsencontruc.",".$mts2.",".$anioconstruc.",".$precioventapropietario.",'".utf8_decode($nombrepropietario)."','".utf8_decode($apellidopropietario)."','".utf8_decode($feccarga)."',".$calcedadconstruc.",".$calcporcdeprec.",".$calcavaluoconstruc.",".$calcdepreciacion.",".$preciorealdeconstruccion.",".$calcavaluoterreno.",".$calcpreciorealmercado.",".$calcrestacliente.",".$calcporc.",'".utf8_decode($valoracion)."','".utf8_decode($urbanizacion)."','".utf8_decode($sector)."','".utf8_decode($ciudad)."','".utf8_decode($provincia)."','".utf8_decode($pais)."','".utf8_decode($tipovivienda)."','".utf8_decode($usos)."','".utf8_decode($situacioninmueble)."','".utf8_decode($usuario)."','".utf8_decode($comision)."');";
+$res = $this->query($sql,1); 
+return $res; 
+} 
+
+function cargarExcel($archivo,$nombre,$descripcion) {
+					$token = $this->GUID();
+					$token2 = $this->GUID();
+                    //incluimos la clase
+                    require_once '../../excelClass/PHPExcel/IOFactory.php';
+                    
+					$datos = array('comprobante' => '00004',
+								   'codigocuenta' => array ('14350504','14350505','14350506','24081001','220501','129505','233595'),
+								   'fecha' => '',
+								   'documento' => '',
+								   'documentoreferencia' => '',
+								   'nit' => '',
+								   'detalle' => array('COMPRA GRAVADA','COMPRA EXCLUIDA','COMPRA EXENTA','IVA DESCONTABLE','PROVEEDOR DE MERCANCIA','APORTES COOPERATIVA','APORTES COOPERATIVA'),
+								   'tipo' => array('1','1','1','1','2','1','2'),
+								   'valor' => array(),
+								   'valorbase' => array(),
+								   'centrocostos' => array('01','01','01','','','',''),
+								   'transaccion' => '',
+								   'plazo' => '0');
+					
+                    //cargamos el archivo que deseamos leer
+                    $objPHPExcel = PHPExcel_IOFactory::load('../../archivos/enviar-a-argentina.xlsx');
+                    //obtenemos los datos de la hoja activa (la primera)
+                    //$objHoja=$objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+                    $objHoja=$objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+					
+					//$objHoja=$objPHPExcel->getSheet(0)->toArray(null,true,true,true);
+					// ó
+					//$objPHPExcel->getSheetByName('Worksheet 1');
+					
+                    //recorremos las filas obtenidas
+					$i = 0;
+					$a = '';
+                    foreach ($objHoja as $iIndice=>$objCelda) {
+                        //imprimimos el contenido de la celda utilizando la letra de cada columna
+						if ($i != 0) {
+						
+							$this->insertarImportar( ($objCelda['A'] == '' ? 0 : $objCelda['A']),
+													 ($objCelda['B'] == '' ? 0 : $objCelda['B']),
+													 ($objCelda['C'] == '' ? 0 : $objCelda['C']),
+													 ($objCelda['D'] == '' ? 0 : $objCelda['D']),
+													 ($objCelda['E'] == '' ? 0 : $objCelda['E']),
+													 ($objCelda['F'] == '' ? 0 : $objCelda['F']),
+													 ($objCelda['G'] == '' ? '' : $objCelda['G']),
+													 ($objCelda['H'] == '' ? '' : $objCelda['H']),
+													 ($objCelda['I'] == '' ? date('Y-m-d') : $objCelda['I']),
+													 ($objCelda['J'] == '' ? 0 : $objCelda['J']),
+													 ($objCelda['K'] == '' ? 0 : $objCelda['K']),
+													 ($objCelda['L'] == '' ? 0 : $objCelda['L']),
+													 ($objCelda['M'] == '' ? 0 : $objCelda['M']),
+													 ($objCelda['N'] == '' ? 0 : $objCelda['N']),
+													 ($objCelda['O'] == '' ? 0 : $objCelda['O']),
+													 ($objCelda['P'] == '' ? 0 : $objCelda['P']),
+													 ($objCelda['Q'] == '' ? 0 : $objCelda['Q']),
+													 ($objCelda['R'] == '' ? 0 : $objCelda['R']),
+													 ($objCelda['S'] == '' ? '' : $objCelda['S']),
+													 ($objCelda['T'] == '' ? '' : $objCelda['T']),
+													 ($objCelda['U'] == '' ? '' : $objCelda['U']),
+													 ($objCelda['V'] == '' ? '' : $objCelda['V']),
+													 ($objCelda['W'] == '' ? '' : $objCelda['W']),
+													 ($objCelda['X'] == '' ? '' : $objCelda['X']),
+													 ($objCelda['Y'] == '' ? '' : $objCelda['Y']),
+													 ($objCelda['Z'] == '' ? '' : $objCelda['Z']),
+													 ($objCelda['AA'] == '' ? '' : $objCelda['AA']),
+													 ($objCelda['AB'] == '' ? '' : $objCelda['AB']),
+													 ($objCelda['AC'] == '' ? 0 : $objCelda['AC']));
+							//$a .= $resp;
+						}
+						
+						$i +=1;
+                    }
+					
+					//$this->query($a,1);
+					//return $this->traerDatosImportadosToken($token);
+					return $i;
+}
+
 function traerRegiones() {
 $sql = "select idregion,region from regiones order by 1";
 $res = $this->query($sql,0);

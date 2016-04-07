@@ -1,0 +1,175 @@
+<?php
+
+
+session_start();
+
+if (!isset($_SESSION['usua_predio']))
+{
+	header('Location: ../../error.php');
+} else {
+
+
+include ('../../includes/funciones.php');
+include ('../../includes/funcionesUsuarios.php');
+include ('../../includes/funcionesHTML.php');
+include ('../../includes/funcionesReferencias.php');
+
+$serviciosFunciones 	= new Servicios();
+$serviciosUsuario 		= new ServiciosUsuarios();
+$serviciosHTML 			= new ServiciosHTML();
+$serviciosReferencias 	= new ServiciosReferencias();
+
+$fecha = date('Y-m-d');
+
+//$resProductos = $serviciosProductos->traerProductosLimite(6);
+$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Imnuebles",$_SESSION['refroll_predio'],'');
+
+
+/////////////////////// Opciones pagina ///////////////////////////////////////////////
+$singular = "Imnueble";
+
+$plural = "Imnuebles";
+
+$eliminar = "eliminarInmuebles";
+
+$insertar = "insertarInmuebles";
+
+$tituloWeb = "Gestión: Caracol Bienes Raíces";
+//////////////////////// Fin opciones ////////////////////////////////////////////////
+
+
+/////////////////////// Opciones para la creacion del formulario  /////////////////////
+$tabla 			= "inmuebles";
+
+
+$lblCambio	 	= array("banios",'encontruccion','anioconstruccion','precioventapropietario','nombrepropietario','apellidopropietario','fechacarga','calc_edadconstruccion','calc_porcentajedepreciacion','calc_avaluoconstruccion','calc_depreciacion','calc_avaluoterreno','calc_preciorealmercado','calc_restacliente','calc_porcentaje','refvaloracion','refurbanizacion','reftipovivienda','refuso','refsituacioninmueble','refusuario','refcomision');
+$lblreemplazo	= array("Baños",'En Contrucción','Año Construcción','Precio Venta Propietario','Nombre Propietario','Apellido Propietario','Fecha Carga','Calc. Edad Construcción','Calc. % Depreciación','Calc. Avaluo Construcción','Calc. Depreciación','Calc. Avaluo Terreno','Calc. Precio Real Mercado','Calc. Resta Cliente','Calc. Porcentaje','Valoración','Urbanización','Tipo Vivienda','Uso','Situac. Inmueble','Usuario','Comisión');
+
+$cadRef = '';
+
+$refdescripcion = array(0 => "");
+$refCampo[] 	= ""; 
+//////////////////////////////////////////////  FIN de los opciones //////////////////////////
+
+
+
+
+/////////////////////// Opciones para la creacion del view  /////////////////////
+
+
+//////////////////////////////////////////////  FIN de los opciones //////////////////////////
+
+
+
+$resUrbanizacion	=	$serviciosReferencias->traerUrbanizacion();
+$resTipoVivienda	=	$serviciosReferencias->traerTipoVivienda();
+$resUsos			=	$serviciosReferencias->traerUsos();
+$resComision		=	$serviciosReferencias->traerComision();
+$resSitInm			=	$serviciosReferencias->traerSituacionInmueble();
+
+if ($_SESSION['idroll_predio'] == 1) {
+	$resUsuario = $serviciosReferencias->traerUsuariosRegistrados();
+} else {
+	$resUsuario = $serviciosReferencias->traerUsuariosRegistradosPorId($_SESSION['idusuario']);
+}
+
+$cant = $serviciosReferencias->cargarExcel("asda","asdasd","descr");
+
+?>
+
+<!DOCTYPE HTML>
+<html>
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+
+
+<title><?php echo $tituloWeb; ?></title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<link href="../../css/estiloDash.css" rel="stylesheet" type="text/css">
+    
+
+    
+    <script type="text/javascript" src="../../js/jquery-1.8.3.min.js"></script>
+    <link rel="stylesheet" href="../../css/jquery-ui.css">
+
+    <script src="../../js/jquery-ui.js"></script>
+    
+	<!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css"/>
+	<link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="../../bootstrap/js/bootstrap.min.js"></script>
+
+	<style type="text/css">
+		
+  
+		
+	</style>
+    
+   
+   <link href="../../css/perfect-scrollbar.css" rel="stylesheet">
+      <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
+      <script src="../../js/jquery.mousewheel.js"></script>
+      <script src="../../js/perfect-scrollbar.js"></script>
+      <script>
+      jQuery(document).ready(function ($) {
+        "use strict";
+        $('#navigation').perfectScrollbar();
+      });
+    </script>
+    
+    <link rel="stylesheet" href="../../css/chosen.css">
+</head>
+
+<body>
+
+ <?php echo $resMenu; ?>
+
+<div id="content">
+
+<h3><?php echo $plural; ?></h3>
+
+    <div class="boxInfoLargo">
+        <div id="headBoxInfo">
+        	<p style="color: #fff; font-size:18px; height:16px;">Carga de <?php echo $plural; ?></p>
+        	
+        </div>
+    	<div class="cuerpoBox">
+        	<h3>Importado con exito!!!. Registros cargado: <?php echo $cant; ?></h3>
+           
+    	</div>
+    </div>
+    
+    
+    
+    
+
+    
+    
+   
+</div>
+
+
+</div>
+
+<script type="text/javascript" src="../../js/jquery.dataTables.min.js"></script>
+<script src="../../bootstrap/js/dataTables.bootstrap.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	
+
+});
+</script>
+
+<?php } ?>
+</body>
+</html>
