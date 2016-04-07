@@ -19,7 +19,51 @@ function GUID()
     return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
 }
 
-
+function subirArchivo($file) {
+	$dir_destino = '../archivos/';
+	$imagen_subida = $dir_destino . utf8_decode(str_replace(' ','',basename($_FILES[$file]['name'])));
+	
+	//$noentrar = '../imagenes/index.php';
+	//$nuevo_noentrar = '../archivos/'.$carpeta.'/'.$idInmueble.'/'.'index.php';
+	
+	if (!file_exists($dir_destino)) {
+    	mkdir($dir_destino, 0777);
+	}
+	
+	 
+	if(!is_writable($dir_destino)){
+		
+		echo "no tiene permisos";
+		
+	}	else	{
+		if ($_FILES[$file]['tmp_name'] != '') {
+			if(is_uploaded_file($_FILES[$file]['tmp_name'])){
+				/*echo "Archivo ". $_FILES['foto']['name'] ." subido con éxtio.\n";
+				echo "Mostrar contenido\n";
+				echo $imagen_subida;*/
+				if (move_uploaded_file($_FILES[$file]['tmp_name'], $imagen_subida)) {
+					
+					$archivo = utf8_decode($_FILES[$file]["name"]);
+					$tipoarchivo = $_FILES[$file]["type"];
+					
+					/*if ($this->existeArchivo($idInmueble,$archivo,$tipoarchivo) == 0) {
+						$sql	=	"insert into pifotos(idfoto,refinmueble,imagen,type) values ('',".$idInmueble.",'".str_replace(' ','',$archivo)."','".$tipoarchivo."')";
+						$this->query($sql,1);
+					}
+					echo "";
+					
+					copy($noentrar, $nuevo_noentrar);
+	*/
+				} else {
+					echo "Posible ataque de carga de archivos!\n";
+				}
+			}else{
+				echo "Posible ataque del archivo subido: ";
+				echo "nombre del archivo '". $_FILES[$file]['tmp_name'] . "'.";
+			}
+		}
+	}	
+}
 
 function traerRegiones() {
 $sql = "select idregion,region from regiones order by 1";
