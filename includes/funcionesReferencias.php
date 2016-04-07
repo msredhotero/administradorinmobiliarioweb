@@ -65,6 +65,17 @@ function subirArchivo($file) {
 	}	
 }
 
+function eliminarImportar($id) { 
+$sql = "delete from dbimportar where idimportar =".$id; 
+$res = $this->query($sql,0); 
+return $res; 
+} 
+
+function eliminarTodoImportar() { 
+$sql = "delete from dbimportar "; 
+$res = $this->query($sql,0); 
+return $res; 
+} 
 
 function insertarImportar($dormitorios,$banios,$mtsencontruc,$mts2,$anioconstruc,$precioventapropietario,$nombrepropietario,$apellidopropietario,$feccarga,$calcedadconstruc,$calcporcdeprec,$calcavaluoconstruc,$calcdepreciacion,$preciorealdeconstruccion,$calcavaluoterreno,$calcpreciorealmercado,$calcrestacliente,$calcporc,$valoracion,$urbanizacion,$sector,$ciudad,$provincia,$pais,$tipovivienda,$usos,$situacioninmueble,$usuario,$comision) { 
 $sql = "insert into dbimportar(idimportar,dormitorios,banios,mtsencontruc,mts2,anioconstruc,precioventapropietario,nombrepropietario,apellidopropietario,feccarga,calcedadconstruc,calcporcdeprec,calcavaluoconstruc,calcdepreciacion,preciorealdeconstruccion,calcavaluoterreno,calcpreciorealmercado,calcrestacliente,calcporc,valoracion,urbanizacion,sector,ciudad,provincia,pais,tipovivienda,usos,situacioninmueble,usuario,comision)
@@ -74,6 +85,7 @@ return $res;
 } 
 
 function cargarExcel($archivo,$nombre,$descripcion) {
+	$this->eliminarTodoImportar();
 					$token = $this->GUID();
 					$token2 = $this->GUID();
                     //incluimos la clase
@@ -208,6 +220,12 @@ $res = $this->query($sql,0);
 return $res;
 }
 
+function traerSectorPorSector($sector) {
+$sql = "select idsector,refciudad,sector from sector where sector like '%".$sector."%' limit 1";
+$res = $this->query($sql,0);
+return $res;
+}
+
 /* Fin */
 
 
@@ -252,6 +270,12 @@ return $res;
 
 function traerCiudadesPorId($id) {
 $sql = "select idciudad,refprovincia,ciudad from ciudades where idciudad =".$id;
+$res = $this->query($sql,0);
+return $res;
+}
+
+function traerCiudadesPorCiudad($ciudad) {
+$sql = "select idciudad,refprovincia,ciudad from ciudades where ciudad like '%".$ciudad."%' limit 1";
 $res = $this->query($sql,0);
 return $res;
 }
@@ -302,6 +326,15 @@ $sql = "select
 		from provincias p
 		inner join paises pa on pa.idpais = p.refpais
 			where idprovincia =".$id;
+$res = $this->query($sql,0);
+return $res;
+}
+
+function traerProvinciasPorProvincia($provincia) {
+$sql = "select 
+			p.idprovincia, p.provincia, p.refpais
+		from provincias p
+			where p.provincia like '%".$provincia."%' limit 1";
 $res = $this->query($sql,0);
 return $res;
 }
@@ -395,6 +428,12 @@ function traerValoracionPorPorcentaje($porcentaje) {
 	$sql = "SELECT idvaloracion FROM valoracion v where	".$porcentaje." between desde and hasta";
 	$res = $this->query($sql,0);
 	return $res;
+}
+
+function traerValoracionPorValor($valor) {
+$sql = "select idvaloracion,valoracion,observacion from valoracion where valoracion like '%".$valor."%' limit 1";
+$res = $this->query($sql,0);
+return $res;
 }
 
 /* Fin */
@@ -700,6 +739,12 @@ return $res;
 
 function traerUrbanizacionPorId($id) {
 $sql = "select idurbanizacion,refciudad,urbanizacion from urbanizacion where idurbanizacion =".$id;
+$res = $this->query($sql,0);
+return $res;
+}
+
+function traerUrbanizacionPorUrbanizacion($urbanizacion) {
+$sql = "select idurbanizacion,refciudad,urbanizacion from urbanizacion where urbanizacion like '%".$urbanizacion."%' limit 1";
 $res = $this->query($sql,0);
 return $res;
 }
@@ -1393,6 +1438,17 @@ function insertarInmuebles($refurbanizacion,$reftipovivienda,$refuso,$refsituaci
 	$calc_restacliente 				= $calc_preciorealmercado - $precioventapropietario;
 	$calc_porcentaje 				= $calc_restacliente * 100 / $calc_preciorealmercado;
 	$refvaloracion 					= mysql_result($this->traerValoracionPorPorcentaje($calc_porcentaje),0,0);	
+	
+$sql = "insert into inmuebles(idinmueble,refurbanizacion,reftipovivienda,refuso,refsituacioninmueble,dormitorios,banios,encontruccion,mts2,anioconstruccion,precioventapropietario,nombrepropietario,apellidopropietario,fechacarga,refusuario,refcomision,calc_edadconstruccion,calc_porcentajedepreciacion,calc_avaluoconstruccion,calc_depreciacion,calc_avaluoterreno,calc_preciorealmercado,calc_restacliente,calc_porcentaje,refvaloracion)
+values ('',".$refurbanizacion.",".$reftipovivienda.",".$refuso.",".$refsituacioninmueble.",".$dormitorios.",".$banios.",".$encontruccion.",".$mts2.",".$anioconstruccion.",".$precioventapropietario.",'".utf8_decode($nombrepropietario)."','".utf8_decode($apellidopropietario)."','".utf8_decode($fechacarga)."',".$refusuario.",".$refcomision.",".$calc_edadconstruccion.",".$calc_porcentajedepreciacion.",".$calc_avaluoconstruccion.",".$calc_depreciacion.",".$calc_avaluoterreno.",".$calc_preciorealmercado.",".$calc_restacliente.",".$calc_porcentaje.",".$refvaloracion.")";
+$res = $this->query($sql,1);
+return $res;
+}
+
+
+function insertarInmueblesImportados($refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion,$idCostoMts,$idCostoNacional) {
+	
+		
 	
 $sql = "insert into inmuebles(idinmueble,refurbanizacion,reftipovivienda,refuso,refsituacioninmueble,dormitorios,banios,encontruccion,mts2,anioconstruccion,precioventapropietario,nombrepropietario,apellidopropietario,fechacarga,refusuario,refcomision,calc_edadconstruccion,calc_porcentajedepreciacion,calc_avaluoconstruccion,calc_depreciacion,calc_avaluoterreno,calc_preciorealmercado,calc_restacliente,calc_porcentaje,refvaloracion)
 values ('',".$refurbanizacion.",".$reftipovivienda.",".$refuso.",".$refsituacioninmueble.",".$dormitorios.",".$banios.",".$encontruccion.",".$mts2.",".$anioconstruccion.",".$precioventapropietario.",'".utf8_decode($nombrepropietario)."','".utf8_decode($apellidopropietario)."','".utf8_decode($fechacarga)."',".$refusuario.",".$refcomision.",".$calc_edadconstruccion.",".$calc_porcentajedepreciacion.",".$calc_avaluoconstruccion.",".$calc_depreciacion.",".$calc_avaluoterreno.",".$calc_preciorealmercado.",".$calc_restacliente.",".$calc_porcentaje.",".$refvaloracion.")";
