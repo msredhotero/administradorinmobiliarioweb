@@ -77,22 +77,22 @@ $res = $this->query($sql,0);
 return $res; 
 } 
 
-function insertarImportar($dormitorios,$banios,$mtsencontruc,$mts2,$anioconstruc,$precioventapropietario,$nombrepropietario,$apellidopropietario,$feccarga,$calcedadconstruc,$calcporcdeprec,$calcavaluoconstruc,$calcdepreciacion,$preciorealdeconstruccion,$calcavaluoterreno,$calcpreciorealmercado,$calcrestacliente,$calcporc,$valoracion,$urbanizacion,$sector,$ciudad,$provincia,$pais,$tipovivienda,$usos,$situacioninmueble,$usuario,$comision,$refvaloracion,$refurbanizacion,$refsector,$refciudad,$refprovincia,$refpais,$reftipovivienda,$refusos,$refsituacioninmueble,$refcomision) {
-$sql = "insert into dbimportar(idimportar,dormitorios,banios,mtsencontruc,mts2,anioconstruc,precioventapropietario,nombrepropietario,apellidopropietario,feccarga,calcedadconstruc,calcporcdeprec,calcavaluoconstruc,calcdepreciacion,preciorealdeconstruccion,calcavaluoterreno,calcpreciorealmercado,calcrestacliente,calcporc,valoracion,urbanizacion,sector,ciudad,provincia,pais,tipovivienda,usos,situacioninmueble,usuario,comision,refvaloracion,refurbanizacion,refsector,refciudad,refprovincia,refpais,reftipovivienda,refusos,refsituacioninmueble,refcomision)
-values ('',".$dormitorios.",".$banios.",".$mtsencontruc.",".$mts2.",".$anioconstruc.",".$precioventapropietario.",'".utf8_decode($nombrepropietario)."','".utf8_decode($apellidopropietario)."','".utf8_decode($feccarga)."',".$calcedadconstruc.",".$calcporcdeprec.",".$calcavaluoconstruc.",".$calcdepreciacion.",".$preciorealdeconstruccion.",".$calcavaluoterreno.",".$calcpreciorealmercado.",".$calcrestacliente.",".$calcporc.",'".utf8_decode($valoracion)."','".utf8_decode($urbanizacion)."','".utf8_decode($sector)."','".utf8_decode($ciudad)."','".utf8_decode($provincia)."','".utf8_decode($pais)."','".utf8_decode($tipovivienda)."','".utf8_decode($usos)."','".utf8_decode($situacioninmueble)."','".utf8_decode($usuario)."','".utf8_decode($comision)."',".$refvaloracion.",".$refurbanizacion.",".$refsector.",".$refciudad.",".$refprovincia.",".$refpais.",".$reftipovivienda.",".$refusos.",".$refsituacioninmueble.",".$refcomision.")";
+function insertarImportar($dormitorios,$banios,$mtsencontruc,$mts2,$anioconstruc,$precioventapropietario,$nombrepropietario,$apellidopropietario,$feccarga,$calcedadconstruc,$calcporcdeprec,$calcavaluoconstruc,$calcdepreciacion,$preciorealdeconstruccion,$calcavaluoterreno,$calcpreciorealmercado,$calcrestacliente,$calcporc,$valoracion,$urbanizacion,$sector,$ciudad,$provincia,$pais,$tipovivienda,$usos,$situacioninmueble,$usuario,$comision,$refvaloracion,$refurbanizacion,$refsector,$refciudad,$refprovincia,$refpais,$reftipovivienda,$refusos,$refsituacioninmueble,$refcomision,$token) {
+$sql = "insert into dbimportar(idimportar,dormitorios,banios,mtsencontruc,mts2,anioconstruc,precioventapropietario,nombrepropietario,apellidopropietario,feccarga,calcedadconstruc,calcporcdeprec,calcavaluoconstruc,calcdepreciacion,preciorealdeconstruccion,calcavaluoterreno,calcpreciorealmercado,calcrestacliente,calcporc,valoracion,urbanizacion,sector,ciudad,provincia,pais,tipovivienda,usos,situacioninmueble,usuario,comision,refvaloracion,refurbanizacion,refsector,refciudad,refprovincia,refpais,reftipovivienda,refusos,refsituacioninmueble,refcomision,token)
+values ('',".$dormitorios.",".$banios.",".$mtsencontruc.",".$mts2.",".$anioconstruc.",".$precioventapropietario.",'".utf8_decode($nombrepropietario)."','".utf8_decode($apellidopropietario)."','".utf8_decode($feccarga)."',".$calcedadconstruc.",".$calcporcdeprec.",".$calcavaluoconstruc.",".$calcdepreciacion.",".$preciorealdeconstruccion.",".$calcavaluoterreno.",".$calcpreciorealmercado.",".$calcrestacliente.",".$calcporc.",'".utf8_decode($valoracion)."','".utf8_decode($urbanizacion)."','".utf8_decode($sector)."','".utf8_decode($ciudad)."','".utf8_decode($provincia)."','".utf8_decode($pais)."','".utf8_decode($tipovivienda)."','".utf8_decode($usos)."','".utf8_decode($situacioninmueble)."','".utf8_decode($usuario)."','".utf8_decode($comision)."',".$refvaloracion.",".$refurbanizacion.",".$refsector.",".$refciudad.",".$refprovincia.",".$refpais.",".$reftipovivienda.",".$refusos.",".$refsituacioninmueble.",".$refcomision.",'".$token."')";
 $res = $this->query($sql,1);
 return $res;
 } 
 
 
-function traerImportar() {
-$sql = "select idimportar,dormitorios,banios,mtsencontruc,mts2,anioconstruc,precioventapropietario,nombrepropietario,apellidopropietario,feccarga,calcedadconstruc,calcporcdeprec,calcavaluoconstruc,calcdepreciacion,preciorealdeconstruccion,calcavaluoterreno,calcpreciorealmercado,calcrestacliente,calcporc,valoracion,urbanizacion,sector,ciudad,provincia,pais,tipovivienda,usos,situacioninmueble,usuario,comision from dbimportar order by 1";
+function traerImportar($token) {
+$sql = "select idimportar,dormitorios,banios,mtsencontruc,mts2,anioconstruc,precioventapropietario,nombrepropietario,apellidopropietario,feccarga,calcedadconstruc,calcporcdeprec,calcavaluoconstruc,calcdepreciacion,preciorealdeconstruccion,calcavaluoterreno,calcpreciorealmercado,calcrestacliente,calcporc,valoracion,urbanizacion,sector,ciudad,provincia,pais,tipovivienda,usos,situacioninmueble,usuario,comision,refvaloracion,refurbanizacion,refsector,refciudad,refprovincia,refpais,reftipovivienda,refusos,refsituacioninmueble,refcomision,token from dbimportar where token ='".$token."' order by 1";
 $res = $this->query($sql,0);
 return $res;
 } 
 
-function cargarExcel($archivo,$nombre,$descripcion) {
-	$this->eliminarTodoImportar();
+function cargarExcel($archivo,$nombre,$usuario) {
+	//$this->eliminarTodoImportar();
 					$token = $this->GUID();
 					$token2 = $this->GUID();
                     //incluimos la clase
@@ -113,7 +113,7 @@ function cargarExcel($archivo,$nombre,$descripcion) {
 								   'plazo' => '0');
 					
                     //cargamos el archivo que deseamos leer
-                    $objPHPExcel = PHPExcel_IOFactory::load('../../archivos/enviar-a-argentina.xlsx');
+                    $objPHPExcel = PHPExcel_IOFactory::load('../../archivos/'.$archivo);
                     //obtenemos los datos de la hoja activa (la primera)
                     //$objHoja=$objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
                     $objHoja=$objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
@@ -147,6 +147,8 @@ function cargarExcel($archivo,$nombre,$descripcion) {
 					$i = 0;
 					$a = '';
 					$resp = '';
+					$relacion = array(0,0,0,0,0);
+					$localidades = array('','','','','');
                     foreach ($objHoja as $iIndice=>$objCelda) {
                         //imprimimos el contenido de la celda utilizando la letra de cada columna
 						if ($i != 0) {
@@ -164,21 +166,50 @@ function cargarExcel($archivo,$nombre,$descripcion) {
 							
 							if ($refPais == 0) {
 								$refPais=$this->insertarPaises($objCelda['X']);
-							} 
+								
+								$relacion[0] = $refPais;
+							}	else {
+								$relacion[0] = 0;	
+							}
 							if ($refProvincia == 0) {
 								$refProvincia =$this->insertarProvincias($refPais,$objCelda['W']);
-							} 
+								
+								$relacion[1] = $refProvincia;
+							} 	else {
+								$relacion[1] = 0;	
+							}
 							if ($refCiudad == 0) {
 								$refCiudad =$this->insertarCiudades($refProvincia,$objCelda['V']);	
-							} 
+								
+								$relacion[2] = $refCiudad;
+							} 	else {
+								$relacion[2] = 0;	
+							}
 							if ($refSector == 0) {	
 								$refSector =$this->insertarSector($refCiudad,$objCelda['U']);
+								
+								$relacion[3] = $refSector;
+							}	else {
+								$relacion[3] = 0;	
 							}
 							if ($refUrbanizacion == 0) {	
 								$refUrbanizacion =$this->insertarUrbanizacion($refSector,$objCelda['T']);
+								
+								$relacion[4] = $refUrbanizacion;
+							}	else {
+								$relacion[4] = 0;	
 							}
-									
 							
+							$localidades[0] = $objCelda['X'];
+							$localidades[1] = $objCelda['W'];
+							$localidades[2] = $objCelda['V'];
+							$localidades[3] = $objCelda['U'];
+							$localidades[4] = $objCelda['T'];
+							
+							if (($relacion[0] != 0)	|| ($relacion[1] != 0) || ($relacion[2] != 0) || ($relacion[3] != 0))
+							$this->insertarRelacion($relacion,$localidades);		
+							
+							//die(var_dump($relacion));
 							
 							$resp = $this->insertarImportar(($objCelda['A'] == '' ? 0 : $objCelda['A']),
 													 ($objCelda['B'] == '' ? 0 : $objCelda['B']),
@@ -218,16 +249,49 @@ function cargarExcel($archivo,$nombre,$descripcion) {
 													  $refTipoVivienda,
 													  $refUsos,
 													  $refSituacionInmueble,
-													  $refComision);
+													  $refComision,
+													  $token);
 							//$a .= $resp;
 						}
 						
 						$i +=1;
+						
                     }
 					
 					//$this->query($a,1);
 					//return $this->traerDatosImportadosToken($token);
-					return $i;
+					$imp = $this->insertarInmueblesImportados($usuario,$token);
+					return array("cantidad"=>$i,"token"=>$token,"insertados"=>$imp);;
+}
+
+
+function insertarRelacion($relacion,$localidades) {
+	
+	if ($relacion[0] != 0) {
+		$this->insertarProvincias($relacion[0],$localidades[1]);
+	}
+	if ($relacion[1] != 0) {
+		$this->insertarCiudades($relacion[1],$localidades[2]);	
+	}
+	if ($relacion[2] != 0) {
+		$this->insertarSector($relacion[2],$localidades[3]);	
+	}
+	if ($relacion[3] != 0) {
+		$this->insertarUrbanizacion($relacion[3],$localidades[4]);	
+	}
+
+
+}
+
+function insertarInmueblesImportados($usuario, $token) {
+	$res = $this->traerImportar($token);
+	$i = 0;
+	while ($row = mysql_fetch_array($res)) {
+		
+		$this->insertarInmuebles($row['refurbanizacion'],$row['reftipovivienda'],$row['refusos'],$row['refsituacioninmueble'],$row['dormitorios'],$row['banios'],$row['mtsencontruc']	,$row['mts2'],$row['anioconstruc'],$row['precioventapropietario'],$row['nombrepropietario'],$row['apellidopropietario'],$row['feccarga'],$usuario,$row['refcomision'],$row['calcedadconstruc'],$row['calcporcdeprec'],$row['calcavaluoconstruc'],$row['calcdepreciacion'],$row['calcavaluoterreno'],$row['calcpreciorealmercado'],$row['calcrestacliente'],$row['calcporc'],$row['refvaloracion'],0,0,$row['token']);
+		$i += 1;
+	}
+	return $i;
 }
 
 function traerRegiones() {
@@ -1567,8 +1631,9 @@ function calc_porcentaje() {
 }
 
 
-function insertarInmuebles($refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion,$idCostoMts,$idCostoNacional) {
+function insertarInmuebles($refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion,$idCostoMts,$idCostoNacional,$token) {
 	
+	if ($token == '') {
 	//calculos fijos
 	$calc_edadconstruccion 			= $this->calc_edadconstruccion($anioconstruccion);
 	$calc_porcentajedepreciacion 	= $this->calc_porcentajedepreciacion(date('Y') - $anioconstruccion);
@@ -1579,23 +1644,17 @@ function insertarInmuebles($refurbanizacion,$reftipovivienda,$refuso,$refsituaci
 	$calc_restacliente 				= $calc_preciorealmercado - $precioventapropietario;
 	$calc_porcentaje 				= $calc_restacliente * 100 / $calc_preciorealmercado;
 	$refvaloracion 					= mysql_result($this->traerValoracionPorPorcentaje($calc_porcentaje),0,0);	
+	}
 	
-$sql = "insert into inmuebles(idinmueble,refurbanizacion,reftipovivienda,refuso,refsituacioninmueble,dormitorios,banios,encontruccion,mts2,anioconstruccion,precioventapropietario,nombrepropietario,apellidopropietario,fechacarga,refusuario,refcomision,calc_edadconstruccion,calc_porcentajedepreciacion,calc_avaluoconstruccion,calc_depreciacion,calc_avaluoterreno,calc_preciorealmercado,calc_restacliente,calc_porcentaje,refvaloracion)
-values ('',".$refurbanizacion.",".$reftipovivienda.",".$refuso.",".$refsituacioninmueble.",".$dormitorios.",".$banios.",".$encontruccion.",".$mts2.",".$anioconstruccion.",".$precioventapropietario.",'".utf8_decode($nombrepropietario)."','".utf8_decode($apellidopropietario)."','".utf8_decode($fechacarga)."',".$refusuario.",".$refcomision.",".$calc_edadconstruccion.",".$calc_porcentajedepreciacion.",".$calc_avaluoconstruccion.",".$calc_depreciacion.",".$calc_avaluoterreno.",".$calc_preciorealmercado.",".$calc_restacliente.",".$calc_porcentaje.",".$refvaloracion.")";
+$sql = "insert into inmuebles(idinmueble,refurbanizacion,reftipovivienda,refuso,refsituacioninmueble,dormitorios,banios,encontruccion,mts2,anioconstruccion,precioventapropietario,nombrepropietario,apellidopropietario,fechacarga,refusuario,refcomision,calc_edadconstruccion,calc_porcentajedepreciacion,calc_avaluoconstruccion,calc_depreciacion,calc_avaluoterreno,calc_preciorealmercado,calc_restacliente,calc_porcentaje,refvaloracion,token)
+values ('',".$refurbanizacion.",".$reftipovivienda.",".$refuso.",".$refsituacioninmueble.",".$dormitorios.",".$banios.",".$encontruccion.",".$mts2.",".$anioconstruccion.",".$precioventapropietario.",'".utf8_decode($nombrepropietario)."','".utf8_decode($apellidopropietario)."','".utf8_decode($fechacarga)."',".$refusuario.",".$refcomision.",".$calc_edadconstruccion.",".$calc_porcentajedepreciacion.",".$calc_avaluoconstruccion.",".$calc_depreciacion.",".$calc_avaluoterreno.",".$calc_preciorealmercado.",".$calc_restacliente.",".$calc_porcentaje.",".$refvaloracion.",'".($token == '' ? ''  : $token)."')";
 $res = $this->query($sql,1);
 return $res;
 }
 
 
-function insertarInmueblesImportados($refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion,$idCostoMts,$idCostoNacional) {
-	
-		
-	
-$sql = "insert into inmuebles(idinmueble,refurbanizacion,reftipovivienda,refuso,refsituacioninmueble,dormitorios,banios,encontruccion,mts2,anioconstruccion,precioventapropietario,nombrepropietario,apellidopropietario,fechacarga,refusuario,refcomision,calc_edadconstruccion,calc_porcentajedepreciacion,calc_avaluoconstruccion,calc_depreciacion,calc_avaluoterreno,calc_preciorealmercado,calc_restacliente,calc_porcentaje,refvaloracion)
-values ('',".$refurbanizacion.",".$reftipovivienda.",".$refuso.",".$refsituacioninmueble.",".$dormitorios.",".$banios.",".$encontruccion.",".$mts2.",".$anioconstruccion.",".$precioventapropietario.",'".utf8_decode($nombrepropietario)."','".utf8_decode($apellidopropietario)."','".utf8_decode($fechacarga)."',".$refusuario.",".$refcomision.",".$calc_edadconstruccion.",".$calc_porcentajedepreciacion.",".$calc_avaluoconstruccion.",".$calc_depreciacion.",".$calc_avaluoterreno.",".$calc_preciorealmercado.",".$calc_restacliente.",".$calc_porcentaje.",".$refvaloracion.")";
-$res = $this->query($sql,1);
-return $res;
-}
+
+
 
 
 function modificarInmuebles($id,$refurbanizacion,$reftipovivienda,$refuso,$refsituacioninmueble,$dormitorios,$banios,$encontruccion,$mts2,$anioconstruccion,$precioventapropietario,$nombrepropietario,$apellidopropietario,$fechacarga,$refusuario,$refcomision,$calc_edadconstruccion,$calc_porcentajedepreciacion,$calc_avaluoconstruccion,$calc_depreciacion,$calc_avaluoterreno,$calc_preciorealmercado,$calc_restacliente,$calc_porcentaje,$refvaloracion,$idCostoMts,$idCostoNacional) {
