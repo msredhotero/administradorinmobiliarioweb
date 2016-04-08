@@ -162,6 +162,23 @@ function cargarExcel($archivo,$nombre,$descripcion) {
 							$refSituacionInmueble	= $this->traerSituacionInmueblePorSituacionInmueble($objCelda['AA'] == '' ? '' : $objCelda['AA']);
 							$refComision			= $this->traerComisionPorComision($objCelda['AC'] == '' ? '' : $objCelda['AC']);
 							
+							if ($refPais == 0) {
+								$refPais=$this->insertarPaises($objCelda['X']);
+							} 
+							if ($refProvincia == 0) {
+								$refProvincia =$this->insertarProvincias($refPais,$objCelda['W']);
+							} 
+							if ($refCiudad == 0) {
+								$refCiudad =$this->insertarCiudades($refProvincia,$objCelda['V']);	
+							} 
+							if ($refSector == 0) {	
+								$refSector =$this->insertarSector($refCiudad,$objCelda['U']);
+							}
+							if ($refUrbanizacion == 0) {	
+								$refUrbanizacion =$this->insertarUrbanizacion($refSector,$objCelda['T']);
+							}
+									
+							
 							
 							$resp = $this->insertarImportar(($objCelda['A'] == '' ? 0 : $objCelda['A']),
 													 ($objCelda['B'] == '' ? 0 : $objCelda['B']),
