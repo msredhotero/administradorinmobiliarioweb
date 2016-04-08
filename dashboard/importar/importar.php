@@ -73,9 +73,57 @@ if ($_SESSION['idroll_predio'] == 1) {
 	$resUsuario = $serviciosReferencias->traerUsuariosRegistradosPorId($_SESSION['idusuario']);
 }
 
-$cant = $serviciosReferencias->cargarExcel("asda","asdasd","descr") - 1;
+//$fichero_subido = $dir_subida . basename($_FILES['archivo']['name']);
+//die(var_dump($_FILES['archivo']['name']));
 
-$res = $serviciosReferencias->traerImportar();
+
+$dir_destino = '../../archivos/';
+	$imagen_subida = $dir_destino . utf8_decode(str_replace(' ','',basename($_FILES['archivo']['name'])));
+	
+	//$noentrar = '../imagenes/index.php';
+	//$nuevo_noentrar = '../archivos/'.$carpeta.'/'.$idInmueble.'/'.'index.php';
+	
+	if (!file_exists($dir_destino)) {
+    	mkdir($dir_destino, 0777);
+	}
+	
+	 
+	if(!is_writable($dir_destino)){
+		
+		echo "no tiene permisos";
+		
+	}	else	{
+		if ($_FILES['archivo']['tmp_name'] != '') {
+			if(is_uploaded_file($_FILES['archivo']['tmp_name'])){
+				/*echo "Archivo ". $_FILES['foto']['name'] ." subido con éxtio.\n";
+				echo "Mostrar contenido\n";
+				echo $imagen_subida;*/
+				if (move_uploaded_file($_FILES['archivo']['tmp_name'], $imagen_subida)) {
+					
+					$archivo = utf8_decode($_FILES['archivo']["name"]);
+					$tipoarchivo = $_FILES['archivo']["type"];
+					
+					/*if ($this->existeArchivo($idInmueble,$archivo,$tipoarchivo) == 0) {
+						$sql	=	"insert into pifotos(idfoto,refinmueble,imagen,type) values ('',".$idInmueble.",'".str_replace(' ','',$archivo)."','".$tipoarchivo."')";
+						$this->query($sql,1);
+					}
+					echo "";
+					
+					copy($noentrar, $nuevo_noentrar);
+	*/
+				} else {
+					echo "Posible ataque de carga de archivos!\n";
+				}
+			}else{
+				echo "Posible ataque del archivo subido: ";
+				echo "nombre del archivo '". $_FILES['archivo']['tmp_name'] . "'.";
+			}
+		}
+	}
+	
+$res = $serviciosReferencias->cargarExcel($_FILES['archivo']['name'],$_FILES['archivo']['name'],$_SESSION['idusuario']);
+$cant = $res['cantidad']-1;
+$res = $serviciosReferencias->traerImportar($res['token']);
 
 ?>
 

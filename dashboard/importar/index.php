@@ -141,9 +141,15 @@ if ($_SESSION['idroll_predio'] == 1) {
         	
         </div>
     	<div class="cuerpoBox">
-        	<form class="form-inline formulario" role="form" action="importar.php" method="post">
+        	<form enctype="multipart/form-data" class="form-inline formulario" role="form" action="importar.php" method="post">
         	
             <div class="row">
+            	<div class="col-md-12">
+                    <label class="control-label" for="archivos">Seleccione el archivo a subir</label>
+                    <div class="form-group col-md-12">
+                        <input type="file" name="archivo" id="archivo"/>
+                    </div>
+                </div>
                 <div class="col-md-12">
                 <ul class="list-inline" style="margin-top:15px;">
                     <li>
