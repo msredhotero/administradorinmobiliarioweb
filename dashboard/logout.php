@@ -19,7 +19,7 @@ session_destroy();
 
 
 
-<title>Facturación - Cuentas Por Cobrar</title>
+<title>Gestión: Caracol Bienes Raíces</title>
 
 
 

@@ -91,6 +91,24 @@ $res = $this->query($sql,0);
 return $res;
 } 
 
+function traerImportarTokenGroup() {
+	$sql = "SELECT token,count(*) as cantidad, token, max(fechacreacion) as fechacreacion FROM dbimportar
+group by token";	
+	$res = $this->query($sql,0);
+	return $res;
+}
+
+function eliminarPorToken($token) {
+	$sql = "delete from dbimportar where token ='".$token."'"; 
+	$res = $this->query($sql,0); 
+	//return $res; 
+	
+	$sqlI = "delete from inmuebles where token ='".$token."'"; 
+	$res3 = $this->query($sqlI,0); 
+	return $res3; 
+}
+
+
 function cargarExcel($archivo,$nombre,$usuario) {
 	//$this->eliminarTodoImportar();
 					$token = $this->GUID();

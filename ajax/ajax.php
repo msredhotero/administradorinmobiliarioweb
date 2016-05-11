@@ -315,6 +315,10 @@ break;
 case 'graficosUsos':
 graficosUsos($serviciosReferencias);
 break;
+
+case 'eliminarPorToken':
+eliminarPorToken($serviciosReferencias);
+break;
 /* Fin */
 
 }
@@ -1513,6 +1517,13 @@ function Oportunidades($serviciosReferencias) {
 	echo $cad3;	
 	
 	//echo $res;
+}
+
+function eliminarPorToken($serviciosReferencias) {
+	$token = $_POST['id'];
+	
+	$serviciosReferencias->eliminarPorToken($token);
+	echo '';
 }
 
 /* Fin */ 

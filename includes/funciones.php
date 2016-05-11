@@ -32,6 +32,12 @@ class Servicios {
 				$classEli = 'varborrarprincipal';
 				$idresultados = "resultadosprincipal";
 				break;
+			case 96:
+				$cantidad = 3;
+				$classMod = '';
+				$classEli = 'varborrar';
+				$idresultados = "resultados";
+				break;
 			default:
 				$classMod = 'varmodificar';
 				$classEli = 'varborrar';

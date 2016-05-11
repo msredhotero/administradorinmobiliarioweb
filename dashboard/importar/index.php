@@ -30,7 +30,7 @@ $singular = "Imnueble";
 
 $plural = "Imnuebles";
 
-$eliminar = "eliminarInmuebles";
+$eliminar = "eliminarPorToken";
 
 $insertar = "insertarInmuebles";
 
@@ -72,6 +72,16 @@ if ($_SESSION['idroll_predio'] == 1) {
 } else {
 	$resUsuario = $serviciosReferencias->traerUsuariosRegistradosPorId($_SESSION['idusuario']);
 }
+
+
+/////////////////////// Opciones para la creacion del view  /////////////////////
+$cabeceras 		= "	<th>Cant. de Inmuebles</th>
+					<th>Token</th>
+					<th>Fecha Carga</th>";
+
+//////////////////////////////////////////////  FIN de los opciones //////////////////////////
+
+$lstImportaciones = $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerImportarTokenGroup(),96);
 
 
 ?>
@@ -161,6 +171,19 @@ if ($_SESSION['idroll_predio'] == 1) {
             </form>
     	</div>
     </div>
+    
+    
+    <div class="boxInfoLargo">
+        <div id="headBoxInfo">
+        	<p style="color: #fff; font-size:18px; height:16px;">Importaciones</p>
+        	
+        </div>
+    	<div class="cuerpoBox">
+        	<?php echo $lstImportaciones; ?>
+    	</div>
+    </div>
+    
+    
     
     <div class="boxInfoLargo">
         <div id="headBoxInfo">
@@ -337,29 +360,15 @@ $(document).ready(function(){
 	
 	
 	$("#example").on("click",'.varborrar', function(){
-		  usersid =  $(this).attr("id");
-		  if (!isNaN(usersid)) {
-			$("#idEliminar").val(usersid);
-			$("#dialog2").dialog("open");
+		usersid =  $(this).attr("id");
 
-			
-			//url = "../clienteseleccionado/index.php?idcliente=" + usersid;
-			//$(location).attr('href',url);
-		  } else {
-			alert("Error, vuelva a realizar la acción.");	
-		  }
+		$("#idEliminar").val(usersid);
+		$("#dialog2").dialog("open");
+
+
 	});//fin del boton eliminar
 	
-	$("#example").on("click",'.varmodificar', function(){
-		  usersid =  $(this).attr("id");
-		  if (!isNaN(usersid)) {
-			
-			url = "modificar.php?id=" + usersid;
-			$(location).attr('href',url);
-		  } else {
-			alert("Error, vuelva a realizar la acción.");	
-		  }
-	});//fin del boton modificar
+	
 
 	 $( "#dialog2" ).dialog({
 		 	
@@ -387,7 +396,7 @@ $(document).ready(function(){
 						$( this ).dialog( "close" );
 						$( this ).dialog( "close" );
 							$('html, body').animate({
-	           					scrollTop: '1000px'
+	           					scrollTop: '100px'
 	       					},
 	       					1500);
 				    },
@@ -399,10 +408,6 @@ $(document).ready(function(){
 		 
 	 		}); //fin del dialogo para eliminar
 			
-	<?php 
-		echo $serviciosHTML->validacion($tabla);
-	
-	?>
 	
 
 	
