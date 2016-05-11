@@ -30,31 +30,55 @@ $singular = "Pedido";
 
 $plural = "Pedidos";
 
-$eliminar = "eliminarPaises";
+$eliminar = "eliminarPedidos";
 
-$insertar = "insertarPaises";
+$insertar = "insertarPedidos";
 
 $tituloWeb = "Gestión: Caracol Bienes Raíces";
 //////////////////////// Fin opciones ////////////////////////////////////////////////
 
 
 /////////////////////// Opciones para la creacion del formulario  /////////////////////
-$tabla 			= "paises";
+$tabla 			= "pedidos";
 
-$lblCambio	 	= array("nombre");
-$lblreemplazo	= array("Pais");
+$lblCambio	 	= array("reftipoinformacion", "refinmueble", "refusuario", "fechapedido", "comentariousuario");
+$lblreemplazo	= array("Tipo Información", "Inmueble", "Usuario", "Fecha Pedido", "Comentario");
 
-$cadRef = '';
+$resVar1 	= $serviciosReferencias->traerTipodeInformacion();
+$cadRef1 = '';
+while ($rowV1 = mysql_fetch_array($resVar1)) {
+	$cadRef1 = $cadRef1.'<option value="'.$rowV1[0].'">'.utf8_encode($rowV1[1]).'</option>';
+	
+}
 
-$refdescripcion = array(0 => "");
-$refCampo[] 	= ""; 
+
+$resVar2 	= $serviciosReferencias->traerInmuebles();
+$cadRef2 = '';
+while ($rowV2 = mysql_fetch_array($resVar2)) {
+	$cadRef2 = $cadRef2.'<option value="'.$rowV2[0].'">'.utf8_encode($rowV2['apellidopropietario']).', '.utf8_encode($rowV2['nombrepropietario']).'</option>';
+	
+}
+
+$resVar3 	= $serviciosReferencias->traerUsuariosRegistrados();
+$cadRef3 = '';
+while ($rowV3 = mysql_fetch_array($resVar3)) {
+	$cadRef3 = $cadRef3.'<option value="'.$rowV3[0].'">'.utf8_encode($rowV3['apellidoynombre']).'</option>';
+	
+}
+
+$refdescripcion = array(0 => $cadRef1,1 => $cadRef2,2 => $cadRef3);
+$refCampo 	=  array("reftipoinformacion","refinmueble", "refusuario");
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
 
 
 
 /////////////////////// Opciones para la creacion del view  /////////////////////
-$cabeceras 		= "	<th>Pais</th>";
+$cabeceras 		= "	<th>Tipo de Información</th>
+					<th>Inmueble</th>
+					<th>Usuario</th>
+					<th>Fecha Pedido</th>
+					<th>Comentario</th>";
 
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
@@ -63,7 +87,7 @@ $cabeceras 		= "	<th>Pais</th>";
 
 $formulario 	= $serviciosFunciones->camposTabla($insertar ,$tabla,$lblCambio,$lblreemplazo,$refdescripcion,$refCampo);
 
-$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerPaises(),1);
+$lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosReferencias->traerPedidos(),5);
 
 
 
@@ -358,6 +382,33 @@ $(document).ready(function(){
 
 });
 </script>
+
+<script>
+  $(function() {
+	  $.datepicker.regional['es'] = {
+ closeText: 'Cerrar',
+ prevText: '<Ant',
+ nextText: 'Sig>',
+ currentText: 'Hoy',
+ monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+ monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+ dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+ dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+ dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+ weekHeader: 'Sm',
+ dateFormat: 'dd/mm/yy',
+ firstDay: 1,
+ isRTL: false,
+ showMonthAfterYear: false,
+ yearSuffix: ''
+ };
+ $.datepicker.setDefaults($.datepicker.regional['es']);
+ 
+    $( "#fechapedido" ).datepicker();
+
+    $( "#fechapedido" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+  });
+  </script>
 <?php } ?>
 </body>
 </html>

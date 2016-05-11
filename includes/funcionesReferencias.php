@@ -1492,7 +1492,12 @@ return $res;
 
 
 function traerPedidos() {
-$sql = "select idpedido,reftipoinformacion,refinmueble,refusuario,fechapedido,comentariousuario from pedidos order by 1";
+$sql = "select idpedido, ti.tipodeinformacion, concat(i.apellidopropietario, ' ', i.nombrepropietario) as inmueble, u.apellidoynombre ,fechapedido,comentariousuario , p.reftipoinformacion, p.refinmueble, p.refusuario
+			from pedidos p 
+			inner join tipodeinformacion ti on ti.idtipodeinformacion = p.reftipoinformacion
+			inner join inmuebles i on i.idinmueble = p.refinmueble
+			inner join usuariosregistrados u on u.idusuarioregistrado = p.refusuario
+			order by 1";
 $res = $this->query($sql,0);
 return $res;
 }

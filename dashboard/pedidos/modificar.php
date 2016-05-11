@@ -22,44 +22,76 @@ $serviciosReferencias 	= new ServiciosReferencias();
 $fecha = date('Y-m-d');
 
 //$resProductos = $serviciosProductos->traerProductosLimite(6);
-$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Paises",$_SESSION['refroll_predio'],utf8_encode($_SESSION['usua_empresa']));
+$resMenu = $serviciosHTML->menu(utf8_encode($_SESSION['nombre_predio']),"Pedidos",$_SESSION['refroll_predio'],'');
 
 
 $id = $_GET['id'];
 
-$resResultado = $serviciosReferencias->traerPaisesPorId($id);
+$resResultado = $serviciosReferencias->traerPedidosPorId($id);
 
 
 /////////////////////// Opciones pagina ///////////////////////////////////////////////
-$singular = "Pais";
+$singular = "Pedido";
 
-$plural = "Paises";
+$plural = "Pedidos";
 
-$eliminar = "eliminarPaises";
+$eliminar = "eliminarPedidos";
 
-$modificar = "modificarPaises";
+$modificar = "modificarPedidos";
 
-$idTabla = "idpais";
+$idTabla = "idpedido";
 
 $tituloWeb = "Gestión: Caracol Bienes Raíces";
 //////////////////////// Fin opciones ////////////////////////////////////////////////
 
 
 /////////////////////// Opciones para la creacion del formulario  /////////////////////
-$tabla 			= "paises";
+$tabla 			= "pedidos";
 
-$lblCambio	 	= array("nombre");
-$lblreemplazo	= array("Pais");
+$lblCambio	 	= array("reftipoinformacion", "refinmueble", "refusuario", "fechapedido", "comentariousuario");
+$lblreemplazo	= array("Tipo Información", "Inmueble", "Usuario", "Fecha Pedido", "Comentario");
 
-$cadRef = '';
+$resVar1 	= $serviciosReferencias->traerTipodeInformacion();
+$cadRef1 = '';
+while ($rowV1 = mysql_fetch_array($resVar1)) {
+	if (mysql_result($resResultado,0,'reftipoinformacion') == $rowV1[0]) {
+		$cadRef1 = $cadRef1.'<option value="'.$rowV1[0].'" selected>'.utf8_encode($rowV1[1]).'</option>';
+	} else {
+		$cadRef1 = $cadRef1.'<option value="'.$rowV1[0].'">'.utf8_encode($rowV1[1]).'</option>';
+	}
+	
+}
 
-$refdescripcion = array(0 => "");
-$refCampo[] 	= ""; 
+
+$resVar2 	= $serviciosReferencias->traerInmuebles();
+$cadRef2 = '';
+while ($rowV2 = mysql_fetch_array($resVar2)) {
+	if (mysql_result($resResultado,0,'refinmueble') == $rowV2[0]) {
+		$cadRef2 = $cadRef2.'<option value="'.$rowV2[0].'" selected>'.utf8_encode($rowV2['apellidopropietario']).', '.utf8_encode($rowV2['nombrepropietario']).'</option>';
+	} else {
+		$cadRef2 = $cadRef2.'<option value="'.$rowV2[0].'">'.utf8_encode($rowV2['apellidopropietario']).', '.utf8_encode($rowV2['nombrepropietario']).'</option>';
+	}
+	
+}
+
+$resVar3 	= $serviciosReferencias->traerUsuariosRegistrados();
+$cadRef3 = '';
+while ($rowV3 = mysql_fetch_array($resVar3)) {
+	if (mysql_result($resResultado,0,'refusuario') == $rowV3[0]) {
+		$cadRef3 = $cadRef3.'<option value="'.$rowV3[0].'" selected>'.utf8_encode($rowV3['apellidoynombre']).'</option>';
+	} else {
+		$cadRef3 = $cadRef3.'<option value="'.$rowV3[0].'">'.utf8_encode($rowV3['apellidoynombre']).'</option>';
+	}
+	
+}
+
+$refdescripcion = array(0 => $cadRef1,1 => $cadRef2,2 => $cadRef3);
+$refCampo 	=  array("reftipoinformacion","refinmueble", "refusuario");
 //////////////////////////////////////////////  FIN de los opciones //////////////////////////
 
 
 
-
+$fecha = mysql_result($resResultado,0,'fechapedido');
 
 
 $formulario 	= $serviciosFunciones->camposTablaModificar($id, $idTabla, $modificar,$tabla,$lblCambio,$lblreemplazo,$refdescripcion,$refCampo);
@@ -321,6 +353,33 @@ $(document).ready(function(){
 
 });
 </script>
+<script>
+  $(function() {
+	  $.datepicker.regional['es'] = {
+ closeText: 'Cerrar',
+ prevText: '<Ant',
+ nextText: 'Sig>',
+ currentText: 'Hoy',
+ monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+ monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+ dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+ dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+ dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+ weekHeader: 'Sm',
+ dateFormat: 'dd/mm/yy',
+ firstDay: 1,
+ isRTL: false,
+ showMonthAfterYear: false,
+ yearSuffix: ''
+ };
+ $.datepicker.setDefaults($.datepicker.regional['es']);
+ 
+    $( "#fechapedido" ).datepicker();
+
+    $( "#fechapedido" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+	$('#fechapedido').datepicker('setDate', <?php echo "'".$fecha."'"; ?>);
+  });
+  </script>
 <?php } ?>
 </body>
 </html>
